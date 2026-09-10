@@ -1039,8 +1039,11 @@
     var IDB_NAME = 'respectPharmaImages';
     var IDB_STORE = 'images';
     var IDB_PREFIX = 'idb:';
-    var IMG_MAX_SIZE = 700;
-    var IMG_QUALITY = 0.8;
+    var IMG_MAX_SIZE = 600;       // tamanho máximo para comprimir (imagem inicial)
+    var IMG_QUALITY = 0.75;       // qualidade inicial
+    var CLOUD_IMG_MAX_SIZE = 320; // tamanho máximo quando salvo no Firestore (base64)
+    var CLOUD_IMG_QUALITY = 0.7;  // qualidade quando salvo no Firestore (base64)
+    var CLOUD_IMG_MAX_BYTES = 90000; // ~90KB por imagem para não estourar o Firestore
 
     // ===== FIREBASE CONFIG =====
     var FIREBASE_CONFIG = {
@@ -1226,6 +1229,7 @@
     function isIdbRef(r) { return typeof r === 'string' && r.indexOf(IDB_PREFIX) === 0; }
     function makeIdbRef(k) { return IDB_PREFIX + k; }
     function getRefKey(r) { return r.slice(IDB_PREFIX.length); }
+    function isDataUrl(r) { return typeof r === 'string' && r.indexOf('data:') === 0; }
     function getRefSync(ref) {
         if (!ref) return '';
         if (!isIdbRef(ref)) return ref;
@@ -1284,6 +1288,40 @@
             };
             reader.onerror = function() { reject(reader.error); };
             reader.readAsDataURL(file);
+        });
+    }
+
+    // Comprime ainda mais para caber no Firestore (base64 no doc)
+    function compressForCloud(dataUrl, maxSize, quality) {
+        return new Promise(function(resolve) {
+            var attempt = function(size, q) {
+                var img = new Image();
+                img.onload = function() {
+                    try {
+                        var w = img.naturalWidth || img.width, h = img.naturalHeight || img.height;
+                        if (w > size || h > size) {
+                            if (w >= h) { h = Math.round(h * size / w); w = size; }
+                            else { w = Math.round(w * size / h); h = size; }
+                        }
+                        var cv = document.createElement('canvas');
+                        cv.width = w; cv.height = h;
+                        var ctx = cv.getContext('2d');
+                        ctx.fillStyle = '#0a1322';
+                        ctx.fillRect(0, 0, w, h);
+                        ctx.drawImage(img, 0, 0, w, h);
+                        var out = cv.toDataURL('image/jpeg', q);
+                        // Se ainda estiver acima do limite, tenta comprimir mais
+                        if (out.length > CLOUD_IMG_MAX_BYTES && size > 120) {
+                            attempt(Math.round(size * 0.72), Math.max(0.45, q - 0.1));
+                            return;
+                        }
+                        resolve(out);
+                    } catch (e) { resolve(dataUrl); }
+                };
+                img.onerror = function() { resolve(dataUrl); };
+                img.src = dataUrl;
+            };
+            attempt(maxSize || CLOUD_IMG_MAX_SIZE, quality || CLOUD_IMG_QUALITY);
         });
     }
 
@@ -1347,6 +1385,17 @@
         if (!fbReady || !fbDocRef || suppressPush) return Promise.resolve(false);
         var data;
         try { data = deepClone(config); } catch (e) { return Promise.resolve(false); }
+
+        // Verifica tamanho: Firestore aceita até 1MB por doc
+        var size = 0;
+        try { size = JSON.stringify(data).length; } catch (e) { size = 0; }
+        if (size > 950000) {
+            console.warn('Config muito grande para o Firestore:', Math.round(size/1024), 'KB');
+            showToast('⚠️ Config muito grande (' + Math.round(size/1024) + 'KB). Reduza imagens.', 'error');
+            setSyncStatus('offline');
+            return Promise.resolve(false);
+        }
+
         data.updatedAt = firebase.firestore.FieldValue.serverTimestamp();
         setSyncStatus('saving');
         return fbDocRef.set(data, { merge: false }).then(function() {
@@ -1406,7 +1455,7 @@
         return new Promise(function(resolve) {
             var done = false;
             var finish = function(v) { if (done) return; done = true; resolve(v); };
-            setTimeout(function() { finish(null); }, 30000);
+            setTimeout(function() { finish(null); }, 15000); // 15s de timeout
             try {
                 var path = FB_STORAGE_FOLDER + '/produtos/' + key + '_' + Date.now() + '.jpg';
                 var ref = fbStorage.ref().child(path);
@@ -1528,37 +1577,62 @@
         return list;
     }
 
-    // Migra data-URLs antigas -> Storage (se possível) ou IndexedDB
+    // Migra imagens antigas (data-URL ou idb:) para a nuvem.
+    // Estratégia:
+    //  1) tenta Firebase Storage; se conseguir -> URL pública (melhor!)
+    //  2) senão, comprime agressivamente e salva como base64 no Firestore
     function migrateLegacyDataUrls() {
         if (!config || !Array.isArray(config.products)) return Promise.resolve(false);
         var tasks = [], migrated = false;
+
         config.products.forEach(function(p) {
-            if (typeof p.image === 'string' && p.image.indexOf('data:') === 0) {
+            var img = p.image;
+            if (!img || typeof img !== 'string') return;
+
+            // Caso 1: data URL antiga -> tenta Storage -> cai pra base64
+            if (isDataUrl(img)) {
                 var key = p.id || uid('img');
                 if (!p.id) p.id = key;
-                var dataUrl = p.image;
-                if (fbStorage) {
-                    tasks.push(uploadImageToStorage(dataUrl, key).then(function(url) {
-                        if (url) { p.image = url; migrated = true; }
-                        else if (idbSupported) {
-                            var ref = makeIdbRef(key);
-                            return idbPutImage(key, dataUrl).then(function() {
-                                p.image = ref; imageCache[ref] = dataUrl; migrated = true;
-                            });
-                        }
-                    }).catch(function() {}));
-                } else if (idbSupported) {
-                    var ref2 = makeIdbRef(key);
-                    tasks.push(idbPutImage(key, dataUrl).then(function() {
-                        p.image = ref2; imageCache[ref2] = dataUrl; migrated = true;
-                    }).catch(function() {}));
-                }
+                tasks.push(handleOneMigration(img, key).then(function(newImg) {
+                    if (newImg && newImg !== img) { p.image = newImg; migrated = true; }
+                }));
+                return;
+            }
+
+            // Caso 2: referência IndexedDB antiga -> busca no IDB local e reenvia
+            if (isIdbRef(img)) {
+                var idbKey = getRefKey(img);
+                tasks.push(idbGetImage(idbKey).then(function(dataUrl) {
+                    if (!dataUrl) return;
+                    return handleOneMigration(dataUrl, idbKey).then(function(newImg) {
+                        if (newImg) { p.image = newImg; migrated = true; }
+                    });
+                }).catch(function() {}));
             }
         });
+
         if (!tasks.length) return Promise.resolve(false);
         return Promise.all(tasks).then(function() {
-            if (migrated) saveConfig();
+            if (migrated) {
+                saveConfig();
+                renderCategories();
+            }
             return migrated;
+        });
+    }
+
+    function handleOneMigration(dataUrl, key) {
+        // Tenta primeiro upload para o Storage
+        return uploadImageToStorage(dataUrl, key).then(function(url) {
+            if (url) return url;
+            // Fallback: comprime e devolve base64 pequeno
+            return compressForCloud(dataUrl).then(function(small) {
+                return small;
+            });
+        }).catch(function() {
+            return compressForCloud(dataUrl).then(function(small) {
+                return small;
+            });
         });
     }
 
@@ -2450,7 +2524,7 @@
         card.dataset.productId = product.id;
 
         var isIdb = isIdbRef(product.image);
-        var isData = !isIdb && typeof product.image === 'string' && product.image.indexOf('data:') === 0;
+        var isData = !isIdb && isDataUrl(product.image);
         var urlValue = (!isIdb && !isData) ? (product.image || '') : '';
 
         card.innerHTML =
@@ -2637,6 +2711,27 @@
 
     function saveAndApply() {
         var newConfig = collectConfigFromPanel();
+
+        // Bloqueia salvar se algum produto ainda tem referência local (idb:)
+        // — isso impediria a foto de aparecer em outro dispositivo/aba anônima.
+        var unresolved = newConfig.products.filter(function(p) { return isIdbRef(p.image); });
+        if (unresolved.length) {
+            showToast('⏳ Ainda enviando ' + unresolved.length + ' foto(s) para a nuvem. Aguarde 2s e salve novamente.', 'error');
+            // tenta reenviar essas imagens
+            unresolved.forEach(function(p) {
+                var idbKey = getRefKey(p.image);
+                idbGetImage(idbKey).then(function(dataUrl) {
+                    if (!dataUrl) return;
+                    handleOneMigration(dataUrl, idbKey).then(function(newImg) {
+                        if (!newImg) return;
+                        var target = productEditorState.find(function(x) { return x.id === p.id; });
+                        if (target) { target.image = newImg; renderProductEditor(); }
+                    });
+                }).catch(function() {});
+            });
+            return;
+        }
+
         var prev = config;
         config = newConfig;
         if (!saveConfigLocal()) { config = prev; return; }
@@ -2654,20 +2749,24 @@
 
     function handleFileUpload(file) {
         if (!file) return;
+        showToast('⏳ Processando imagem…', 'info');
         compressImage(file).then(function(dataUrl) {
             if (uploadingProductId) {
                 var prod = productEditorState.find(function(p) { return p.id === uploadingProductId; });
                 if (!prod) { uploadingProductId = null; return; }
-                var key = prod.id, ref = makeIdbRef(key);
+                var key = prod.id;
+                var targetId = uploadingProductId;
+                uploadingProductId = null;
+
+                // Preview imediato via IDB (só visual, não vai pra nuvem)
+                var ref = makeIdbRef(key);
                 if (idbSupported) {
                     idbPutImage(key, dataUrl).then(function() { imageCache[ref] = dataUrl; }).catch(function() {});
                 }
                 prod.image = ref;
                 renderProductEditor();
 
-                var targetId = uploadingProductId;
-                uploadingProductId = null;
-
+                // Tenta enviar para o Storage; se falhar, embute base64 (vai no Firestore)
                 uploadImageToStorage(dataUrl, key).then(function(url) {
                     var p2 = productEditorState.find(function(p) { return p.id === targetId; });
                     if (!p2) return;
@@ -2676,18 +2775,47 @@
                         renderProductEditor();
                         showToast('📷 Foto enviada para a nuvem! Clique em Salvar.', 'success');
                     } else {
-                        showToast('Foto salva localmente (nuvem indisponível).', 'error');
+                        // Fallback: comprime e salva base64 (fica na nuvem via Firestore)
+                        return compressForCloud(dataUrl).then(function(small) {
+                            var p3 = productEditorState.find(function(p) { return p.id === targetId; });
+                            if (!p3) return;
+                            p3.image = small;
+                            renderProductEditor();
+                            showToast('📷 Foto otimizada para a nuvem! Clique em Salvar.', 'success');
+                        });
                     }
+                }).catch(function() {
+                    // Em caso de erro do Storage, cai no base64
+                    return compressForCloud(dataUrl).then(function(small) {
+                        var p3 = productEditorState.find(function(p) { return p.id === targetId; });
+                        if (!p3) return;
+                        p3.image = small;
+                        renderProductEditor();
+                        showToast('📷 Foto otimizada para a nuvem! Clique em Salvar.', 'success');
+                    });
                 });
             } else {
+                // Logo: mesma estratégia
                 document.getElementById('cfgLogoUrl').value = dataUrl;
                 document.getElementById('cfgLogoPreviewImg').src = dataUrl;
                 uploadImageToStorage(dataUrl, 'logo').then(function(url) {
                     if (url) {
                         document.getElementById('cfgLogoUrl').value = url;
                         document.getElementById('cfgLogoPreviewImg').src = url;
+                        showToast('Logo enviada para a nuvem!', 'success');
+                    } else {
+                        return compressForCloud(dataUrl, 400, 0.75).then(function(small) {
+                            document.getElementById('cfgLogoUrl').value = small;
+                            document.getElementById('cfgLogoPreviewImg').src = small;
+                            showToast('Logo otimizada para a nuvem!', 'success');
+                        });
                     }
-                    showToast('Logo carregado! Clique em Salvar para aplicar.', 'success');
+                }).catch(function() {
+                    return compressForCloud(dataUrl, 400, 0.75).then(function(small) {
+                        document.getElementById('cfgLogoUrl').value = small;
+                        document.getElementById('cfgLogoPreviewImg').src = small;
+                        showToast('Logo otimizada para a nuvem!', 'success');
+                    });
                 });
             }
         }).catch(function() {
@@ -2955,9 +3083,9 @@
                     suppressPush = false;
                     setSyncStatus('online');
 
-                    // Migra imagens antigas (data-url) para a nuvem
+                    // Migra imagens antigas (data-url / idb:) para a nuvem
                     if (idbSupported || fbStorage) {
-                        openIDB().then(function() {
+                        var runMigrate = function() {
                             migrateLegacyDataUrls().then(function(migrated) {
                                 if (migrated) {
                                     renderCategories();
@@ -2965,9 +3093,12 @@
                                     syncConfigPanel();
                                 }
                             });
-                        }).catch(function() {
-                            migrateLegacyDataUrls();
-                        });
+                        };
+                        if (idbSupported) {
+                            openIDB().then(runMigrate).catch(runMigrate);
+                        } else {
+                            runMigrate();
+                        }
                     }
                 } else {
                     // Primeiro acesso: cria a coleção/documento automaticamente
