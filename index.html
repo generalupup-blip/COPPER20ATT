@@ -1039,11 +1039,13 @@
     var IDB_NAME = 'respectPharmaImages';
     var IDB_STORE = 'images';
     var IDB_PREFIX = 'idb:';
-    var IMG_MAX_SIZE = 600;       // tamanho máximo para comprimir (imagem inicial)
-    var IMG_QUALITY = 0.75;       // qualidade inicial
-    var CLOUD_IMG_MAX_SIZE = 320; // tamanho máximo quando salvo no Firestore (base64)
-    var CLOUD_IMG_QUALITY = 0.7;  // qualidade quando salvo no Firestore (base64)
-    var CLOUD_IMG_MAX_BYTES = 90000; // ~90KB por imagem para não estourar o Firestore
+    var IMG_MAX_SIZE = 700;
+    var IMG_QUALITY = 0.8;
+    // Orçamento para imagens embutidas em base64 no Firestore
+    var CLOUD_IMG_MAX_SIZE = 260;      // pixels de largura/altura
+    var CLOUD_IMG_START_QUALITY = 0.72;
+    var CLOUD_IMG_TARGET_BYTES = 25000; // ~25KB base64 por imagem
+    var FIRESTORE_DOC_SAFE_LIMIT = 900000; // margem de segurança para 1MB
 
     // ===== FIREBASE CONFIG =====
     var FIREBASE_CONFIG = {
@@ -1291,10 +1293,11 @@
         });
     }
 
-    // Comprime ainda mais para caber no Firestore (base64 no doc)
-    function compressForCloud(dataUrl, maxSize, quality) {
+    // Comprime agressivamente para caber como base64 no Firestore.
+    // Diminui tamanho/qualidade iterativamente até ficar dentro do orçamento.
+    function compressForCloud(dataUrl) {
         return new Promise(function(resolve) {
-            var attempt = function(size, q) {
+            var tryOnce = function(size, quality, attempt) {
                 var img = new Image();
                 img.onload = function() {
                     try {
@@ -1309,10 +1312,11 @@
                         ctx.fillStyle = '#0a1322';
                         ctx.fillRect(0, 0, w, h);
                         ctx.drawImage(img, 0, 0, w, h);
-                        var out = cv.toDataURL('image/jpeg', q);
-                        // Se ainda estiver acima do limite, tenta comprimir mais
-                        if (out.length > CLOUD_IMG_MAX_BYTES && size > 120) {
-                            attempt(Math.round(size * 0.72), Math.max(0.45, q - 0.1));
+                        var out = cv.toDataURL('image/jpeg', quality);
+
+                        // Se ainda está grande e ainda podemos reduzir, tenta de novo
+                        if (out.length > CLOUD_IMG_TARGET_BYTES && attempt < 6 && size > 90) {
+                            tryOnce(Math.round(size * 0.75), Math.max(0.4, quality - 0.08), attempt + 1);
                             return;
                         }
                         resolve(out);
@@ -1321,7 +1325,22 @@
                 img.onerror = function() { resolve(dataUrl); };
                 img.src = dataUrl;
             };
-            attempt(maxSize || CLOUD_IMG_MAX_SIZE, quality || CLOUD_IMG_QUALITY);
+            tryOnce(CLOUD_IMG_MAX_SIZE, CLOUD_IMG_START_QUALITY, 0);
+        });
+    }
+
+    // ===== VERIFICAÇÃO DE URL DE IMAGEM =====
+    // Retorna a URL se ela carregar de verdade; null caso contrário.
+    function verifyImageUrl(url) {
+        if (!url) return Promise.resolve(null);
+        return new Promise(function(resolve) {
+            var done = false;
+            var finish = function(v) { if (done) return; done = true; resolve(v); };
+            setTimeout(function() { finish(null); }, 6000);
+            var img = new Image();
+            img.onload = function() { finish(url); };
+            img.onerror = function() { finish(null); };
+            img.src = url;
         });
     }
 
@@ -1386,12 +1405,11 @@
         var data;
         try { data = deepClone(config); } catch (e) { return Promise.resolve(false); }
 
-        // Verifica tamanho: Firestore aceita até 1MB por doc
         var size = 0;
         try { size = JSON.stringify(data).length; } catch (e) { size = 0; }
-        if (size > 950000) {
-            console.warn('Config muito grande para o Firestore:', Math.round(size/1024), 'KB');
-            showToast('⚠️ Config muito grande (' + Math.round(size/1024) + 'KB). Reduza imagens.', 'error');
+        if (size > FIRESTORE_DOC_SAFE_LIMIT) {
+            console.warn('Config muito grande:', Math.round(size/1024), 'KB');
+            showToast('⚠️ Config muito grande (' + Math.round(size/1024) + 'KB). Reduza fotos ou produtos.', 'error');
             setSyncStatus('offline');
             return Promise.resolve(false);
         }
@@ -1455,7 +1473,7 @@
         return new Promise(function(resolve) {
             var done = false;
             var finish = function(v) { if (done) return; done = true; resolve(v); };
-            setTimeout(function() { finish(null); }, 15000); // 15s de timeout
+            setTimeout(function() { finish(null); }, 20000);
             try {
                 var path = FB_STORAGE_FOLDER + '/produtos/' + key + '_' + Date.now() + '.jpg';
                 var ref = fbStorage.ref().child(path);
@@ -1501,7 +1519,7 @@
             localStorage.setItem(LOCAL_CONFIG_KEY, JSON.stringify(config));
             return true;
         } catch (e) {
-            showToast('Erro ao salvar localmente.', 'error');
+            showToast('Erro ao salvar localmente (armazenamento cheio?).', 'error');
             return false;
         }
     }
@@ -1577,10 +1595,12 @@
         return list;
     }
 
-    // Migra imagens antigas (data-URL ou idb:) para a nuvem.
+    // ===== MIGRAÇÃO DE IMAGENS ANTIGAS (data-url e idb:) =====
     // Estratégia:
-    //  1) tenta Firebase Storage; se conseguir -> URL pública (melhor!)
-    //  2) senão, comprime agressivamente e salva como base64 no Firestore
+    //   1) Se for data-url -> comprime para base64 pequeno (vai pro Firestore).
+    //   2) Se for idb: -> lê do IDB local, converte para base64 pequeno.
+    //   3) Opcional: tenta Storage para "upgradar" para URL, mas o base64
+    //      já garante visibilidade em qualquer sessão.
     function migrateLegacyDataUrls() {
         if (!config || !Array.isArray(config.products)) return Promise.resolve(false);
         var tasks = [], migrated = false;
@@ -1589,23 +1609,27 @@
             var img = p.image;
             if (!img || typeof img !== 'string') return;
 
-            // Caso 1: data URL antiga -> tenta Storage -> cai pra base64
             if (isDataUrl(img)) {
-                var key = p.id || uid('img');
-                if (!p.id) p.id = key;
-                tasks.push(handleOneMigration(img, key).then(function(newImg) {
-                    if (newImg && newImg !== img) { p.image = newImg; migrated = true; }
+                // Não vale a pena migrar placeholders SVG nem base64 já pequenos
+                if (img.indexOf('data:image/svg') === 0) return;
+                // Se já é pequeno (< 30KB), deixa como está
+                if (img.length <= 30000) return;
+                tasks.push(compressForCloud(img).then(function(small) {
+                    if (small && small.length < img.length) { p.image = small; migrated = true; }
                 }));
                 return;
             }
 
-            // Caso 2: referência IndexedDB antiga -> busca no IDB local e reenvia
             if (isIdbRef(img)) {
                 var idbKey = getRefKey(img);
                 tasks.push(idbGetImage(idbKey).then(function(dataUrl) {
-                    if (!dataUrl) return;
-                    return handleOneMigration(dataUrl, idbKey).then(function(newImg) {
-                        if (newImg) { p.image = newImg; migrated = true; }
+                    if (!dataUrl) {
+                        // Sem a imagem no IDB desta máquina — deixa como está
+                        return;
+                    }
+                    return compressForCloud(dataUrl).then(function(small) {
+                        p.image = small;
+                        migrated = true;
                     });
                 }).catch(function() {}));
             }
@@ -1616,23 +1640,9 @@
             if (migrated) {
                 saveConfig();
                 renderCategories();
+                renderProductEditor();
             }
             return migrated;
-        });
-    }
-
-    function handleOneMigration(dataUrl, key) {
-        // Tenta primeiro upload para o Storage
-        return uploadImageToStorage(dataUrl, key).then(function(url) {
-            if (url) return url;
-            // Fallback: comprime e devolve base64 pequeno
-            return compressForCloud(dataUrl).then(function(small) {
-                return small;
-            });
-        }).catch(function() {
-            return compressForCloud(dataUrl).then(function(small) {
-                return small;
-            });
         });
     }
 
@@ -2543,7 +2553,7 @@
                 '<input type="number" step="0.01" min="0" class="pec-promo-input" placeholder="Preço promocional (R$)" value="' + (Number(product.promoPrice) || 0) + '">' +
             '</div>' +
             '<div class="pec-row pec-image-row">' +
-                '<input type="text" class="pec-image" placeholder="' + (isIdb || isData ? '📷 Imagem enviada' : 'URL da imagem') + '" value="' + esc(urlValue) + '">' +
+                '<input type="text" class="pec-image" placeholder="' + (isIdb || isData ? '📷 Foto enviada (na nuvem)' : 'URL da imagem') + '" value="' + esc(urlValue) + '">' +
                 '<button type="button" class="pec-upload-btn" title="Enviar imagem">📷 Upload</button>' +
             '</div>';
 
@@ -2709,26 +2719,56 @@
         };
     }
 
+    // Faz o save APÓS resolver qualquer imagem idb: pendente para base64.
     function saveAndApply() {
         var newConfig = collectConfigFromPanel();
 
         // Bloqueia salvar se algum produto ainda tem referência local (idb:)
-        // — isso impediria a foto de aparecer em outro dispositivo/aba anônima.
         var unresolved = newConfig.products.filter(function(p) { return isIdbRef(p.image); });
         if (unresolved.length) {
-            showToast('⏳ Ainda enviando ' + unresolved.length + ' foto(s) para a nuvem. Aguarde 2s e salve novamente.', 'error');
-            // tenta reenviar essas imagens
-            unresolved.forEach(function(p) {
+            showToast('⏳ Convertendo ' + unresolved.length + ' foto(s)…', 'info');
+            // Converte cada uma para base64 (a partir do IDB local)
+            var jobs = unresolved.map(function(p) {
                 var idbKey = getRefKey(p.image);
-                idbGetImage(idbKey).then(function(dataUrl) {
-                    if (!dataUrl) return;
-                    handleOneMigration(dataUrl, idbKey).then(function(newImg) {
-                        if (!newImg) return;
-                        var target = productEditorState.find(function(x) { return x.id === p.id; });
-                        if (target) { target.image = newImg; renderProductEditor(); }
+                return idbGetImage(idbKey).then(function(dataUrl) {
+                    if (!dataUrl) {
+                        // Sem a imagem localmente — deixa string vazia para não quebrar
+                        var t = newConfig.products.find(function(x) { return x.id === p.id; });
+                        if (t) t.image = '';
+                        return;
+                    }
+                    return compressForCloud(dataUrl).then(function(small) {
+                        var t = newConfig.products.find(function(x) { return x.id === p.id; });
+                        if (t) t.image = small;
                     });
-                }).catch(function() {});
+                }).catch(function() {
+                    var t = newConfig.products.find(function(x) { return x.id === p.id; });
+                    if (t) t.image = '';
+                });
             });
+            Promise.all(jobs).then(function() {
+                // Reenvia o save com as imagens convertidas
+                var prev = config;
+                config = newConfig;
+                saveConfigLocal();
+                rebuildSearchIndex();
+                applyConfigToUI();
+                renderCategories();
+                updatePromoBadge();
+                syncConfigPanel();
+                setSyncStatus('saving');
+                pushConfigToFirestore().then(function(ok) {
+                    showToast(ok ? '☁️ Fotos e config salvas na nuvem!' : '⚠️ Salvo apenas localmente.', ok ? 'success' : 'error');
+                });
+            });
+            return;
+        }
+
+        // Aviso se config ficar muito grande
+        var approxSize = 0;
+        try { approxSize = JSON.stringify(newConfig).length; } catch (e) {}
+        if (approxSize > FIRESTORE_DOC_SAFE_LIMIT) {
+            showToast('⚠️ Config muito grande (' + Math.round(approxSize/1024) + 'KB). Reduza fotos.', 'error');
             return;
         }
 
@@ -2747,79 +2787,62 @@
         setTimeout(cleanupOrphanImages, 400);
     }
 
+    // ===== UPLOAD DE FOTO DO PRODUTO =====
+    // Fluxo (100% confiável):
+    //   1) Comprime e gera base64 pequeno (garantido para caber no Firestore).
+    //   2) Já grava o base64 no editor de produto — ao clicar Salvar, vai pra nuvem.
+    //   3) Em paralelo tenta o Storage; se a URL carregar de verdade, troca para URL
+    //      (economiza espaço no Firestore). Se não carregar, mantém o base64.
     function handleFileUpload(file) {
         if (!file) return;
         showToast('⏳ Processando imagem…', 'info');
         compressImage(file).then(function(dataUrl) {
-            if (uploadingProductId) {
-                var prod = productEditorState.find(function(p) { return p.id === uploadingProductId; });
-                if (!prod) { uploadingProductId = null; return; }
-                var key = prod.id;
-                var targetId = uploadingProductId;
-                uploadingProductId = null;
+            return compressForCloud(dataUrl).then(function(base64Small) {
+                if (uploadingProductId) {
+                    var prod = productEditorState.find(function(p) { return p.id === uploadingProductId; });
+                    if (!prod) { uploadingProductId = null; return; }
+                    var targetId = uploadingProductId;
+                    uploadingProductId = null;
 
-                // Preview imediato via IDB (só visual, não vai pra nuvem)
-                var ref = makeIdbRef(key);
-                if (idbSupported) {
-                    idbPutImage(key, dataUrl).then(function() { imageCache[ref] = dataUrl; }).catch(function() {});
+                    // Grava base64 imediatamente (vai para a nuvem no próximo Save)
+                    prod.image = base64Small;
+                    renderProductEditor();
+                    showToast('📷 Foto pronta! Clique em "💾 Salvar na Nuvem".', 'success');
+
+                    // Tenta upgrade para URL do Storage em background
+                    uploadImageToStorage(dataUrl, targetId).then(function(url) {
+                        if (!url) return;
+                        // Só troca se a URL realmente carregar
+                        verifyImageUrl(url).then(function(ok) {
+                            if (!ok) return;
+                            var p2 = productEditorState.find(function(p) { return p.id === targetId; });
+                            if (p2 && p2.image === base64Small) {
+                                p2.image = url;
+                                renderProductEditor();
+                                showToast('📷 Foto otimizada (URL)! Clique em Salvar.', 'success');
+                            }
+                        });
+                    });
+                } else {
+                    // Logo
+                    document.getElementById('cfgLogoUrl').value = base64Small;
+                    document.getElementById('cfgLogoPreviewImg').src = base64Small;
+                    showToast('Logo pronta! Clique em "💾 Salvar na Nuvem".', 'success');
+
+                    uploadImageToStorage(dataUrl, 'logo').then(function(url) {
+                        if (!url) return;
+                        verifyImageUrl(url).then(function(ok) {
+                            if (!ok) return;
+                            document.getElementById('cfgLogoUrl').value = url;
+                            document.getElementById('cfgLogoPreviewImg').src = url;
+                            showToast('Logo otimizada (URL)! Clique em Salvar.', 'success');
+                        });
+                    });
                 }
-                prod.image = ref;
-                renderProductEditor();
-
-                // Tenta enviar para o Storage; se falhar, embute base64 (vai no Firestore)
-                uploadImageToStorage(dataUrl, key).then(function(url) {
-                    var p2 = productEditorState.find(function(p) { return p.id === targetId; });
-                    if (!p2) return;
-                    if (url) {
-                        p2.image = url;
-                        renderProductEditor();
-                        showToast('📷 Foto enviada para a nuvem! Clique em Salvar.', 'success');
-                    } else {
-                        // Fallback: comprime e salva base64 (fica na nuvem via Firestore)
-                        return compressForCloud(dataUrl).then(function(small) {
-                            var p3 = productEditorState.find(function(p) { return p.id === targetId; });
-                            if (!p3) return;
-                            p3.image = small;
-                            renderProductEditor();
-                            showToast('📷 Foto otimizada para a nuvem! Clique em Salvar.', 'success');
-                        });
-                    }
-                }).catch(function() {
-                    // Em caso de erro do Storage, cai no base64
-                    return compressForCloud(dataUrl).then(function(small) {
-                        var p3 = productEditorState.find(function(p) { return p.id === targetId; });
-                        if (!p3) return;
-                        p3.image = small;
-                        renderProductEditor();
-                        showToast('📷 Foto otimizada para a nuvem! Clique em Salvar.', 'success');
-                    });
-                });
-            } else {
-                // Logo: mesma estratégia
-                document.getElementById('cfgLogoUrl').value = dataUrl;
-                document.getElementById('cfgLogoPreviewImg').src = dataUrl;
-                uploadImageToStorage(dataUrl, 'logo').then(function(url) {
-                    if (url) {
-                        document.getElementById('cfgLogoUrl').value = url;
-                        document.getElementById('cfgLogoPreviewImg').src = url;
-                        showToast('Logo enviada para a nuvem!', 'success');
-                    } else {
-                        return compressForCloud(dataUrl, 400, 0.75).then(function(small) {
-                            document.getElementById('cfgLogoUrl').value = small;
-                            document.getElementById('cfgLogoPreviewImg').src = small;
-                            showToast('Logo otimizada para a nuvem!', 'success');
-                        });
-                    }
-                }).catch(function() {
-                    return compressForCloud(dataUrl, 400, 0.75).then(function(small) {
-                        document.getElementById('cfgLogoUrl').value = small;
-                        document.getElementById('cfgLogoPreviewImg').src = small;
-                        showToast('Logo otimizada para a nuvem!', 'success');
-                    });
-                });
-            }
-        }).catch(function() {
+            });
+        }).catch(function(err) {
             uploadingProductId = null;
+            console.error('Erro imagem:', err);
             showToast('Erro ao processar a imagem.', 'error');
         });
     }
@@ -3083,25 +3106,15 @@
                     suppressPush = false;
                     setSyncStatus('online');
 
-                    // Migra imagens antigas (data-url / idb:) para a nuvem
-                    if (idbSupported || fbStorage) {
-                        var runMigrate = function() {
-                            migrateLegacyDataUrls().then(function(migrated) {
-                                if (migrated) {
-                                    renderCategories();
-                                    renderProductEditor();
-                                    syncConfigPanel();
-                                }
-                            });
-                        };
-                        if (idbSupported) {
-                            openIDB().then(runMigrate).catch(runMigrate);
-                        } else {
-                            runMigrate();
-                        }
+                    // Migra imagens antigas (data-url / idb:) para base64 pequeno
+                    if (idbSupported) {
+                        openIDB().then(function() {
+                            migrateLegacyDataUrls();
+                        }).catch(function() { migrateLegacyDataUrls(); });
+                    } else {
+                        migrateLegacyDataUrls();
                     }
                 } else {
-                    // Primeiro acesso: cria a coleção/documento automaticamente
                     pushConfigToFirestore().then(function(ok) {
                         if (ok) showToast('☁️ Loja criada na nuvem!', 'success');
                     });
@@ -3116,7 +3129,7 @@
             setSyncStatus('offline');
         }
 
-        console.log('✅ Respect Pharma carregado (Firebase + Firestore + Storage).');
+        console.log('✅ Respect Pharma carregado.');
     }
 
     init();
