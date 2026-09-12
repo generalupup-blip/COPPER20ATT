@@ -27,7 +27,6 @@
         ::-webkit-scrollbar-thumb{background:rgba(49,200,255,.3);border-radius:10px}
         ::-webkit-scrollbar-thumb:hover{background:rgba(49,200,255,.5)}
 
-        /* HEADER */
         .store-header{position:fixed;top:0;left:0;right:0;z-index:50;background:var(--bg-header);border-bottom:1px solid var(--border-color);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
         .store-header-inner{width:100%;max-width:800px;margin:0 auto;padding:12px 16px}
         .store-header-top{display:flex;align-items:center;gap:10px;margin-bottom:10px}
@@ -48,7 +47,6 @@
         .notification-icon{width:14px;height:14px;animation:bounce 2s infinite}
         @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
 
-        /* SEARCH */
         .search-wrapper{position:relative}
         .search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:var(--text-muted);pointer-events:none;z-index:10}
         .search-input{width:100%;padding:12px 42px;border-radius:var(--radius-sm);border:1px solid var(--border-color);background:var(--bg-input);color:var(--text-primary);font-size:14px;font-family:var(--font);outline:none;transition:all var(--transition);letter-spacing:-.01em}
@@ -64,7 +62,6 @@
         .search-results-list{padding:6px;display:flex;flex-direction:column;gap:4px}
         .search-result-item{display:flex;align-items:center;gap:10px;padding:8px;border-radius:var(--radius-sm);background:rgba(255,255,255,.03);border:1px solid transparent;cursor:pointer;transition:all var(--transition);-webkit-tap-highlight-color:transparent}
         .search-result-item:hover{background:rgba(49,200,255,.1);border-color:var(--border-color-strong);transform:translateX(2px)}
-        .search-result-item:active{transform:scale(.985)}
         .search-result-thumb{width:42px;height:42px;border-radius:7px;object-fit:cover;flex-shrink:0;background:rgba(0,0,0,.35);border:1px solid var(--border-color)}
         .search-result-info{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
         .search-result-name{font-size:12.5px;font-weight:700;color:var(--text-primary);letter-spacing:-.01em;line-height:1.2;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -76,7 +73,6 @@
         .header-spacer{height:118px;flex-shrink:0}
         .store-main{flex:1;width:100%;max-width:800px;margin:0 auto;padding:0 16px 100px}
 
-        /* BANNER */
         .hero-banner{position:relative;overflow:hidden;border-radius:var(--radius);margin-bottom:12px;border:1px solid var(--border-color);background:var(--bg-card);transition:all var(--transition)}
         .hero-banner::before{content:'';position:absolute;inset:0;background:radial-gradient(at left top,rgba(49,200,255,.08) 0%,transparent 60%);pointer-events:none}
         .hero-banner::after{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(to right,transparent,rgba(49,200,255,.5),transparent);pointer-events:none}
@@ -84,11 +80,9 @@
         .hero-logo{height:60px;width:auto;max-width:100%;object-fit:contain;border-radius:8px}
         .hero-tagline{font-size:12px;color:var(--text-secondary);font-weight:500;text-align:center;letter-spacing:-.01em}
 
-        /* PROMO BUTTON */
         .promo-button{width:100%;margin-bottom:12px;position:relative;overflow:hidden;display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:var(--radius);transition:all var(--transition);cursor:pointer;border:2px solid var(--border-color-strong);background:var(--bg-card);font-family:var(--font);text-align:left}
         .promo-button::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(239,68,68,.05),rgba(245,158,11,.05));pointer-events:none}
         .promo-button:hover{border-color:#f59e0b;transform:translateY(-1px);box-shadow:0 8px 25px rgba(245,158,11,.2)}
-        .promo-button:active{transform:scale(.98)}
         .promo-emoji{font-size:28px;flex-shrink:0;position:relative;z-index:10}
         .promo-text{flex:1;position:relative;z-index:10}
         .promo-title{font-size:14px;font-weight:800;letter-spacing:.02em;color:var(--text-primary);line-height:1.2}
@@ -97,17 +91,14 @@
         .promo-count-badge{position:absolute;top:8px;right:8px;min-width:20px;height:20px;padding:0 6px;border-radius:10px;background:#ef4444;color:#fff;font-size:10px;font-weight:800;display:none;align-items:center;justify-content:center;z-index:11;box-shadow:0 4px 12px rgba(239,68,68,.5);letter-spacing:-.01em}
         .promo-count-badge.visible{display:flex;animation:pulseBadge 1.8s infinite}
 
-        /* QUICK LINKS */
         .quick-links-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
         .quick-link-btn{display:flex;align-items:center;gap:10px;padding:12px;border-radius:var(--radius);transition:all var(--transition);cursor:pointer;border:2px solid var(--border-color);background:var(--bg-card);font-family:var(--font);text-align:left}
         .quick-link-btn:hover{border-color:var(--accent);transform:translateY(-1px)}
-        .quick-link-btn:active{transform:scale(.97)}
         .quick-link-icon{padding:6px;border-radius:var(--radius-sm);flex-shrink:0;display:flex;align-items:center;justify-content:center}
         .quick-link-text{min-width:0}
         .quick-link-title{font-size:12px;font-weight:700;color:var(--text-primary);line-height:1.2;letter-spacing:-.01em;display:block}
         .quick-link-subtitle{font-size:10px;color:var(--text-secondary);line-height:1.2;margin-top:2px;display:block}
 
-        /* TRACKING */
         .tracking-link{width:100%;margin-bottom:12px;display:flex;align-items:center;gap:12px;padding:12px;border-radius:var(--radius);transition:all var(--transition);cursor:pointer;border:2px solid var(--border-color);background:var(--bg-card);text-decoration:none;font-family:var(--font);text-align:left}
         .tracking-link:hover{border-color:var(--accent);transform:translateY(-1px)}
         .tracking-icon-wrap{padding:8px;border-radius:var(--radius-sm);background:var(--accent);flex-shrink:0;display:flex;align-items:center;justify-content:center}
@@ -115,23 +106,19 @@
         .tracking-title{font-size:12px;font-weight:700;color:var(--text-primary);letter-spacing:-.01em;display:block}
         .tracking-subtitle{font-size:10px;color:var(--text-secondary);display:block}
 
-        /* SOCIAL */
         .social-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
         .social-btn{display:flex;align-items:center;gap:10px;padding:12px;border-radius:var(--radius);border:2px solid;transition:all var(--transition);cursor:pointer;font-family:var(--font);text-align:left;text-decoration:none}
         .social-btn:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(0,0,0,.2)}
-        .social-btn:active{transform:scale(.97)}
         .social-icon-wrap{padding:8px;border-radius:var(--radius-sm);flex-shrink:0;display:flex;align-items:center;justify-content:center}
         .social-text{flex:1;min-width:0}
         .social-title{font-size:14px;font-weight:700;letter-spacing:-.01em}
         .social-subtitle{font-size:10px;opacity:.7}
 
-        /* INFO BANNERS */
         .info-banner{display:flex;align-items:center;justify-content:center;gap:8px;padding:10px 16px;margin-bottom:12px;border-radius:var(--radius);font-size:13px;font-weight:600;text-align:center;letter-spacing:-.01em;line-height:1.3}
         .info-banner-icon{width:16px;height:16px;flex-shrink:0}
         .info-banner.neutral{background:var(--bg-card);border:1px solid var(--border-color);color:var(--text-secondary)}
         .info-banner.warning{background:rgba(245,158,11,.1);border:2px solid rgba(245,158,11,.5);color:var(--text-primary)}
 
-        /* CATEGORIES */
         .categories-list{display:flex;flex-direction:column;gap:8px}
         .category-card{border-radius:var(--radius);border:1px solid var(--border-color);background:var(--bg-card);overflow:hidden;transition:border-color var(--transition)}
         .category-card:hover{border-color:var(--border-color-strong)}
@@ -150,12 +137,10 @@
         .category-products-inner{padding:8px 12px 14px;display:flex;flex-direction:column;gap:6px}
         .category-products-empty{padding:14px;text-align:center;font-size:12px;color:var(--text-muted);font-style:italic}
 
-        /* PRODUCT */
         .product-item{display:flex;align-items:center;gap:10px;padding:8px;border-radius:var(--radius-sm);background:rgba(255,255,255,.03);border:1px solid transparent;cursor:pointer;transition:all var(--transition);-webkit-tap-highlight-color:transparent;position:relative}
         .product-item:hover{background:rgba(49,200,255,.08);border-color:var(--border-color-strong);transform:translateX(2px)}
         .product-item.has-promo{border-color:rgba(245,158,11,.35);background:linear-gradient(90deg,rgba(245,158,11,.06),rgba(255,255,255,.03))}
         .product-item.has-promo:hover{border-color:rgba(245,158,11,.7);background:linear-gradient(90deg,rgba(245,158,11,.12),rgba(255,255,255,.03))}
-        .product-item:active{transform:scale(.985)}
         .product-thumb{width:48px;height:48px;border-radius:8px;object-fit:cover;flex-shrink:0;background:rgba(0,0,0,.35);border:1px solid var(--border-color)}
         .product-item.has-promo .product-thumb{border-color:rgba(245,158,11,.4)}
         .product-info{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
@@ -167,15 +152,12 @@
         .product-price.promo-price{color:#fbbf24;text-shadow:0 0 14px rgba(245,158,11,.4)}
         .product-promo-tag{position:absolute;top:-4px;left:-4px;background:linear-gradient(135deg,#ef4444,#f59e0b);color:#fff;font-size:8.5px;font-weight:800;padding:2px 6px;border-radius:6px;letter-spacing:.06em;box-shadow:0 3px 10px rgba(239,68,68,.5);z-index:2}
 
-        /* FOOTER */
         .store-footer{position:fixed;bottom:0;left:0;right:0;z-index:30;background:var(--bg-header);border-top:1px solid var(--border-color);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
         .store-footer-inner{width:100%;max-width:800px;margin:0 auto;padding:10px 16px;text-align:center}
         .store-footer-text{font-size:12px;color:var(--text-secondary);letter-spacing:-.01em;font-weight:500}
 
-        /* CONFIG PANEL */
         .config-toggle-btn{position:fixed;bottom:80px;right:16px;z-index:100;width:52px;height:52px;border-radius:50%;background:var(--accent);color:var(--bg-primary);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 25px rgba(49,200,255,.4);transition:all var(--transition);font-family:var(--font)}
         .config-toggle-btn:hover{transform:scale(1.1);box-shadow:0 12px 35px rgba(49,200,255,.5)}
-        .config-toggle-btn:active{transform:scale(.9)}
         .config-toggle-btn svg{width:22px;height:22px}
         .config-toggle-btn.active{background:#ef4444;box-shadow:0 8px 25px rgba(239,68,68,.4)}
         .config-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:99;opacity:0;pointer-events:none;transition:opacity .3s;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
@@ -198,8 +180,6 @@
         .config-field input:focus,.config-field textarea:focus,.config-field select:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(49,200,255,.12)}
         .config-field textarea{resize:vertical;min-height:60px}
         .config-field input[type="color"]{padding:4px;height:40px;cursor:pointer;border:1px solid var(--border-color);background:var(--bg-input);border-radius:var(--radius-sm)}
-        .config-field input[type="color"]::-webkit-color-swatch-wrapper{padding:3px}
-        .config-field input[type="color"]::-webkit-color-swatch{border-radius:4px;border:none}
         .config-field .image-preview{width:100%;height:60px;border-radius:var(--radius-sm);border:1px solid var(--border-color);background:var(--bg-input);display:flex;align-items:center;justify-content:center;overflow:hidden;cursor:pointer;transition:all var(--transition);position:relative}
         .config-field .image-preview img{max-height:100%;max-width:100%;object-fit:contain}
         .config-field .image-preview:hover{border-color:var(--accent)}
@@ -212,7 +192,6 @@
         .config-btn-row .config-btn{flex:1;min-width:140px}
         .config-divider{border:none;border-top:1px solid var(--border-color);margin:4px 0}
 
-        /* CATEGORY EDITOR */
         .category-editor-item{display:flex;align-items:center;gap:6px;padding:8px;border-radius:var(--radius-sm);background:rgba(255,255,255,.04);border:1px solid var(--border-color);transition:all var(--transition)}
         .category-editor-item input[type="text"]{flex:1;min-width:0;padding:8px 10px;border-radius:6px;border:1px solid var(--border-color);background:var(--bg-input);color:var(--text-primary);font-size:12px;font-family:var(--font);outline:none;letter-spacing:-.01em}
         .category-editor-item input[type="text"]:focus{border-color:var(--accent)}
@@ -223,9 +202,7 @@
         .add-category-btn{padding:8px 12px;border-radius:var(--radius-sm);border:1px dashed var(--border-color-strong);background:transparent;color:var(--accent);font-size:12px;font-weight:600;cursor:pointer;font-family:var(--font);transition:all var(--transition);display:flex;align-items:center;justify-content:center;gap:6px}
         .add-category-btn:hover{background:var(--accent-glow);border-color:var(--accent)}
 
-        /* PRODUCT EDITOR */
         .product-editor-list{display:flex;flex-direction:column;gap:8px;max-height:520px;overflow-y:auto;padding:2px 4px 2px 2px}
-        .product-editor-list::-webkit-scrollbar{width:6px}
         .product-editor-card{background:rgba(255,255,255,.04);border:1px solid var(--border-color);border-radius:var(--radius-sm);padding:8px;display:flex;flex-direction:column;gap:6px;transition:all var(--transition);position:relative}
         .product-editor-card:hover{border-color:var(--border-color-strong)}
         .product-editor-card.on-promo{border-color:rgba(245,158,11,.5);background:linear-gradient(180deg,rgba(245,158,11,.06),rgba(255,255,255,.03))}
@@ -251,7 +228,6 @@
         .pec-upload-btn:hover{background:rgba(49,200,255,.22);border-color:var(--accent)}
         .product-editor-empty{padding:18px 14px;text-align:center;font-size:12px;color:var(--text-muted);border:1px dashed var(--border-color);border-radius:var(--radius-sm);line-height:1.5}
 
-        /* PASSWORD MODAL */
         .password-overlay{position:fixed;inset:0;z-index:300;background:rgba(0,0,0,.78);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .25s}
         .password-overlay.active{opacity:1;pointer-events:auto}
         .password-modal{width:100%;max-width:330px;background:var(--bg-card);border:1px solid var(--border-color-strong);border-radius:var(--radius-lg);padding:26px 20px 20px;text-align:center;transform:translateY(14px) scale(.96);transition:transform .28s cubic-bezier(.32,.72,0,1);box-shadow:0 24px 70px rgba(0,0,0,.7)}
@@ -269,11 +245,9 @@
         .password-cancel:hover{background:rgba(255,255,255,.14);color:var(--text-primary)}
         .password-confirm{background:var(--accent);color:var(--bg-primary);border:none}
         .password-confirm:hover{background:#5dd6ff;box-shadow:0 4px 15px rgba(49,200,255,.35)}
-        .password-confirm:active{transform:scale(.97)}
         @keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
         .shake{animation:shake .4s ease}
 
-        /* PRODUCT MODAL */
         .product-overlay{position:fixed;inset:0;z-index:250;background:rgba(0,0,0,.82);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:16px;overflow-y:auto;opacity:0;pointer-events:none;transition:opacity .25s}
         .product-overlay.active{opacity:1;pointer-events:auto}
         .product-modal{width:100%;max-width:380px;background:var(--bg-card);border:1px solid var(--border-color-strong);border-radius:var(--radius-lg);overflow:hidden;position:relative;transform:scale(.94) translateY(10px);transition:transform .28s cubic-bezier(.32,.72,0,1);box-shadow:0 28px 80px rgba(0,0,0,.8);max-height:calc(100vh - 32px);display:flex;flex-direction:column}
@@ -296,17 +270,14 @@
         .product-actions{display:flex;flex-direction:column;gap:8px}
         .product-add-btn{width:100%;padding:14px;border-radius:var(--radius-sm);border:none;background:linear-gradient(135deg,#25d366,#1da851);color:#04120a;font-size:14px;font-weight:800;font-family:var(--font);letter-spacing:-.01em;cursor:pointer;transition:all var(--transition);display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 6px 20px rgba(37,211,102,.3)}
         .product-add-btn:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(37,211,102,.45)}
-        .product-add-btn:active{transform:scale(.98)}
         .product-buy-now-btn{width:100%;padding:11px;border-radius:var(--radius-sm);background:transparent;border:1px solid var(--border-color-strong);color:var(--accent);font-size:12px;font-weight:700;font-family:var(--font);letter-spacing:-.01em;cursor:pointer;transition:all var(--transition);display:flex;align-items:center;justify-content:center;gap:6px}
         .product-buy-now-btn:hover{background:var(--accent-glow);border-color:var(--accent)}
 
-        /* INFO MODAL */
         .info-modal-overlay{position:fixed;inset:0;z-index:260;background:rgba(0,0,0,.85);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:16px;overflow-y:auto;opacity:0;pointer-events:none;transition:opacity .25s}
         .info-modal-overlay.active{opacity:1;pointer-events:auto}
-        .info-modal{width:100%;max-width:520px;background:linear-gradient(160deg,var(--bg-card) 0%,#060d18 100%);border:1px solid var(--border-color-strong);border-radius:var(--radius-lg);position:relative;overflow:hidden;transform:scale(.94) translateY(12px);transition:transform .3s cubic-bezier(.32,.72,0,1);box-shadow:0 28px 90px rgba(0,0,0,.85),0 0 0 1px rgba(49,200,255,.05);max-height:calc(100vh - 32px);display:flex;flex-direction:column}
+        .info-modal{width:100%;max-width:520px;background:linear-gradient(160deg,var(--bg-card) 0%,#060d18 100%);border:1px solid var(--border-color-strong);border-radius:var(--radius-lg);position:relative;overflow:hidden;transform:scale(.94) translateY(12px);transition:transform .3s cubic-bezier(.32,.72,0,1);box-shadow:0 28px 90px rgba(0,0,0,.85);max-height:calc(100vh - 32px);display:flex;flex-direction:column}
         .info-modal-overlay.active .info-modal{transform:scale(1) translateY(0)}
         .info-modal::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(to right,transparent,var(--accent),transparent);opacity:.7}
-        .info-modal::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at top right,rgba(49,200,255,.08),transparent 55%);pointer-events:none}
         .info-modal-header{display:flex;align-items:center;gap:12px;padding:18px 20px 14px;border-bottom:1px solid var(--border-color);position:relative;z-index:2;flex-shrink:0}
         .info-modal-header-icon{width:42px;height:42px;border-radius:var(--radius-sm);background:linear-gradient(135deg,var(--accent-glow),var(--accent-soft));border:1px solid var(--border-color-strong);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
         .info-modal-header-text{flex:1;min-width:0}
@@ -315,28 +286,21 @@
         .info-modal-close{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.05);border:1px solid var(--border-color);color:var(--text-secondary);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all var(--transition);font-size:15px;line-height:1;flex-shrink:0}
         .info-modal-close:hover{background:rgba(239,68,68,.2);color:#ef4444;border-color:rgba(239,68,68,.4);transform:rotate(90deg)}
         .info-modal-body{flex:1;overflow-y:auto;padding:16px 20px 22px;position:relative;z-index:2}
-        .info-modal-body::-webkit-scrollbar{width:6px}
-        .info-modal-body::-webkit-scrollbar-thumb{background:rgba(49,200,255,.35);border-radius:10px}
 
-        /* FREIGHT TABLE */
         .freight-table{width:100%;border-collapse:separate;border-spacing:0;border-radius:var(--radius-sm);overflow:hidden;border:1px solid var(--border-color);background:rgba(0,0,0,.2)}
         .freight-table thead th{background:linear-gradient(135deg,rgba(49,200,255,.18),rgba(49,200,255,.08));color:var(--accent);font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;padding:12px 14px;text-align:left;border-bottom:1px solid var(--border-color-strong)}
         .freight-table thead th:last-child{text-align:right}
-        .freight-table tbody tr{transition:background .2s}
         .freight-table tbody tr:nth-child(odd){background:rgba(255,255,255,.015)}
         .freight-table tbody tr:hover{background:rgba(49,200,255,.08)}
         .freight-table tbody tr:not(:last-child) td{border-bottom:1px solid rgba(49,200,255,.08)}
         .freight-table td{padding:11px 14px;font-size:13px;color:var(--text-primary);letter-spacing:-.01em}
         .freight-table td:first-child{font-weight:600}
         .freight-table td:last-child{text-align:right;font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums;white-space:nowrap}
-        .freight-table tbody tr:hover td:last-child{color:#5dd6ff;text-shadow:0 0 12px rgba(49,200,255,.5)}
         .freight-note{margin-top:14px;padding:12px 14px;border-radius:var(--radius-sm);background:rgba(49,200,255,.06);border:1px solid var(--border-color);font-size:11.5px;color:var(--text-secondary);line-height:1.55;display:flex;align-items:flex-start;gap:8px;letter-spacing:-.01em}
         .freight-note-icon{flex-shrink:0;font-size:14px;line-height:1.2}
 
-        /* RULES */
         .rules-content{display:flex;flex-direction:column;gap:14px}
         .rules-block{border-radius:var(--radius-sm);border:1px solid var(--border-color);background:rgba(255,255,255,.02);overflow:hidden;transition:border-color .2s}
-        .rules-block:hover{border-color:var(--border-color-strong)}
         .rules-block.warning{border-color:rgba(245,158,11,.45);background:linear-gradient(180deg,rgba(245,158,11,.08),rgba(245,158,11,.02))}
         .rules-block.alert{border-color:rgba(239,68,68,.45);background:linear-gradient(180deg,rgba(239,68,68,.08),rgba(239,68,68,.02))}
         .rules-block.info{border-color:rgba(49,200,255,.4);background:linear-gradient(180deg,rgba(49,200,255,.07),rgba(49,200,255,.02))}
@@ -345,7 +309,7 @@
         .rules-block.alert .rules-block-title{color:#f87171;border-bottom-color:rgba(239,68,68,.25)}
         .rules-block.info .rules-block-title{color:var(--accent);border-bottom-color:rgba(49,200,255,.25)}
         .rules-block-icon{font-size:16px;flex-shrink:0;line-height:1}
-        .rules-block-body{padding:12px 14px 14px;font-size:12.5px;color:var(--text-secondary);line-height:1.65;letter-spacing:-.005em}
+        .rules-block-body{padding:12px 14px 14px;font-size:12.5px;color:var(--text-secondary);line-height:1.65}
         .rules-block-body p{margin-bottom:10px}
         .rules-block-body p:last-child{margin-bottom:0}
         .rules-block-body strong{color:var(--text-primary);font-weight:700}
@@ -353,117 +317,101 @@
         .rules-block-body ul{list-style:none;padding:0;margin:8px 0 0;display:flex;flex-direction:column;gap:6px}
         .rules-block-body ul li{display:flex;align-items:flex-start;gap:8px;padding:6px 10px;border-radius:6px;background:rgba(255,255,255,.03);border-left:3px solid rgba(239,68,68,.5);font-size:12px;color:var(--text-secondary)}
         .rules-block-body ul li::before{content:'✕';color:#f87171;font-weight:800;flex-shrink:0;font-size:11px;line-height:1.5}
-        .rules-block-body .rule-highlight{display:inline-block;padding:2px 8px;border-radius:5px;background:rgba(49,200,255,.12);color:var(--accent);font-weight:700;font-size:11.5px;letter-spacing:-.01em;word-break:break-all}
-        .rules-block-body a{color:var(--accent);text-decoration:none;font-weight:700;border-bottom:1px dashed rgba(49,200,255,.4);transition:all .2s}
-        .rules-block-body a:hover{color:#5dd6ff;border-bottom-color:#5dd6ff}
+        .rules-block-body .rule-highlight{display:inline-block;padding:2px 8px;border-radius:5px;background:rgba(49,200,255,.12);color:var(--accent);font-weight:700;font-size:11.5px;word-break:break-all}
+        .rules-block-body a{color:var(--accent);text-decoration:none;font-weight:700;border-bottom:1px dashed rgba(49,200,255,.4)}
         .rules-thanks{text-align:center;padding:14px;font-size:13px;font-weight:700;color:var(--accent);letter-spacing:-.01em;background:linear-gradient(135deg,rgba(49,200,255,.1),rgba(49,200,255,.03));border-radius:var(--radius-sm);border:1px solid var(--border-color-strong)}
 
-        /* PROMO MODAL */
         .promo-modal-overlay{position:fixed;inset:0;z-index:265;background:rgba(0,0,0,.88);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:16px;overflow-y:auto;opacity:0;pointer-events:none;transition:opacity .25s}
         .promo-modal-overlay.active{opacity:1;pointer-events:auto}
-        .promo-modal{width:100%;max-width:520px;background:linear-gradient(160deg,#0a1322 0%,#100510 100%);border:1px solid rgba(245,158,11,.4);border-radius:var(--radius-lg);position:relative;overflow:hidden;transform:scale(.94) translateY(12px);transition:transform .3s cubic-bezier(.32,.72,0,1);box-shadow:0 28px 90px rgba(0,0,0,.9),0 0 40px rgba(239,68,68,.15);max-height:calc(100vh - 32px);display:flex;flex-direction:column}
+        .promo-modal{width:100%;max-width:520px;background:linear-gradient(160deg,#0a1322 0%,#100510 100%);border:1px solid rgba(245,158,11,.4);border-radius:var(--radius-lg);position:relative;overflow:hidden;transform:scale(.94) translateY(12px);transition:transform .3s cubic-bezier(.32,.72,0,1);box-shadow:0 28px 90px rgba(0,0,0,.9);max-height:calc(100vh - 32px);display:flex;flex-direction:column}
         .promo-modal-overlay.active .promo-modal{transform:scale(1) translateY(0)}
         .promo-modal::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,#ef4444,#f59e0b,#ef4444);opacity:.9}
-        .promo-modal::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at top left,rgba(239,68,68,.1),transparent 50%),radial-gradient(circle at bottom right,rgba(245,158,11,.08),transparent 55%);pointer-events:none}
         .promo-modal-header{display:flex;align-items:center;gap:12px;padding:18px 20px 14px;border-bottom:1px solid rgba(245,158,11,.2);position:relative;z-index:2;flex-shrink:0}
-        .promo-modal-header-icon{width:46px;height:46px;border-radius:var(--radius-sm);background:linear-gradient(135deg,rgba(239,68,68,.25),rgba(245,158,11,.25));border:1px solid rgba(245,158,11,.5);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;box-shadow:0 0 20px rgba(245,158,11,.3);animation:pulsePromo 2.5s infinite}
-        @keyframes pulsePromo{0%,100%{box-shadow:0 0 20px rgba(245,158,11,.3)}50%{box-shadow:0 0 30px rgba(245,158,11,.55)}}
+        .promo-modal-header-icon{width:46px;height:46px;border-radius:var(--radius-sm);background:linear-gradient(135deg,rgba(239,68,68,.25),rgba(245,158,11,.25));border:1px solid rgba(245,158,11,.5);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;box-shadow:0 0 20px rgba(245,158,11,.3)}
         .promo-modal-header-text{flex:1;min-width:0}
         .promo-modal-title{font-size:17px;font-weight:900;letter-spacing:-.02em;background:linear-gradient(135deg,#fbbf24,#ef4444);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:#fbbf24;line-height:1.2}
         .promo-modal-subtitle{font-size:11px;color:var(--text-secondary);margin-top:3px;letter-spacing:-.01em;font-weight:500}
         .promo-modal-close{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.05);border:1px solid var(--border-color);color:var(--text-secondary);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all var(--transition);font-size:15px;line-height:1;flex-shrink:0}
         .promo-modal-close:hover{background:rgba(239,68,68,.25);color:#ef4444;border-color:rgba(239,68,68,.5);transform:rotate(90deg)}
         .promo-modal-body{flex:1;overflow-y:auto;padding:14px 16px 20px;position:relative;z-index:2}
-        .promo-modal-body::-webkit-scrollbar{width:6px}
-        .promo-modal-body::-webkit-scrollbar-thumb{background:rgba(245,158,11,.5);border-radius:10px}
         .promo-grid{display:grid;grid-template-columns:1fr;gap:10px}
-        .promo-card{display:flex;align-items:center;gap:12px;padding:12px;border-radius:var(--radius-sm);background:linear-gradient(135deg,rgba(245,158,11,.06),rgba(239,68,68,.04));border:1px solid rgba(245,158,11,.3);cursor:pointer;transition:all var(--transition);position:relative;-webkit-tap-highlight-color:transparent}
+        .promo-card{display:flex;align-items:center;gap:12px;padding:12px;border-radius:var(--radius-sm);background:linear-gradient(135deg,rgba(245,158,11,.06),rgba(239,68,68,.04));border:1px solid rgba(245,158,11,.3);cursor:pointer;transition:all var(--transition);position:relative}
         .promo-card:hover{border-color:rgba(245,158,11,.7);transform:translateY(-2px);box-shadow:0 8px 25px rgba(245,158,11,.2)}
-        .promo-card:active{transform:scale(.985)}
         .promo-card-thumb{width:70px;height:70px;border-radius:10px;object-fit:cover;flex-shrink:0;background:rgba(0,0,0,.4);border:1px solid rgba(245,158,11,.3)}
         .promo-card-info{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px}
         .promo-card-brand{font-size:9.5px;font-weight:800;color:var(--accent);letter-spacing:.1em;text-transform:uppercase}
         .promo-card-name{font-size:13.5px;font-weight:800;color:var(--text-primary);letter-spacing:-.01em;line-height:1.25;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
         .promo-card-prices{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;margin-top:2px}
-        .promo-card-old{font-size:11px;color:var(--text-muted);text-decoration:line-through;letter-spacing:-.01em}
+        .promo-card-old{font-size:11px;color:var(--text-muted);text-decoration:line-through}
         .promo-card-new{font-size:18px;font-weight:900;color:#fbbf24;letter-spacing:-.03em;text-shadow:0 0 14px rgba(245,158,11,.4);line-height:1}
-        .promo-card-discount{position:absolute;top:8px;right:8px;background:linear-gradient(135deg,#ef4444,#f59e0b);color:#fff;font-size:10px;font-weight:900;padding:3px 8px;border-radius:12px;letter-spacing:-.01em;box-shadow:0 4px 12px rgba(239,68,68,.45)}
+        .promo-card-discount{position:absolute;top:8px;right:8px;background:linear-gradient(135deg,#ef4444,#f59e0b);color:#fff;font-size:10px;font-weight:900;padding:3px 8px;border-radius:12px;box-shadow:0 4px 12px rgba(239,68,68,.45)}
         .promo-empty{padding:46px 20px;text-align:center}
         .promo-empty-icon{font-size:48px;margin-bottom:14px;opacity:.5}
-        .promo-empty-title{font-size:15px;font-weight:800;color:var(--text-primary);margin-bottom:6px;letter-spacing:-.01em}
+        .promo-empty-title{font-size:15px;font-weight:800;color:var(--text-primary);margin-bottom:6px}
         .promo-empty-desc{font-size:12.5px;color:var(--text-muted);line-height:1.55;max-width:320px;margin:0 auto}
-        .promo-footer-note{margin-top:16px;padding:12px 14px;border-radius:var(--radius-sm);background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.25);font-size:11.5px;color:var(--text-secondary);line-height:1.55;display:flex;align-items:flex-start;gap:8px;letter-spacing:-.01em}
+        .promo-footer-note{margin-top:16px;padding:12px 14px;border-radius:var(--radius-sm);background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.25);font-size:11.5px;color:var(--text-secondary);line-height:1.55;display:flex;align-items:flex-start;gap:8px}
 
-        /* CART MODAL */
         .cart-overlay{position:fixed;inset:0;z-index:270;background:rgba(0,0,0,.85);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:16px;overflow-y:auto;opacity:0;pointer-events:none;transition:opacity .25s}
         .cart-overlay.active{opacity:1;pointer-events:auto}
-        .cart-modal{width:100%;max-width:500px;background:linear-gradient(160deg,#0a1322 0%,#051018 100%);border:1px solid rgba(37,211,102,.35);border-radius:var(--radius-lg);position:relative;overflow:hidden;transform:scale(.94) translateY(12px);transition:transform .3s cubic-bezier(.32,.72,0,1);box-shadow:0 28px 90px rgba(0,0,0,.9),0 0 40px rgba(37,211,102,.15);max-height:calc(100vh - 32px);display:flex;flex-direction:column}
+        .cart-modal{width:100%;max-width:500px;background:linear-gradient(160deg,#0a1322 0%,#051018 100%);border:1px solid rgba(37,211,102,.35);border-radius:var(--radius-lg);position:relative;overflow:hidden;transform:scale(.94) translateY(12px);transition:transform .3s cubic-bezier(.32,.72,0,1);box-shadow:0 28px 90px rgba(0,0,0,.9);max-height:calc(100vh - 32px);display:flex;flex-direction:column}
         .cart-overlay.active .cart-modal{transform:scale(1) translateY(0)}
         .cart-modal::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,#25d366,#1da851,#25d366);opacity:.9}
         .cart-modal-header{display:flex;align-items:center;gap:12px;padding:18px 20px 14px;border-bottom:1px solid rgba(37,211,102,.2);position:relative;z-index:2;flex-shrink:0}
-        .cart-modal-header-icon{width:46px;height:46px;border-radius:var(--radius-sm);background:linear-gradient(135deg,rgba(37,211,102,.25),rgba(37,211,102,.1));border:1px solid rgba(37,211,102,.5);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;box-shadow:0 0 20px rgba(37,211,102,.25)}
+        .cart-modal-header-icon{width:46px;height:46px;border-radius:var(--radius-sm);background:linear-gradient(135deg,rgba(37,211,102,.25),rgba(37,211,102,.1));border:1px solid rgba(37,211,102,.5);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
         .cart-modal-header-text{flex:1;min-width:0}
-        .cart-modal-title{font-size:17px;font-weight:900;letter-spacing:-.02em;color:#25d366;line-height:1.2}
-        .cart-modal-subtitle{font-size:11px;color:var(--text-secondary);margin-top:3px;letter-spacing:-.01em;font-weight:500}
+        .cart-modal-title{font-size:17px;font-weight:900;color:#25d366;line-height:1.2}
+        .cart-modal-subtitle{font-size:11px;color:var(--text-secondary);margin-top:3px;font-weight:500}
         .cart-modal-close{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.05);border:1px solid var(--border-color);color:var(--text-secondary);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all var(--transition);font-size:15px;line-height:1;flex-shrink:0}
         .cart-modal-close:hover{background:rgba(239,68,68,.25);color:#ef4444;border-color:rgba(239,68,68,.5);transform:rotate(90deg)}
         .cart-modal-body{flex:1;overflow-y:auto;padding:14px 16px 16px;position:relative;z-index:2}
-        .cart-modal-body::-webkit-scrollbar{width:6px}
-        .cart-modal-body::-webkit-scrollbar-thumb{background:rgba(37,211,102,.4);border-radius:10px}
         .cart-items{display:flex;flex-direction:column;gap:10px}
-        .cart-item{display:flex;align-items:center;gap:10px;padding:10px;border-radius:var(--radius-sm);background:rgba(255,255,255,.04);border:1px solid var(--border-color);transition:all var(--transition);position:relative}
-        .cart-item:hover{border-color:rgba(37,211,102,.4)}
+        .cart-item{display:flex;align-items:center;gap:10px;padding:10px;border-radius:var(--radius-sm);background:rgba(255,255,255,.04);border:1px solid var(--border-color);transition:all var(--transition)}
         .cart-item-thumb{width:60px;height:60px;border-radius:8px;object-fit:cover;flex-shrink:0;background:rgba(0,0,0,.35);border:1px solid var(--border-color)}
         .cart-item-info{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px}
-        .cart-item-name{font-size:12.5px;font-weight:800;color:var(--text-primary);letter-spacing:-.01em;line-height:1.25;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+        .cart-item-name{font-size:12.5px;font-weight:800;color:var(--text-primary);line-height:1.25;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
         .cart-item-brand{font-size:9.5px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.08em}
-        .cart-item-price{font-size:13px;font-weight:800;color:#25d366;letter-spacing:-.02em}
+        .cart-item-price{font-size:13px;font-weight:800;color:#25d366}
         .cart-item-controls{display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex-shrink:0}
-        .cart-qty{display:flex;align-items:center;gap:0;border:1px solid var(--border-color-strong);border-radius:6px;overflow:hidden;background:rgba(0,0,0,.3)}
-        .cart-qty-btn{width:26px;height:26px;background:transparent;border:none;color:var(--text-primary);font-size:14px;font-weight:800;cursor:pointer;transition:all var(--transition);display:flex;align-items:center;justify-content:center;font-family:var(--font);-webkit-tap-highlight-color:transparent}
+        .cart-qty{display:flex;align-items:center;border:1px solid var(--border-color-strong);border-radius:6px;overflow:hidden;background:rgba(0,0,0,.3)}
+        .cart-qty-btn{width:26px;height:26px;background:transparent;border:none;color:var(--text-primary);font-size:14px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:var(--font)}
         .cart-qty-btn:hover{background:rgba(37,211,102,.15);color:#25d366}
-        .cart-qty-btn:active{background:rgba(37,211,102,.3)}
-        .cart-qty-value{min-width:28px;padding:0 4px;text-align:center;font-size:12px;font-weight:800;color:var(--text-primary);letter-spacing:-.01em;font-variant-numeric:tabular-nums}
-        .cart-item-remove{background:rgba(239,68,68,.12);border:none;color:#ef4444;width:24px;height:24px;border-radius:5px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;transition:all var(--transition);font-family:var(--font)}
+        .cart-qty-value{min-width:28px;padding:0 4px;text-align:center;font-size:12px;font-weight:800;color:var(--text-primary);font-variant-numeric:tabular-nums}
+        .cart-item-remove{background:rgba(239,68,68,.12);border:none;color:#ef4444;width:24px;height:24px;border-radius:5px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;font-family:var(--font)}
         .cart-item-remove:hover{background:rgba(239,68,68,.25)}
         .cart-empty{padding:46px 20px;text-align:center}
         .cart-empty-icon{font-size:52px;margin-bottom:14px;opacity:.45}
-        .cart-empty-title{font-size:15px;font-weight:800;color:var(--text-primary);margin-bottom:6px;letter-spacing:-.01em}
+        .cart-empty-title{font-size:15px;font-weight:800;color:var(--text-primary);margin-bottom:6px}
         .cart-empty-desc{font-size:12.5px;color:var(--text-muted);line-height:1.55;max-width:320px;margin:0 auto}
         .cart-summary{margin-top:14px;padding:14px;border-radius:var(--radius-sm);background:rgba(37,211,102,.06);border:1px solid rgba(37,211,102,.3)}
-        .cart-summary-row{display:flex;justify-content:space-between;align-items:center;font-size:13px;padding:4px 0;letter-spacing:-.01em;color:var(--text-secondary)}
+        .cart-summary-row{display:flex;justify-content:space-between;align-items:center;font-size:13px;padding:4px 0;color:var(--text-secondary)}
         .cart-summary-row.total{border-top:1px solid rgba(37,211,102,.3);margin-top:6px;padding-top:10px;font-size:16px;color:var(--text-primary);font-weight:800}
-        .cart-summary-row.total .cart-summary-value{color:#25d366;font-size:20px;font-weight:900;letter-spacing:-.03em}
+        .cart-summary-row.total .cart-summary-value{color:#25d366;font-size:20px;font-weight:900}
         .cart-summary-label{font-weight:600}
         .cart-summary-value{font-weight:800;color:var(--text-primary);font-variant-numeric:tabular-nums}
         .cart-footer{padding:12px 16px 16px;border-top:1px solid rgba(37,211,102,.2);display:flex;flex-direction:column;gap:8px;flex-shrink:0;background:rgba(0,0,0,.15);position:relative;z-index:2}
-        .cart-checkout-btn{width:100%;padding:14px;border-radius:var(--radius-sm);border:none;background:linear-gradient(135deg,#25d366,#1da851);color:#04120a;font-size:14px;font-weight:800;font-family:var(--font);letter-spacing:-.01em;cursor:pointer;transition:all var(--transition);display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 6px 20px rgba(37,211,102,.35)}
+        .cart-checkout-btn{width:100%;padding:14px;border-radius:var(--radius-sm);border:none;background:linear-gradient(135deg,#25d366,#1da851);color:#04120a;font-size:14px;font-weight:800;font-family:var(--font);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 6px 20px rgba(37,211,102,.35)}
         .cart-checkout-btn:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(37,211,102,.5)}
-        .cart-checkout-btn:active{transform:scale(.98)}
-        .cart-clear-btn{width:100%;padding:10px;border-radius:var(--radius-sm);background:transparent;border:1px solid rgba(239,68,68,.3);color:#f87171;font-size:12px;font-weight:700;font-family:var(--font);letter-spacing:-.01em;cursor:pointer;transition:all var(--transition)}
+        .cart-clear-btn{width:100%;padding:10px;border-radius:var(--radius-sm);background:transparent;border:1px solid rgba(239,68,68,.3);color:#f87171;font-size:12px;font-weight:700;font-family:var(--font);cursor:pointer}
         .cart-clear-btn:hover{background:rgba(239,68,68,.12);border-color:rgba(239,68,68,.5)}
 
-        /* CHECKOUT */
         .checkout-overlay{position:fixed;inset:0;z-index:280;background:rgba(0,0,0,.88);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:16px;overflow-y:auto;opacity:0;pointer-events:none;transition:opacity .25s}
         .checkout-overlay.active{opacity:1;pointer-events:auto}
-        .checkout-modal{width:100%;max-width:500px;background:linear-gradient(160deg,#0a1322 0%,#051018 100%);border:1px solid rgba(37,211,102,.4);border-radius:var(--radius-lg);position:relative;overflow:hidden;transform:scale(.94) translateY(12px);transition:transform .3s cubic-bezier(.32,.72,0,1);box-shadow:0 28px 90px rgba(0,0,0,.9),0 0 40px rgba(37,211,102,.15);max-height:calc(100vh - 32px);display:flex;flex-direction:column}
+        .checkout-modal{width:100%;max-width:500px;background:linear-gradient(160deg,#0a1322 0%,#051018 100%);border:1px solid rgba(37,211,102,.4);border-radius:var(--radius-lg);position:relative;overflow:hidden;transform:scale(.94) translateY(12px);transition:transform .3s cubic-bezier(.32,.72,0,1);box-shadow:0 28px 90px rgba(0,0,0,.9);max-height:calc(100vh - 32px);display:flex;flex-direction:column}
         .checkout-overlay.active .checkout-modal{transform:scale(1) translateY(0)}
         .checkout-modal::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,#25d366,#1da851,#25d366);opacity:.9}
-        .checkout-modal-header{display:flex;align-items:center;gap:12px;padding:18px 20px 14px;border-bottom:1px solid rgba(37,211,102,.2);position:relative;z-index:2;flex-shrink:0}
-        .checkout-modal-header-icon{width:46px;height:46px;border-radius:var(--radius-sm);background:linear-gradient(135deg,rgba(37,211,102,.25),rgba(37,211,102,.1));border:1px solid rgba(37,211,102,.5);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;box-shadow:0 0 20px rgba(37,211,102,.25)}
+        .checkout-modal-header{display:flex;align-items:center;gap:12px;padding:18px 20px 14px;border-bottom:1px solid rgba(37,211,102,.2);flex-shrink:0}
+        .checkout-modal-header-icon{width:46px;height:46px;border-radius:var(--radius-sm);background:linear-gradient(135deg,rgba(37,211,102,.25),rgba(37,211,102,.1));border:1px solid rgba(37,211,102,.5);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
         .checkout-modal-header-text{flex:1;min-width:0}
-        .checkout-modal-title{font-size:17px;font-weight:900;letter-spacing:-.02em;color:#25d366;line-height:1.2}
-        .checkout-modal-subtitle{font-size:11px;color:var(--text-secondary);margin-top:3px;letter-spacing:-.01em;font-weight:500}
-        .checkout-modal-close{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.05);border:1px solid var(--border-color);color:var(--text-secondary);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all var(--transition);font-size:15px;line-height:1;flex-shrink:0}
+        .checkout-modal-title{font-size:17px;font-weight:900;color:#25d366;line-height:1.2}
+        .checkout-modal-subtitle{font-size:11px;color:var(--text-secondary);margin-top:3px;font-weight:500}
+        .checkout-modal-close{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.05);border:1px solid var(--border-color);color:var(--text-secondary);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:15px;line-height:1;flex-shrink:0}
         .checkout-modal-close:hover{background:rgba(239,68,68,.25);color:#ef4444;border-color:rgba(239,68,68,.5);transform:rotate(90deg)}
-        .checkout-modal-body{flex:1;overflow-y:auto;padding:16px 18px 18px;position:relative;z-index:2}
-        .checkout-modal-body::-webkit-scrollbar{width:6px}
-        .checkout-modal-body::-webkit-scrollbar-thumb{background:rgba(37,211,102,.4);border-radius:10px}
+        .checkout-modal-body{flex:1;overflow-y:auto;padding:16px 18px 18px}
         .checkout-mini-summary{padding:12px 14px;border-radius:var(--radius-sm);background:rgba(37,211,102,.06);border:1px solid rgba(37,211,102,.25);margin-bottom:16px;font-size:12px;color:var(--text-secondary)}
         .checkout-mini-summary strong{color:var(--text-primary);font-weight:800}
         .checkout-mini-summary .mini-total{display:flex;justify-content:space-between;align-items:center;margin-top:6px;padding-top:6px;border-top:1px solid rgba(37,211,102,.2)}
         .checkout-mini-summary .mini-total .label{font-weight:700;color:var(--text-primary);font-size:13px}
-        .checkout-mini-summary .mini-total .value{font-weight:900;color:#25d366;font-size:17px;letter-spacing:-.03em}
+        .checkout-mini-summary .mini-total .value{font-weight:900;color:#25d366;font-size:17px}
         .checkout-form-section-title{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:#25d366;margin-bottom:10px;display:flex;align-items:center;gap:6px}
         .checkout-form{display:flex;flex-direction:column;gap:10px}
         .form-row{display:flex;gap:8px}
@@ -471,50 +419,27 @@
         .form-row>.form-group.flex-2{flex:2}
         .form-row>.form-group.flex-3{flex:3}
         .form-group{display:flex;flex-direction:column;gap:4px}
-        .form-group label{font-size:11px;font-weight:700;color:var(--text-secondary);letter-spacing:-.01em}
+        .form-group label{font-size:11px;font-weight:700;color:var(--text-secondary)}
         .form-group label .required{color:#ef4444;font-weight:800}
-        .form-group input,.form-group select{padding:11px 12px;border-radius:var(--radius-sm);border:1px solid var(--border-color);background:var(--bg-input);color:var(--text-primary);font-size:13px;font-family:var(--font);outline:none;transition:all var(--transition);letter-spacing:-.01em;width:100%}
+        .form-group input,.form-group select{padding:11px 12px;border-radius:var(--radius-sm);border:1px solid var(--border-color);background:var(--bg-input);color:var(--text-primary);font-size:13px;font-family:var(--font);outline:none;width:100%}
         .form-group input:focus,.form-group select:focus{border-color:#25d366;box-shadow:0 0 0 3px rgba(37,211,102,.15)}
         .form-group input.invalid,.form-group select.invalid{border-color:#ef4444;box-shadow:0 0 0 3px rgba(239,68,68,.15)}
-        .form-group input::placeholder{color:var(--text-muted)}
-        .checkout-submit-btn{margin-top:16px;width:100%;padding:15px;border-radius:var(--radius-sm);border:none;background:linear-gradient(135deg,#25d366,#1da851);color:#04120a;font-size:14px;font-weight:900;font-family:var(--font);letter-spacing:-.01em;cursor:pointer;transition:all var(--transition);display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 8px 24px rgba(37,211,102,.4)}
+        .checkout-submit-btn{margin-top:16px;width:100%;padding:15px;border-radius:var(--radius-sm);border:none;background:linear-gradient(135deg,#25d366,#1da851);color:#04120a;font-size:14px;font-weight:900;font-family:var(--font);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 8px 24px rgba(37,211,102,.4)}
         .checkout-submit-btn:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(37,211,102,.55)}
-        .checkout-submit-btn:active{transform:scale(.98)}
-        .checkout-submit-btn:disabled{opacity:.6;cursor:not-allowed;transform:none}
 
         .hidden-input{display:none}
 
         @media (max-width:480px){
             .store-logo{height:32px;max-width:120px}
             .hero-logo{height:48px}
-            .promo-title{font-size:13px}
-            .category-name{font-size:13px}
             .config-panel{max-width:100%}
             .product-modal-image{height:210px}
             .product-modal-name{font-size:17px}
             .product-modal-price{font-size:24px}
             .freight-table td,.freight-table thead th{padding:9px 10px;font-size:12px}
-            .freight-table thead th{font-size:10px}
-            .info-modal-header{padding:14px 16px 12px}
-            .info-modal-body{padding:14px 16px 18px}
-            .info-modal-title{font-size:15px}
-            .info-modal-header-icon{width:38px;height:38px;font-size:18px}
             .promo-card-thumb{width:58px;height:58px}
             .promo-card-new{font-size:16px}
-            .promo-card-name{font-size:12.5px}
-            .promo-modal-header{padding:14px 16px 12px}
-            .promo-modal-body{padding:12px 14px 16px}
             .cart-item-thumb{width:50px;height:50px}
-            .cart-item-name{font-size:11.5px}
-            .cart-modal-header{padding:14px 16px 12px}
-            .cart-modal-body{padding:12px 14px}
-            .checkout-modal-header{padding:14px 16px 12px}
-            .checkout-modal-body{padding:14px 16px}
-            .cart-btn{width:34px;height:34px}
-            .cart-btn svg{width:18px;height:18px}
-        }
-        @media (min-width:481px) and (max-width:768px){
-            .config-panel{max-width:400px}
         }
     </style>
 </head>
@@ -1021,51 +946,32 @@
 
     <input type="file" id="hiddenFileInput" class="hidden-input" accept="image/*">
 
-<!-- ===== FIREBASE SDK (compat) ===== -->
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script>
 
 <script>
 (function() {
     'use strict';
 
-    // ===== CONSTANTES =====
     var CONFIG_PASSWORD = '20362881';
     var WHATSAPP_DEFAULT = 'https://wa.me/5519997390834';
-    var WHATSAPP_PLACEHOLDER_OLD = 'https://wa.me/5500000000000';
     var CART_KEY = 'respectPharmaCart';
     var LOCAL_CONFIG_KEY = 'respectPharmaConfig';
     var IDB_NAME = 'respectPharmaImages';
     var IDB_STORE = 'images';
-    var IDB_PREFIX = 'idb:';
-    var IMG_MAX_SIZE = 700;
-    var IMG_QUALITY = 0.8;
-    // Orçamento para imagens embutidas em base64 no Firestore
-    var CLOUD_IMG_MAX_SIZE = 260;      // pixels de largura/altura
-    var CLOUD_IMG_START_QUALITY = 0.72;
-    var CLOUD_IMG_TARGET_BYTES = 25000; // ~25KB base64 por imagem
-    var FIRESTORE_DOC_SAFE_LIMIT = 900000; // margem de segurança para 1MB
 
-    // ===== FIREBASE CONFIG =====
-    var FIREBASE_CONFIG = {
-        apiKey: "AIzaSyARMSy0hNXvnV4djiNeixeymO7F4s3g54U",
-        authDomain: "coper20-826cf.firebaseapp.com",
-        projectId: "coper20-826cf",
-        storageBucket: "coper20-826cf.firebasestorage.app",
-        messagingSenderId: "92872806847",
-        appId: "1:92872806847:web:c03cebb0531b730c6c510a",
-        measurementId: "G-FRBLNJJHP9"
-    };
+    // Cada imagem vira um documento próprio na coleção -> cabe ilimitadas fotos
     var FB_COLLECTION = 'respectPharma';
     var FB_DOC_ID = 'store';
-    var FB_STORAGE_FOLDER = 'respectPharma';
+    var FB_IMG_COLLECTION = 'respectPharma_images';
 
-    var fbApp = null, fbDb = null, fbStorage = null, fbDocRef = null;
-    var fbReady = false;
-    var fbStatus = 'connecting';
-    var unsubscribeSnapshot = null;
-    var lastRemoteJson = '';
+    // Cada foto fica com ~500KB base64 (bem abaixo do limite de 1MB/doc do Firestore)
+    var IMG_MAX_SIZE = 900;
+    var IMG_QUALITY = 0.85;
+    var CLOUD_IMG_MAX_SIZE = 900;
+    var CLOUD_IMG_START_QUALITY = 0.85;
+    var CLOUD_IMG_TARGET_BYTES = 550000;   // alvo
+    var CLOUD_IMG_HARD_LIMIT = 750000;     // limite duro (base64)
 
     var FREIGHT_TABLE = {
         'SP':55,'RJ':65,'MG':65,'SC':65,'RS':65,'PR':65,'ES':65,'DF':70,'GO':70,
@@ -1102,7 +1008,6 @@
     };
 
     var BRANDS = ['Muscle Labs','Alpha Pharma','BioTech','Dragon Pharma','Landerlan','Magnus','Neo Química','Roche','Sanofi','Zambon','Gold Labs','Eurofarma','Medley','Bayer','Aspen'];
-
     var PRODUCT_NAMES_BY_CATEGORY = {
         'EMAGRECEDORES':['Lipoless 10ml','Sibutramina 15mg','Clembuterol 30ml','Tirzepatida 5mg','Semaglutida 1mg','L-Carnitina 30ml','Cafeína Anidra 60 caps','Franol 15mg','Ioimbina 10mg','Hidroxicitrato 60 caps'],
         'FARMACIA':['Vitamina D3 2000UI','Ômega 3 1000mg','Whey Protein 900g','Creatina 300g','Multivitamínico 60 caps','Glutamina 300g','BCAA 2400mg','ZMA 60 caps','Vitamina C 1g','Albumina 500g'],
@@ -1115,7 +1020,6 @@
     };
     var GENERIC_NAMES = ['Testosterona','Nandrolona','Oxandrolona','Stanozolol','Dianabol','Trembolona','Masteron','Primobolan','Anavar','Sustanon'];
 
-    // ===== ESTADO =====
     var config = null;
     var configPanelOpen = false;
     var categoryEditorState = [];
@@ -1123,6 +1027,8 @@
     var selectedProductCategoryId = null;
     var uploadingProductId = null;
     var currentProduct = null;
+
+    // imageCache: 'cloud:ID' -> base64; URL http -> URL
     var imageCache = {};
     var idbSupported = ('indexedDB' in window);
     var idbPromise = null;
@@ -1131,6 +1037,15 @@
     var searchIndex = [];
     var cartSaveTimer = null;
     var suppressPush = false;
+
+    // Fila de imagens pendentes para retry
+    var pendingImageUploads = {};
+
+    // Firebase
+    var fbApp = null, fbDb = null, fbDocRef = null;
+    var fbReady = false;
+    var unsubscribeSnapshot = null;
+    var lastRemoteJson = '';
 
     var _svgCache = {};
     var _hexCache = {};
@@ -1174,7 +1089,6 @@
         return res;
     }
 
-    // ===== IMAGEM FALLBACK DELEGADO =====
     document.addEventListener('error', function(e) {
         var t = e.target;
         if (t && t.tagName === 'IMG') {
@@ -1183,7 +1097,7 @@
         }
     }, true);
 
-    // ===== INDEXEDDB (cache local de imagens) =====
+    // ===== INDEXEDDB =====
     function openIDB() {
         if (!idbSupported) return Promise.reject(new Error('IDB indisponível'));
         if (idbPromise) return idbPromise;
@@ -1228,36 +1142,61 @@
             });
         }).catch(function() { return false; });
     }
-    function isIdbRef(r) { return typeof r === 'string' && r.indexOf(IDB_PREFIX) === 0; }
-    function makeIdbRef(k) { return IDB_PREFIX + k; }
-    function getRefKey(r) { return r.slice(IDB_PREFIX.length); }
-    function isDataUrl(r) { return typeof r === 'string' && r.indexOf('data:') === 0; }
+    function isCloudRef(ref) { return typeof ref === 'string' && ref.indexOf('cloud:') === 0; }
+    function isIdbRef(ref) { return typeof ref === 'string' && ref.indexOf('idb:') === 0; }
+    function isDataUrl(ref) { return typeof ref === 'string' && ref.indexOf('data:') === 0; }
+    function isHttpUrl(ref) { return typeof ref === 'string' && (ref.indexOf('http://') === 0 || ref.indexOf('https://') === 0); }
+    function getCloudId(ref) { return ref.slice(6); }
+    function makeCloudRef(id) { return 'cloud:' + id; }
+    function getRefKey(ref) { return ref.slice(4); } // idb:
+
     function getRefSync(ref) {
         if (!ref) return '';
-        if (!isIdbRef(ref)) return ref;
-        return imageCache[ref] || '';
-    }
-    function loadRefIntoImg(ref, imgEl, fallbackText) {
-        if (!ref) { imgEl.src = svgPlaceholder(fallbackText); return; }
-        if (!isIdbRef(ref)) { imgEl.src = ref; return; }
-        var c = imageCache[ref];
-        if (c) { imgEl.src = c; return; }
-        idbGetImage(getRefKey(ref)).then(function(d) {
-            if (d) { imageCache[ref] = d; imgEl.src = d; }
-            else imgEl.src = svgPlaceholder(fallbackText);
-        }).catch(function() { imgEl.src = svgPlaceholder(fallbackText); });
-    }
-    function resolveRef(ref, fallbackText) {
-        if (!ref) return Promise.resolve(svgPlaceholder(fallbackText));
-        if (!isIdbRef(ref)) return Promise.resolve(ref);
-        if (imageCache[ref]) return Promise.resolve(imageCache[ref]);
-        return idbGetImage(getRefKey(ref)).then(function(d) {
-            if (d) { imageCache[ref] = d; return d; }
-            return svgPlaceholder(fallbackText);
-        }).catch(function() { return svgPlaceholder(fallbackText); });
+        if (isCloudRef(ref) || isIdbRef(ref)) return imageCache[ref] || '';
+        return ref;
     }
 
-    // ===== COMPRESSÃO DE IMAGEM =====
+    function loadRefIntoImg(ref, imgEl, fallbackText) {
+        if (!ref) { imgEl.src = svgPlaceholder(fallbackText); return; }
+        var c = getRefSync(ref);
+        if (c) { imgEl.src = c; return; }
+        if (isCloudRef(ref)) {
+            var imgId = getCloudId(ref);
+            idbGetImage('cloud_' + imgId).then(function(d) {
+                if (d) { imageCache[ref] = d; imgEl.src = d; }
+                else imgEl.src = svgPlaceholder(fallbackText);
+            }).catch(function() { imgEl.src = svgPlaceholder(fallbackText); });
+        } else if (isIdbRef(ref)) {
+            idbGetImage(getRefKey(ref)).then(function(d) {
+                if (d) { imageCache[ref] = d; imgEl.src = d; }
+                else imgEl.src = svgPlaceholder(fallbackText);
+            }).catch(function() { imgEl.src = svgPlaceholder(fallbackText); });
+        } else {
+            imgEl.src = ref;
+        }
+    }
+
+    function resolveRef(ref, fallbackText) {
+        if (!ref) return Promise.resolve(svgPlaceholder(fallbackText));
+        var c = getRefSync(ref);
+        if (c) return Promise.resolve(c);
+        if (isCloudRef(ref)) {
+            var imgId = getCloudId(ref);
+            return idbGetImage('cloud_' + imgId).then(function(d) {
+                if (d) { imageCache[ref] = d; return d; }
+                return svgPlaceholder(fallbackText);
+            }).catch(function() { return svgPlaceholder(fallbackText); });
+        }
+        if (isIdbRef(ref)) {
+            return idbGetImage(getRefKey(ref)).then(function(d) {
+                if (d) { imageCache[ref] = d; return d; }
+                return svgPlaceholder(fallbackText);
+            }).catch(function() { return svgPlaceholder(fallbackText); });
+        }
+        return Promise.resolve(ref);
+    }
+
+    // ===== COMPRESSÃO =====
     function compressImage(file) {
         return new Promise(function(resolve, reject) {
             var reader = new FileReader();
@@ -1278,10 +1217,7 @@
                         ctx.drawImage(img, 0, 0, w, h);
                         var out;
                         try { out = cv.toDataURL('image/jpeg', IMG_QUALITY); }
-                        catch (e) { try { out = cv.toDataURL('image/png'); } catch (e2) { out = ev.target.result; } }
-                        if (out.length > 300000) {
-                            try { out = cv.toDataURL('image/jpeg', 0.6); } catch (e) {}
-                        }
+                        catch (e) { out = cv.toDataURL('image/png'); }
                         resolve(out);
                     } catch (err) { reject(err); }
                 };
@@ -1293,8 +1229,7 @@
         });
     }
 
-    // Comprime agressivamente para caber como base64 no Firestore.
-    // Diminui tamanho/qualidade iterativamente até ficar dentro do orçamento.
+    // Garante que o base64 caiba com folga em 1 doc (limite 1MB)
     function compressForCloud(dataUrl) {
         return new Promise(function(resolve) {
             var tryOnce = function(size, quality, attempt) {
@@ -1314,9 +1249,14 @@
                         ctx.drawImage(img, 0, 0, w, h);
                         var out = cv.toDataURL('image/jpeg', quality);
 
-                        // Se ainda está grande e ainda podemos reduzir, tenta de novo
-                        if (out.length > CLOUD_IMG_TARGET_BYTES && attempt < 6 && size > 90) {
-                            tryOnce(Math.round(size * 0.75), Math.max(0.4, quality - 0.08), attempt + 1);
+                        // Ainda grande? Tenta reduzir mais (até 8 iterações)
+                        if (out.length > CLOUD_IMG_TARGET_BYTES && attempt < 8 && size > 320) {
+                            tryOnce(Math.round(size * 0.85), Math.max(0.5, quality - 0.05), attempt + 1);
+                            return;
+                        }
+                        // Ainda acima do limite duro? Reduz bastante
+                        if (out.length > CLOUD_IMG_HARD_LIMIT && attempt < 10 && size > 200) {
+                            tryOnce(Math.round(size * 0.7), 0.7, attempt + 1);
                             return;
                         }
                         resolve(out);
@@ -1329,35 +1269,23 @@
         });
     }
 
-    // ===== VERIFICAÇÃO DE URL DE IMAGEM =====
-    // Retorna a URL se ela carregar de verdade; null caso contrário.
-    function verifyImageUrl(url) {
-        if (!url) return Promise.resolve(null);
-        return new Promise(function(resolve) {
-            var done = false;
-            var finish = function(v) { if (done) return; done = true; resolve(v); };
-            setTimeout(function() { finish(null); }, 6000);
-            var img = new Image();
-            img.onload = function() { finish(url); };
-            img.onerror = function() { finish(null); };
-            img.src = url;
-        });
-    }
-
     // ===== FIREBASE =====
+    var FIREBASE_CONFIG = {
+        apiKey: "AIzaSyARMSy0hNXvnV4djiNeixeymO7F4s3g54U",
+        authDomain: "coper20-826cf.firebaseapp.com",
+        projectId: "coper20-826cf",
+        storageBucket: "coper20-826cf.firebasestorage.app",
+        messagingSenderId: "92872806847",
+        appId: "1:92872806847:web:c03cebb0531b730c6c510a",
+        measurementId: "G-FRBLNJJHP9"
+    };
+
     function initFirebase() {
         try {
-            if (typeof firebase === 'undefined' || !firebase.initializeApp) {
-                console.warn('SDK Firebase não carregado.');
-                return false;
-            }
-            if (!firebase.apps || !firebase.apps.length) {
-                fbApp = firebase.initializeApp(FIREBASE_CONFIG);
-            } else {
-                fbApp = firebase.app();
-            }
+            if (typeof firebase === 'undefined' || !firebase.initializeApp) return false;
+            if (!firebase.apps || !firebase.apps.length) fbApp = firebase.initializeApp(FIREBASE_CONFIG);
+            else fbApp = firebase.app();
             fbDb = firebase.firestore();
-            try { fbStorage = firebase.storage(); } catch (e) { fbStorage = null; }
             fbDocRef = fbDb.collection(FB_COLLECTION).doc(FB_DOC_ID);
             fbReady = true;
             return true;
@@ -1368,7 +1296,6 @@
     }
 
     function setSyncStatus(status) {
-        fbStatus = status;
         var dot = document.getElementById('syncDot');
         var txt = document.getElementById('syncStatusText');
         if (!dot || !txt) return;
@@ -1396,27 +1323,159 @@
     }
 
     function deepClone(obj) {
-        try { return JSON.parse(JSON.stringify(obj)); }
-        catch (e) { return obj; }
+        try { return JSON.parse(JSON.stringify(obj)); } catch (e) { return obj; }
     }
 
-    function pushConfigToFirestore() {
-        if (!fbReady || !fbDocRef || suppressPush) return Promise.resolve(false);
-        var data;
-        try { data = deepClone(config); } catch (e) { return Promise.resolve(false); }
-
-        var size = 0;
-        try { size = JSON.stringify(data).length; } catch (e) { size = 0; }
-        if (size > FIRESTORE_DOC_SAFE_LIMIT) {
-            console.warn('Config muito grande:', Math.round(size/1024), 'KB');
-            showToast('⚠️ Config muito grande (' + Math.round(size/1024) + 'KB). Reduza fotos ou produtos.', 'error');
-            setSyncStatus('offline');
+    // ===== IMAGENS NA NUVEM (1 doc por foto) =====
+    function uploadImageDoc(imageId, base64) {
+        if (!fbReady || !fbDb) {
+            pendingImageUploads[imageId] = base64;
             return Promise.resolve(false);
         }
+        return fbDb.collection(FB_IMG_COLLECTION).doc(imageId).set({
+            d: base64,
+            updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        }).then(function() {
+            delete pendingImageUploads[imageId];
+            return true;
+        }).catch(function(err) {
+            console.warn('Erro ao enviar imagem ' + imageId + ':', err);
+            pendingImageUploads[imageId] = base64;
+            return false;
+        });
+    }
+
+    function flushPendingImageUploads() {
+        var ids = Object.keys(pendingImageUploads);
+        if (!ids.length) return Promise.resolve();
+        return Promise.all(ids.map(function(id) {
+            return uploadImageDoc(id, pendingImageUploads[id]);
+        }));
+    }
+
+    function deleteImageDoc(imageId) {
+        if (!fbReady || !fbDb) return Promise.resolve();
+        return fbDb.collection(FB_IMG_COLLECTION).doc(imageId).delete().catch(function(){});
+    }
+
+    function loadImagesFromCloud() {
+        if (!fbReady || !fbDb) return Promise.resolve(0);
+        return fbDb.collection(FB_IMG_COLLECTION).get().then(function(snap) {
+            var writes = [];
+            snap.forEach(function(doc) {
+                var d = doc.data();
+                if (d && d.d) {
+                    var key = makeCloudRef(doc.id);
+                    imageCache[key] = d.d;
+                    writes.push(idbPutImage('cloud_' + doc.id, d.d).catch(function(){}));
+                }
+            });
+            return Promise.all(writes).then(function() { return snap.size; });
+        }).catch(function(err) {
+            console.warn('Erro ao carregar imagens:', err);
+            return 0;
+        });
+    }
+
+    function loadImagesFromIDB() {
+        if (!idbSupported) return Promise.resolve(0);
+        return openIDB().then(function(db) {
+            return new Promise(function(res) {
+                var tx = db.transaction(IDB_STORE, 'readonly');
+                var store = tx.objectStore(IDB_STORE);
+                var req = store.openCursor();
+                var count = 0;
+                req.onsuccess = function(e) {
+                    var cur = e.target.result;
+                    if (cur) {
+                        var k = String(cur.key);
+                        if (k.indexOf('cloud_') === 0) {
+                            imageCache['cloud:' + k.slice(6)] = cur.value;
+                            count++;
+                        }
+                        cur.continue();
+                    } else res(count);
+                };
+                req.onerror = function() { res(0); };
+            });
+        }).catch(function() { return 0; });
+    }
+
+    // ===== MIGRAÇÕES =====
+    // Converte data: URLs antigas em documentos cloud + refs curtas
+    function migrateLegacyImages() {
+        if (!config || !Array.isArray(config.products)) return Promise.resolve(false);
+        var tasks = [];
+        var migrated = false;
+
+        config.products.forEach(function(p) {
+            var img = p.image;
+            if (!img || typeof img !== 'string') return;
+            // Placeholder SVG é pequeno, não mexe
+            if (img.indexOf('data:image/svg') === 0) return;
+
+            if (isDataUrl(img)) {
+                // base64 antigo — extrai para doc separado
+                tasks.push((function(prod) {
+                    return compressForCloud(prod.image).then(function(small) {
+                        var imgId = uid('img');
+                        return uploadImageDoc(imgId, small).then(function(ok) {
+                            var ref = makeCloudRef(imgId);
+                            imageCache[ref] = small;
+                            idbPutImage('cloud_' + imgId, small).catch(function(){});
+                            prod.image = ref;
+                            migrated = true;
+                        });
+                    });
+                })(p));
+            } else if (isIdbRef(img)) {
+                // idb:xxx -> ler do idb, subir como cloud
+                var idbKey = getRefKey(img);
+                tasks.push(idbGetImage(idbKey).then(function(dataUrl) {
+                    if (!dataUrl) { p.image = ''; migrated = true; return; }
+                    return compressForCloud(dataUrl).then(function(small) {
+                        var imgId = uid('img');
+                        return uploadImageDoc(imgId, small).then(function() {
+                            var ref = makeCloudRef(imgId);
+                            imageCache[ref] = small;
+                            idbPutImage('cloud_' + imgId, small).catch(function(){});
+                            p.image = ref;
+                            migrated = true;
+                        });
+                    });
+                }).catch(function(){}));
+            }
+        });
+
+        if (!tasks.length) return Promise.resolve(false);
+        return Promise.all(tasks).then(function() {
+            if (migrated) {
+                saveConfigLocal();
+                renderCategories();
+                renderProductEditor();
+            }
+            return migrated;
+        });
+    }
+
+    // ===== PUSH DA CONFIG =====
+    function pushConfigToFirestore() {
+        if (!fbReady || !fbDocRef) return Promise.resolve(false);
+
+        // 1) Sobe config principal
+        var data = deepClone(config);
+
+        // Segurança: se por algum motivo sobrar base64 no config, avisa
+        var leftover = (data.products || []).filter(function(p) { return isDataUrl(p.image); }).length;
+        if (leftover) console.warn('Ainda há ' + leftover + ' imagens base64 no config — devem ser migradas.');
 
         data.updatedAt = firebase.firestore.FieldValue.serverTimestamp();
         setSyncStatus('saving');
+
         return fbDocRef.set(data, { merge: false }).then(function() {
+            // 2) Reenvia imagens pendentes (se houver)
+            return flushPendingImageUploads();
+        }).then(function() {
             setSyncStatus('online');
             return true;
         }).catch(function(err) {
@@ -1432,8 +1491,7 @@
         if (!Array.isArray(merged.categories) || !merged.categories.length)
             merged.categories = deepClone(DEFAULT_CONFIG.categories);
         if (!Array.isArray(merged.products)) merged.products = [];
-        if (!merged.whatsappLink || merged.whatsappLink === WHATSAPP_PLACEHOLDER_OLD ||
-            String(merged.whatsappLink).indexOf('5500000000000') !== -1)
+        if (!merged.whatsappLink || String(merged.whatsappLink).indexOf('5500000000000') !== -1)
             merged.whatsappLink = WHATSAPP_DEFAULT;
         return merged;
     }
@@ -1467,31 +1525,7 @@
         });
     }
 
-    // ===== UPLOAD DE IMAGEM PARA O STORAGE =====
-    function uploadImageToStorage(dataUrl, key) {
-        if (!fbStorage) return Promise.resolve(null);
-        return new Promise(function(resolve) {
-            var done = false;
-            var finish = function(v) { if (done) return; done = true; resolve(v); };
-            setTimeout(function() { finish(null); }, 20000);
-            try {
-                var path = FB_STORAGE_FOLDER + '/produtos/' + key + '_' + Date.now() + '.jpg';
-                var ref = fbStorage.ref().child(path);
-                ref.putString(dataUrl, 'data_url').then(function(snap) {
-                    return snap.ref.getDownloadURL();
-                }).then(function(url) {
-                    finish(url || null);
-                }).catch(function(err) {
-                    console.warn('Upload Storage falhou:', err);
-                    finish(null);
-                });
-            } catch (e) {
-                finish(null);
-            }
-        });
-    }
-
-    // ===== CONFIG (local + nuvem) =====
+    // ===== LOCAL =====
     function loadConfigLocal() {
         var loaded;
         try {
@@ -1502,8 +1536,7 @@
                 if (!Array.isArray(parsed.categories) || !parsed.categories.length)
                     loaded.categories = deepClone(DEFAULT_CONFIG.categories);
                 if (!Array.isArray(parsed.products)) loaded.products = [];
-                if (!loaded.whatsappLink || loaded.whatsappLink === WHATSAPP_PLACEHOLDER_OLD ||
-                    String(loaded.whatsappLink).indexOf('5500000000000') !== -1)
+                if (!loaded.whatsappLink || String(loaded.whatsappLink).indexOf('5500000000000') !== -1)
                     loaded.whatsappLink = WHATSAPP_DEFAULT;
             } else {
                 loaded = deepClone(DEFAULT_CONFIG);
@@ -1595,78 +1628,18 @@
         return list;
     }
 
-    // ===== MIGRAÇÃO DE IMAGENS ANTIGAS (data-url e idb:) =====
-    // Estratégia:
-    //   1) Se for data-url -> comprime para base64 pequeno (vai pro Firestore).
-    //   2) Se for idb: -> lê do IDB local, converte para base64 pequeno.
-    //   3) Opcional: tenta Storage para "upgradar" para URL, mas o base64
-    //      já garante visibilidade em qualquer sessão.
-    function migrateLegacyDataUrls() {
-        if (!config || !Array.isArray(config.products)) return Promise.resolve(false);
-        var tasks = [], migrated = false;
-
-        config.products.forEach(function(p) {
-            var img = p.image;
-            if (!img || typeof img !== 'string') return;
-
-            if (isDataUrl(img)) {
-                // Não vale a pena migrar placeholders SVG nem base64 já pequenos
-                if (img.indexOf('data:image/svg') === 0) return;
-                // Se já é pequeno (< 30KB), deixa como está
-                if (img.length <= 30000) return;
-                tasks.push(compressForCloud(img).then(function(small) {
-                    if (small && small.length < img.length) { p.image = small; migrated = true; }
-                }));
-                return;
-            }
-
-            if (isIdbRef(img)) {
-                var idbKey = getRefKey(img);
-                tasks.push(idbGetImage(idbKey).then(function(dataUrl) {
-                    if (!dataUrl) {
-                        // Sem a imagem no IDB desta máquina — deixa como está
-                        return;
-                    }
-                    return compressForCloud(dataUrl).then(function(small) {
-                        p.image = small;
-                        migrated = true;
-                    });
-                }).catch(function() {}));
-            }
-        });
-
-        if (!tasks.length) return Promise.resolve(false);
-        return Promise.all(tasks).then(function() {
-            if (migrated) {
-                saveConfig();
-                renderCategories();
-                renderProductEditor();
-            }
-            return migrated;
-        });
-    }
-
-    function cleanupOrphanImages() {
-        if (!idbSupported) return;
-        var used = {};
-        (config.products || []).forEach(function(p) { if (isIdbRef(p.image)) used[getRefKey(p.image)] = true; });
-        openIDB().then(function(db) {
-            var tx = db.transaction(IDB_STORE, 'readwrite');
-            var store = tx.objectStore(IDB_STORE);
-            var req = store.openKeyCursor();
-            var del = [];
-            req.onsuccess = function(e) {
-                var cur = e.target.result;
-                if (cur) { if (!used[cur.key]) del.push(cur.key); cur.continue(); }
-                else { del.forEach(function(k) { store.delete(k); }); }
-            };
-        }).catch(function() {});
-    }
-
     function resetConfig() {
         if (!confirm('Tem certeza que deseja restaurar todas as configurações padrão? (isso apaga a configuração atual da nuvem)')) return;
-        idbClear().then(function() {
+        // Apaga imagens antigas da nuvem
+        var idsToDelete = [];
+        (config.products || []).forEach(function(p) {
+            if (isCloudRef(p.image)) idsToDelete.push(getCloudId(p.image));
+        });
+        Promise.all(idsToDelete.map(deleteImageDoc)).then(function() {
+            return idbClear();
+        }).then(function() {
             imageCache = {};
+            pendingImageUploads = {};
             config = deepClone(DEFAULT_CONFIG);
             ensureData();
             saveConfigLocal();
@@ -1682,7 +1655,6 @@
         });
     }
 
-    // ===== TOAST =====
     var _toastEl = null;
     function showToast(msg, type) {
         type = type || 'success';
@@ -1703,7 +1675,6 @@
         }, 2400);
     }
 
-    // ===== APLICAR CONFIG =====
     function applyConfigToUI() {
         var r = document.documentElement.style;
         r.setProperty('--bg-primary', config.bgColor);
@@ -1747,14 +1718,12 @@
         document.getElementById('searchInput').placeholder = 'Buscar em ' + config.storeName + '...';
     }
 
-    // ===== SEARCH INDEX =====
     function rebuildSearchIndex() {
         searchIndex = (config.products || []).map(function(p) {
             return { p: p, nameNorm: norm(p.name), brandNorm: norm(p.brand) };
         });
     }
 
-    // ===== PROMO HELPERS =====
     function isOnPromo(p) {
         if (!p) return false;
         var promo = Number(p.promoPrice) || 0, price = Number(p.price) || 0;
@@ -1778,7 +1747,6 @@
         else badge.classList.remove('visible');
     }
 
-    // ===== RENDER CATEGORIAS =====
     function renderCategories() {
         var container = document.getElementById('categoriesList');
         var frag = document.createDocumentFragment();
@@ -1860,7 +1828,9 @@
         img.setAttribute('data-name', product.name);
         var cached = getRefSync(product.image);
         img.src = cached || svgPlaceholder(product.name);
-        if (isIdbRef(product.image) && !cached) loadRefIntoImg(product.image, img, product.name);
+        if ((isCloudRef(product.image) || isIdbRef(product.image)) && !cached) {
+            loadRefIntoImg(product.image, img, product.name);
+        }
 
         var info = document.createElement('div');
         info.className = 'product-info';
@@ -1883,7 +1853,6 @@
         return item;
     }
 
-    // ===== BUSCA =====
     function highlightMatch(text, query) {
         var safe = esc(text || '');
         if (!query) return safe;
@@ -1917,8 +1886,6 @@
             var aS = aName.indexOf(nQuery) === 0 ? 0 : 1;
             var bS = bName.indexOf(nQuery) === 0 ? 0 : 1;
             if (aS !== bS) return aS - bS;
-            var ai = aName.indexOf(nQuery), bi = bName.indexOf(nQuery);
-            if (ai !== bi) return ai - bi;
             return aName.localeCompare(bName);
         });
 
@@ -1949,7 +1916,9 @@
             img.setAttribute('data-name', product.name);
             var cached = getRefSync(product.image);
             img.src = cached || svgPlaceholder(product.name);
-            if (isIdbRef(product.image) && !cached) loadRefIntoImg(product.image, img, product.name);
+            if ((isCloudRef(product.image) || isIdbRef(product.image)) && !cached) {
+                loadRefIntoImg(product.image, img, product.name);
+            }
 
             var info = document.createElement('div');
             info.className = 'search-result-info';
@@ -1978,7 +1947,6 @@
         closeSearchResults();
     }
 
-    // ===== PRODUTO MODAL =====
     function findProductById(id) {
         if (!id || !Array.isArray(config.products)) return null;
         for (var i = 0; i < config.products.length; i++)
@@ -1993,7 +1961,7 @@
         img.setAttribute('data-name', product.name);
         var cached = getRefSync(product.image);
         img.src = cached || svgPlaceholder(product.name);
-        if (isIdbRef(product.image) && !cached) {
+        if ((isCloudRef(product.image) || isIdbRef(product.image)) && !cached) {
             resolveRef(product.image, product.name).then(function(url) {
                 if (currentProduct === product) img.src = url;
             });
@@ -2054,7 +2022,6 @@
         window.open(base + sep + 'text=' + encodeURIComponent(msg), '_blank');
     }
 
-    // ===== CARRINHO =====
     function loadCart() {
         try {
             var saved = localStorage.getItem(CART_KEY);
@@ -2173,7 +2140,9 @@
             img.setAttribute('data-name', prod.name);
             var cached = getRefSync(prod.image);
             img.src = cached || svgPlaceholder(prod.name);
-            if (isIdbRef(prod.image) && !cached) loadRefIntoImg(prod.image, img, prod.name);
+            if ((isCloudRef(prod.image) || isIdbRef(prod.image)) && !cached) {
+                loadRefIntoImg(prod.image, img, prod.name);
+            }
 
             var info = document.createElement('div');
             info.className = 'cart-item-info';
@@ -2217,7 +2186,6 @@
         footer.style.display = 'flex';
     }
 
-    // ===== CHECKOUT =====
     function openCheckoutModal() {
         if (!cart.length) { showToast('Adicione produtos ao carrinho primeiro.', 'error'); return; }
         document.getElementById('cartOverlay').classList.remove('active');
@@ -2338,7 +2306,6 @@
         }, 600);
     }
 
-    // ===== PROMO MODAL =====
     function openPromoModal() {
         renderPromoModal();
         document.getElementById('promoModalOverlay').classList.add('active');
@@ -2381,7 +2348,9 @@
             img.setAttribute('data-name', product.name);
             var cached = getRefSync(product.image);
             img.src = cached || svgPlaceholder(product.name);
-            if (isIdbRef(product.image) && !cached) loadRefIntoImg(product.image, img, product.name);
+            if ((isCloudRef(product.image) || isIdbRef(product.image)) && !cached) {
+                loadRefIntoImg(product.image, img, product.name);
+            }
 
             var info = document.createElement('div');
             info.className = 'promo-card-info';
@@ -2407,13 +2376,11 @@
         body.appendChild(note);
     }
 
-    // ===== INFO MODALS =====
     function openFreightModal() { document.getElementById('freightModalOverlay').classList.add('active'); document.body.style.overflow = 'hidden'; }
     function closeFreightModal() { document.getElementById('freightModalOverlay').classList.remove('active'); if (!isAnyModalOpen()) document.body.style.overflow = ''; }
     function openRulesModal() { document.getElementById('rulesModalOverlay').classList.add('active'); document.body.style.overflow = 'hidden'; }
     function closeRulesModal() { document.getElementById('rulesModalOverlay').classList.remove('active'); if (!isAnyModalOpen()) document.body.style.overflow = ''; }
 
-    // ===== SENHA =====
     function openPasswordModal() {
         var overlay = document.getElementById('passwordOverlay');
         document.getElementById('passwordInput').value = '';
@@ -2443,7 +2410,6 @@
         }
     }
 
-    // ===== PAINEL =====
     function openConfigPanel() {
         configPanelOpen = true;
         document.getElementById('configPanel').classList.add('active');
@@ -2533,9 +2499,16 @@
         card.className = 'product-editor-card' + (onPromo ? ' on-promo' : '');
         card.dataset.productId = product.id;
 
+        var isCloud = isCloudRef(product.image);
+        var isData = isDataUrl(product.image);
         var isIdb = isIdbRef(product.image);
-        var isData = !isIdb && isDataUrl(product.image);
-        var urlValue = (!isIdb && !isData) ? (product.image || '') : '';
+        var urlValue = (!isCloud && !isData && !isIdb) ? (product.image || '') : '';
+
+        var placeholderText;
+        if (isCloud) placeholderText = '📷 Foto na nuvem (referência)';
+        else if (isData) placeholderText = '📷 Foto (base64 antiga - será migrada)';
+        else if (isIdb) placeholderText = '📷 Foto local (será migrada)';
+        else placeholderText = 'URL da imagem';
 
         card.innerHTML =
             '<div class="pec-header">' +
@@ -2553,7 +2526,7 @@
                 '<input type="number" step="0.01" min="0" class="pec-promo-input" placeholder="Preço promocional (R$)" value="' + (Number(product.promoPrice) || 0) + '">' +
             '</div>' +
             '<div class="pec-row pec-image-row">' +
-                '<input type="text" class="pec-image" placeholder="' + (isIdb || isData ? '📷 Foto enviada (na nuvem)' : 'URL da imagem') + '" value="' + esc(urlValue) + '">' +
+                '<input type="text" class="pec-image" placeholder="' + esc(placeholderText) + '" value="' + esc(urlValue) + '">' +
                 '<button type="button" class="pec-upload-btn" title="Enviar imagem">📷 Upload</button>' +
             '</div>';
 
@@ -2561,7 +2534,7 @@
         thumbImg.setAttribute('data-name', 'Sem foto');
         var cached = getRefSync(product.image);
         thumbImg.src = cached || svgPlaceholder('Sem foto');
-        if (isIdbRef(product.image) && !cached) loadRefIntoImg(product.image, thumbImg, 'Sem foto');
+        if ((isCloud || isIdb) && !cached) loadRefIntoImg(product.image, thumbImg, 'Sem foto');
 
         card.addEventListener('input', function(e) {
             var t = e.target;
@@ -2719,59 +2692,51 @@
         };
     }
 
-    // Faz o save APÓS resolver qualquer imagem idb: pendente para base64.
     function saveAndApply() {
         var newConfig = collectConfigFromPanel();
 
-        // Bloqueia salvar se algum produto ainda tem referência local (idb:)
-        var unresolved = newConfig.products.filter(function(p) { return isIdbRef(p.image); });
-        if (unresolved.length) {
-            showToast('⏳ Convertendo ' + unresolved.length + ' foto(s)…', 'info');
-            // Converte cada uma para base64 (a partir do IDB local)
-            var jobs = unresolved.map(function(p) {
-                var idbKey = getRefKey(p.image);
-                return idbGetImage(idbKey).then(function(dataUrl) {
-                    if (!dataUrl) {
-                        // Sem a imagem localmente — deixa string vazia para não quebrar
-                        var t = newConfig.products.find(function(x) { return x.id === p.id; });
-                        if (t) t.image = '';
-                        return;
-                    }
-                    return compressForCloud(dataUrl).then(function(small) {
-                        var t = newConfig.products.find(function(x) { return x.id === p.id; });
-                        if (t) t.image = small;
+        // Se ainda tem imagens antigas (base64/idb) pendentes de migração, migra primeiro
+        var legacy = newConfig.products.filter(function(p) {
+            return isDataUrl(p.image) || isIdbRef(p.image);
+        });
+
+        if (legacy.length) {
+            showToast('⏳ Migrando ' + legacy.length + ' foto(s) para a nuvem…', 'info');
+            var jobs = legacy.map(function(p) {
+                var src = p.image;
+                if (isIdbRef(src)) {
+                    return idbGetImage(getRefKey(src)).then(function(dataUrl) {
+                        if (!dataUrl) return null;
+                        return compressForCloud(dataUrl);
                     });
-                }).catch(function() {
-                    var t = newConfig.products.find(function(x) { return x.id === p.id; });
-                    if (t) t.image = '';
-                });
+                } else {
+                    return compressForCloud(src);
+                }
             });
-            Promise.all(jobs).then(function() {
-                // Reenvia o save com as imagens convertidas
-                var prev = config;
-                config = newConfig;
-                saveConfigLocal();
-                rebuildSearchIndex();
-                applyConfigToUI();
-                renderCategories();
-                updatePromoBadge();
-                syncConfigPanel();
-                setSyncStatus('saving');
-                pushConfigToFirestore().then(function(ok) {
-                    showToast(ok ? '☁️ Fotos e config salvas na nuvem!' : '⚠️ Salvo apenas localmente.', ok ? 'success' : 'error');
+
+            Promise.all(jobs).then(function(compressedList) {
+                var uploadJobs = [];
+                legacy.forEach(function(p, idx) {
+                    var small = compressedList[idx];
+                    if (!small) return;
+                    var imgId = uid('img');
+                    imageCache[makeCloudRef(imgId)] = small;
+                    idbPutImage('cloud_' + imgId, small).catch(function(){});
+                    p.image = makeCloudRef(imgId);
+                    uploadJobs.push(uploadImageDoc(imgId, small));
                 });
+                return Promise.all(uploadJobs);
+            }).then(function() {
+                // Segue com o save normal
+                finalizeSave(newConfig);
             });
             return;
         }
 
-        // Aviso se config ficar muito grande
-        var approxSize = 0;
-        try { approxSize = JSON.stringify(newConfig).length; } catch (e) {}
-        if (approxSize > FIRESTORE_DOC_SAFE_LIMIT) {
-            showToast('⚠️ Config muito grande (' + Math.round(approxSize/1024) + 'KB). Reduza fotos.', 'error');
-            return;
-        }
+        finalizeSave(newConfig);
+    }
 
+    function finalizeSave(newConfig) {
         var prev = config;
         config = newConfig;
         if (!saveConfigLocal()) { config = prev; return; }
@@ -2784,62 +2749,40 @@
         pushConfigToFirestore().then(function(ok) {
             showToast(ok ? '☁️ Configurações salvas na nuvem!' : '⚠️ Salvo apenas localmente (sem conexão).', ok ? 'success' : 'error');
         });
-        setTimeout(cleanupOrphanImages, 400);
     }
 
-    // ===== UPLOAD DE FOTO DO PRODUTO =====
-    // Fluxo (100% confiável):
-    //   1) Comprime e gera base64 pequeno (garantido para caber no Firestore).
-    //   2) Já grava o base64 no editor de produto — ao clicar Salvar, vai pra nuvem.
-    //   3) Em paralelo tenta o Storage; se a URL carregar de verdade, troca para URL
-    //      (economiza espaço no Firestore). Se não carregar, mantém o base64.
+    // ===== UPLOAD DE FOTO =====
+    // Comprime e envia como documento próprio na coleção de imagens.
+    // Guarda também em cache local (memória + IndexedDB).
     function handleFileUpload(file) {
         if (!file) return;
         showToast('⏳ Processando imagem…', 'info');
         compressImage(file).then(function(dataUrl) {
-            return compressForCloud(dataUrl).then(function(base64Small) {
-                if (uploadingProductId) {
-                    var prod = productEditorState.find(function(p) { return p.id === uploadingProductId; });
-                    if (!prod) { uploadingProductId = null; return; }
-                    var targetId = uploadingProductId;
-                    uploadingProductId = null;
+            return compressForCloud(dataUrl);
+        }).then(function(base64) {
+            var imgId = uid('img');
+            var ref = makeCloudRef(imgId);
+            imageCache[ref] = base64;
+            idbPutImage('cloud_' + imgId, base64).catch(function(){});
 
-                    // Grava base64 imediatamente (vai para a nuvem no próximo Save)
-                    prod.image = base64Small;
-                    renderProductEditor();
-                    showToast('📷 Foto pronta! Clique em "💾 Salvar na Nuvem".', 'success');
-
-                    // Tenta upgrade para URL do Storage em background
-                    uploadImageToStorage(dataUrl, targetId).then(function(url) {
-                        if (!url) return;
-                        // Só troca se a URL realmente carregar
-                        verifyImageUrl(url).then(function(ok) {
-                            if (!ok) return;
-                            var p2 = productEditorState.find(function(p) { return p.id === targetId; });
-                            if (p2 && p2.image === base64Small) {
-                                p2.image = url;
-                                renderProductEditor();
-                                showToast('📷 Foto otimizada (URL)! Clique em Salvar.', 'success');
-                            }
-                        });
-                    });
-                } else {
-                    // Logo
-                    document.getElementById('cfgLogoUrl').value = base64Small;
-                    document.getElementById('cfgLogoPreviewImg').src = base64Small;
-                    showToast('Logo pronta! Clique em "💾 Salvar na Nuvem".', 'success');
-
-                    uploadImageToStorage(dataUrl, 'logo').then(function(url) {
-                        if (!url) return;
-                        verifyImageUrl(url).then(function(ok) {
-                            if (!ok) return;
-                            document.getElementById('cfgLogoUrl').value = url;
-                            document.getElementById('cfgLogoPreviewImg').src = url;
-                            showToast('Logo otimizada (URL)! Clique em Salvar.', 'success');
-                        });
-                    });
-                }
+            // Envia para a nuvem (não precisa aguardar para atualizar a UI)
+            uploadImageDoc(imgId, base64).then(function(ok) {
+                if (!ok) console.warn('Imagem ficou pendente (reenviada no próximo save):', imgId);
             });
+
+            if (uploadingProductId) {
+                var prod = productEditorState.find(function(p) { return p.id === uploadingProductId; });
+                uploadingProductId = null;
+                if (prod) {
+                    prod.image = ref;
+                    renderProductEditor();
+                    showToast('📷 Foto anexada! Clique em "💾 Salvar na Nuvem".', 'success');
+                }
+            } else {
+                document.getElementById('cfgLogoUrl').value = ref;
+                document.getElementById('cfgLogoPreviewImg').src = base64;
+                showToast('Logo anexada! Clique em "💾 Salvar na Nuvem".', 'success');
+            }
         }).catch(function(err) {
             uploadingProductId = null;
             console.error('Erro imagem:', err);
@@ -2847,7 +2790,6 @@
         });
     }
 
-    // ===== EVENT LISTENERS =====
     function setupEventListeners() {
         document.getElementById('configToggleBtn').addEventListener('click', function() {
             if (configPanelOpen) closeConfigPanel(); else openPasswordModal();
@@ -2887,7 +2829,6 @@
             if (list) requestAnimationFrame(function() { list.scrollTop = list.scrollHeight; });
         });
 
-        // Editor de categorias — delegação
         document.getElementById('categoryEditorContainer').addEventListener('input', function(e) {
             var t = e.target;
             var idx = parseInt(t.dataset.index, 10);
@@ -2911,7 +2852,6 @@
             renderProductEditor();
         });
 
-        // Categorias — delegação
         document.getElementById('categoriesList').addEventListener('click', function(e) {
             var h = e.target.closest('.category-card-header');
             if (h) {
@@ -2934,7 +2874,6 @@
             }
         });
 
-        // Busca — delegação
         document.getElementById('searchResultsList').addEventListener('click', function(e) {
             var item = e.target.closest('.search-result-item');
             if (!item) return;
@@ -2942,7 +2881,6 @@
             if (prod) { closeSearchResults(); openProductModal(prod); }
         });
 
-        // Carrinho — delegação
         document.getElementById('cartModalBody').addEventListener('click', function(e) {
             var btn = e.target.closest('.cart-qty-btn, .cart-item-remove');
             if (!btn) return;
@@ -2956,7 +2894,6 @@
             }
         });
 
-        // Promoções — delegação
         document.getElementById('promoModalBody').addEventListener('click', function(e) {
             var card = e.target.closest('.promo-card');
             if (!card) return;
@@ -2964,7 +2901,6 @@
             if (prod) { closePromoModal(); openProductModal(prod); }
         });
 
-        // Produto modal
         document.getElementById('productModalClose').addEventListener('click', closeProductModal);
         document.getElementById('productOverlay').addEventListener('click', function(e) { if (e.target === this) closeProductModal(); });
         document.getElementById('pmBuyBtn').addEventListener('click', buyCurrentProduct);
@@ -2974,12 +2910,10 @@
             closeProductModal();
         });
 
-        // Promo button
         document.getElementById('promoButton').addEventListener('click', openPromoModal);
         document.getElementById('promoModalClose').addEventListener('click', closePromoModal);
         document.getElementById('promoModalOverlay').addEventListener('click', function(e) { if (e.target === this) closePromoModal(); });
 
-        // Fretes / Regras
         document.getElementById('freightBtn').addEventListener('click', openFreightModal);
         document.getElementById('freightModalClose').addEventListener('click', closeFreightModal);
         document.getElementById('freightModalOverlay').addEventListener('click', function(e) { if (e.target === this) closeFreightModal(); });
@@ -2987,19 +2921,16 @@
         document.getElementById('rulesModalClose').addEventListener('click', closeRulesModal);
         document.getElementById('rulesModalOverlay').addEventListener('click', function(e) { if (e.target === this) closeRulesModal(); });
 
-        // Cart
         document.getElementById('cartBtn').addEventListener('click', openCartModal);
         document.getElementById('cartModalClose').addEventListener('click', closeCartModal);
         document.getElementById('cartOverlay').addEventListener('click', function(e) { if (e.target === this) closeCartModal(); });
         document.getElementById('cartClearBtn').addEventListener('click', clearCart);
         document.getElementById('cartCheckoutBtn').addEventListener('click', openCheckoutModal);
 
-        // Checkout
         document.getElementById('checkoutModalClose').addEventListener('click', closeCheckoutModal);
         document.getElementById('checkoutOverlay').addEventListener('click', function(e) { if (e.target === this) closeCheckoutModal(); });
         document.getElementById('checkoutSubmitBtn').addEventListener('click', submitOrder);
 
-        // CEP mask
         document.getElementById('coCep').addEventListener('input', function(e) {
             e.target.value = maskCEP(e.target.value);
             e.target.classList.remove('invalid');
@@ -3012,7 +2943,6 @@
             updateCheckoutFreight();
         });
 
-        // Busca
         var searchInput = document.getElementById('searchInput');
         var searchClearBtn = document.getElementById('searchClearBtn');
         var searchWrapper = document.getElementById('searchWrapper');
@@ -3031,7 +2961,6 @@
             if (!searchWrapper.contains(e.target)) closeSearchResults();
         });
 
-        // ESC
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
                 if (document.getElementById('checkoutOverlay').classList.contains('active')) { closeCheckoutModal(); return; }
@@ -3052,7 +2981,6 @@
             }
         });
 
-        // Demais
         document.getElementById('notifBtn').addEventListener('click', function() {
             showToast('🔔 Você tem ' + config.notifText + '!', 'success');
         });
@@ -3061,7 +2989,7 @@
         });
         document.getElementById('cfgLogoPreview').addEventListener('click', function() {
             var url = document.getElementById('cfgLogoUrl').value.trim();
-            if (url) window.open(url, '_blank');
+            if (url && isHttpUrl(url)) window.open(url, '_blank');
         });
         document.getElementById('cfgLogoUrl').addEventListener('input', function(e) {
             document.getElementById('cfgLogoPreviewImg').src = e.target.value;
@@ -3073,7 +3001,6 @@
         });
     }
 
-    // ===== INIT =====
     function init() {
         config = loadConfigLocal();
         ensureData();
@@ -3088,6 +3015,16 @@
 
         setSyncStatus('connecting');
 
+        // 1) Carrega imagens do IndexedDB (rápido, offline)
+        loadImagesFromIDB().then(function(count) {
+            if (count > 0) {
+                // Re-renderiza para mostrar imagens já disponíveis
+                renderCategories();
+                renderProductEditor();
+            }
+        });
+
+        // 2) Firebase
         if (initFirebase()) {
             fbDocRef.get().then(function(snap) {
                 if (snap.exists) {
@@ -3106,14 +3043,19 @@
                     suppressPush = false;
                     setSyncStatus('online');
 
-                    // Migra imagens antigas (data-url / idb:) para base64 pequeno
-                    if (idbSupported) {
-                        openIDB().then(function() {
-                            migrateLegacyDataUrls();
-                        }).catch(function() { migrateLegacyDataUrls(); });
-                    } else {
-                        migrateLegacyDataUrls();
-                    }
+                    // Carrega imagens da nuvem e migra o que for legado
+                    loadImagesFromCloud().then(function(n) {
+                        if (n > 0) {
+                            renderCategories();
+                            renderProductEditor();
+                        }
+                        migrateLegacyImages().then(function(migrated) {
+                            if (migrated) {
+                                pushConfigToFirestore();
+                                showToast('📷 Fotos migradas para a nuvem!', 'success');
+                            }
+                        });
+                    });
                 } else {
                     pushConfigToFirestore().then(function(ok) {
                         if (ok) showToast('☁️ Loja criada na nuvem!', 'success');
@@ -3137,6 +3079,7 @@
     window.respectPharma = {
         getConfig: function() { return config; },
         getCart: function() { return cart; },
+        getImageCache: function() { return imageCache; },
         saveConfig: saveConfig,
         saveAndApply: saveAndApply,
         resetConfig: resetConfig,
@@ -3151,6 +3094,7 @@
         performSearch: performSearch,
         getPromoProducts: getPromoProducts,
         pushToCloud: pushConfigToFirestore,
+        flushPendingImages: flushPendingImageUploads,
         showToast: showToast
     };
 })();
