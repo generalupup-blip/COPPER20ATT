@@ -2,13 +2,23 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Respect Pharma - Painel Configurável</title>
     <meta name="description" content="As melhores marcas do mundo você encontra aqui.">
     <meta property="og:title" content="Respect Pharma">
     <meta property="og:description" content="As melhores marcas do mundo você encontra aqui.">
     <meta property="og:site_name" content="Respect Pharma">
     <meta name="theme-color" content="#09090b">
+
+    <!-- ===== PWA ===== -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Respect Pharma">
+    <link rel="apple-touch-icon" href="lobao.jpg">
+    <link rel="icon" type="image/jpeg" href="lobao.jpg">
+
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         :root{
@@ -79,6 +89,22 @@
         .hero-banner-inner{position:relative;padding:16px 16px 12px;display:flex;flex-direction:column;align-items:center;gap:8px}
         .hero-logo{height:60px;width:auto;max-width:100%;object-fit:contain;border-radius:8px}
         .hero-tagline{font-size:12px;color:var(--text-secondary);font-weight:500;text-align:center;letter-spacing:-.01em}
+
+        /* ===== CARD DO REPRESENTANTE ===== */
+        .rep-card{position:relative;display:flex;align-items:center;gap:12px;padding:12px 14px;margin-bottom:12px;border-radius:var(--radius);border:1px solid var(--border-color);background:var(--bg-card);overflow:hidden;transition:all var(--transition)}
+        .rep-card::before{content:'';position:absolute;inset:0;background:radial-gradient(at left center,rgba(49,200,255,.08),transparent 70%);pointer-events:none}
+        .rep-card::after{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(to right,transparent,rgba(49,200,255,.45),transparent);pointer-events:none}
+        .rep-photo{width:56px;height:56px;border-radius:50%;object-fit:cover;flex-shrink:0;border:2px solid var(--border-color-strong);background:rgba(0,0,0,.35);position:relative;z-index:2;box-shadow:0 0 18px rgba(49,200,255,.25)}
+        .rep-info{flex:1;min-width:0;position:relative;z-index:2;display:flex;flex-direction:column;gap:2px}
+        .rep-label{font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted)}
+        .rep-name{font-size:15px;font-weight:800;color:var(--text-primary);letter-spacing:-.01em;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+        .download-app-btn{display:inline-flex;align-items:center;gap:6px;padding:9px 13px;border-radius:var(--radius-sm);background:linear-gradient(135deg,var(--accent),#1da0d6);color:var(--bg-primary);font-size:11.5px;font-weight:800;letter-spacing:-.01em;text-decoration:none;white-space:nowrap;flex-shrink:0;position:relative;z-index:2;box-shadow:0 4px 14px rgba(49,200,255,.35);transition:all var(--transition);font-family:var(--font);border:none;cursor:pointer;-webkit-tap-highlight-color:transparent}
+        .download-app-btn:hover{transform:translateY(-1px);box-shadow:0 8px 22px rgba(49,200,255,.55)}
+        .download-app-btn:active{transform:scale(.96)}
+        .download-app-btn svg{width:14px;height:14px;flex-shrink:0}
+        .download-app-btn.installed{background:linear-gradient(135deg,#22c55e,#15803d);box-shadow:0 4px 14px rgba(34,197,94,.35);cursor:default}
+        .download-app-btn.installed:hover{transform:none;box-shadow:0 4px 14px rgba(34,197,94,.35)}
+        /* ===== FIM CARD DO REPRESENTANTE ===== */
 
         .promo-button{width:100%;margin-bottom:12px;position:relative;overflow:hidden;display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:var(--radius);transition:all var(--transition);cursor:pointer;border:2px solid var(--border-color-strong);background:var(--bg-card);font-family:var(--font);text-align:left}
         .promo-button::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(239,68,68,.05),rgba(245,158,11,.05));pointer-events:none}
@@ -440,6 +466,10 @@
             .promo-card-thumb{width:58px;height:58px}
             .promo-card-new{font-size:16px}
             .cart-item-thumb{width:50px;height:50px}
+            .rep-photo{width:46px;height:46px}
+            .rep-name{font-size:13.5px}
+            .download-app-btn{padding:8px 10px;font-size:10.5px}
+            .download-app-btn svg{width:12px;height:12px}
         }
     </style>
 </head>
@@ -493,6 +523,35 @@
                 <p class="hero-tagline" id="heroTagline">As melhores marcas do mundo você encontra aqui.</p>
             </div>
         </div>
+
+        <!-- ===== CARD DO REPRESENTANTE + BOTÃO INSTALAR APP ===== -->
+        <div class="rep-card" id="repCard">
+            <img
+                class="rep-photo"
+                id="repPhoto"
+                alt="Representante David"
+                data-name="David"
+                src="lobao.jpg"
+            >
+            <div class="rep-info">
+                <span class="rep-label">REPRESENTANTE</span>
+                <span class="rep-name">DAVID</span>
+            </div>
+            <button
+                class="download-app-btn"
+                id="downloadAppBtn"
+                type="button"
+                aria-label="Instalar aplicativo"
+            >
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                    <polyline points="7 10 12 15 17 10"/>
+                    <line x1="12" y1="15" x2="12" y2="3"/>
+                </svg>
+                <span id="downloadAppLabel">Download do App</span>
+            </button>
+        </div>
+        <!-- ===== FIM CARD DO REPRESENTANTE ===== -->
 
         <button class="promo-button" id="promoButton" type="button">
             <span class="promo-count-badge" id="promoCountBadge">0</span>
@@ -950,6 +1009,76 @@
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 
 <script>
+/* ========== SERVICE WORKER (PWA) ========== */
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+        navigator.serviceWorker.register('sw.js').then(function(reg) {
+            console.log('✅ Service Worker registrado:', reg.scope);
+        }).catch(function(err) {
+            console.warn('⚠️ Falha ao registrar SW:', err);
+        });
+    });
+}
+
+/* ========== INSTALL PROMPT (PWA) ========== */
+(function() {
+    var deferredPrompt = null;
+    var btn = document.getElementById('downloadAppBtn');
+    var label = document.getElementById('downloadAppLabel');
+
+    // Detecta se já está rodando como app instalado
+    function isStandalone() {
+        return window.matchMedia('(display-mode: standalone)').matches ||
+               window.navigator.standalone === true ||
+               document.referrer.indexOf('android-app://') === 0;
+    }
+
+    if (isStandalone()) {
+        btn.classList.add('installed');
+        label.textContent = 'App Instalado';
+        btn.disabled = true;
+    }
+
+    window.addEventListener('beforeinstallprompt', function(e) {
+        e.preventDefault();
+        deferredPrompt = e;
+        console.log('📲 PWA pronto para instalar');
+    });
+
+    window.addEventListener('appinstalled', function() {
+        deferredPrompt = null;
+        btn.classList.add('installed');
+        label.textContent = 'App Instalado';
+        btn.disabled = true;
+        if (typeof showToast === 'function') showToast('✅ App instalado com sucesso!', 'success');
+    });
+
+    btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        if (isStandalone()) return;
+
+        if (deferredPrompt) {
+            deferredPrompt.prompt();
+            deferredPrompt.userChoice.then(function(choice) {
+                if (choice.outcome === 'accepted') {
+                    console.log('✅ Usuário aceitou instalar');
+                } else {
+                    console.log('❌ Usuário recusou instalar');
+                }
+                deferredPrompt = null;
+            });
+        } else {
+            // Fallback: instruções manuais
+            var msg = '📱 Para instalar o app:\n\n' +
+                      '• Android (Chrome): toque nos 3 pontinhos → "Instalar aplicativo"\n' +
+                      '• iPhone (Safari): toque em Compartilhar → "Adicionar à Tela de Início"\n' +
+                      '• PC (Chrome/Edge): clique no ícone ⊕ na barra de endereço';
+            alert(msg);
+        }
+    });
+})();
+
+/* ========== APP PRINCIPAL ========== */
 (function() {
     'use strict';
 
@@ -960,18 +1089,16 @@
     var IDB_NAME = 'respectPharmaImages';
     var IDB_STORE = 'images';
 
-    // Cada imagem vira um documento próprio na coleção -> cabe ilimitadas fotos
     var FB_COLLECTION = 'respectPharma';
     var FB_DOC_ID = 'store';
     var FB_IMG_COLLECTION = 'respectPharma_images';
 
-    // Cada foto fica com ~500KB base64 (bem abaixo do limite de 1MB/doc do Firestore)
     var IMG_MAX_SIZE = 900;
     var IMG_QUALITY = 0.85;
     var CLOUD_IMG_MAX_SIZE = 900;
     var CLOUD_IMG_START_QUALITY = 0.85;
-    var CLOUD_IMG_TARGET_BYTES = 550000;   // alvo
-    var CLOUD_IMG_HARD_LIMIT = 750000;     // limite duro (base64)
+    var CLOUD_IMG_TARGET_BYTES = 550000;
+    var CLOUD_IMG_HARD_LIMIT = 750000;
 
     var FREIGHT_TABLE = {
         'SP':55,'RJ':65,'MG':65,'SC':65,'RS':65,'PR':65,'ES':65,'DF':70,'GO':70,
@@ -1028,7 +1155,6 @@
     var uploadingProductId = null;
     var currentProduct = null;
 
-    // imageCache: 'cloud:ID' -> base64; URL http -> URL
     var imageCache = {};
     var idbSupported = ('indexedDB' in window);
     var idbPromise = null;
@@ -1038,10 +1164,8 @@
     var cartSaveTimer = null;
     var suppressPush = false;
 
-    // Fila de imagens pendentes para retry
     var pendingImageUploads = {};
 
-    // Firebase
     var fbApp = null, fbDb = null, fbDocRef = null;
     var fbReady = false;
     var unsubscribeSnapshot = null;
@@ -1097,7 +1221,6 @@
         }
     }, true);
 
-    // ===== INDEXEDDB =====
     function openIDB() {
         if (!idbSupported) return Promise.reject(new Error('IDB indisponível'));
         if (idbPromise) return idbPromise;
@@ -1148,7 +1271,7 @@
     function isHttpUrl(ref) { return typeof ref === 'string' && (ref.indexOf('http://') === 0 || ref.indexOf('https://') === 0); }
     function getCloudId(ref) { return ref.slice(6); }
     function makeCloudRef(id) { return 'cloud:' + id; }
-    function getRefKey(ref) { return ref.slice(4); } // idb:
+    function getRefKey(ref) { return ref.slice(4); }
 
     function getRefSync(ref) {
         if (!ref) return '';
@@ -1196,7 +1319,6 @@
         return Promise.resolve(ref);
     }
 
-    // ===== COMPRESSÃO =====
     function compressImage(file) {
         return new Promise(function(resolve, reject) {
             var reader = new FileReader();
@@ -1229,7 +1351,6 @@
         });
     }
 
-    // Garante que o base64 caiba com folga em 1 doc (limite 1MB)
     function compressForCloud(dataUrl) {
         return new Promise(function(resolve) {
             var tryOnce = function(size, quality, attempt) {
@@ -1249,12 +1370,10 @@
                         ctx.drawImage(img, 0, 0, w, h);
                         var out = cv.toDataURL('image/jpeg', quality);
 
-                        // Ainda grande? Tenta reduzir mais (até 8 iterações)
                         if (out.length > CLOUD_IMG_TARGET_BYTES && attempt < 8 && size > 320) {
                             tryOnce(Math.round(size * 0.85), Math.max(0.5, quality - 0.05), attempt + 1);
                             return;
                         }
-                        // Ainda acima do limite duro? Reduz bastante
                         if (out.length > CLOUD_IMG_HARD_LIMIT && attempt < 10 && size > 200) {
                             tryOnce(Math.round(size * 0.7), 0.7, attempt + 1);
                             return;
@@ -1269,7 +1388,6 @@
         });
     }
 
-    // ===== FIREBASE =====
     var FIREBASE_CONFIG = {
         apiKey: "AIzaSyARMSy0hNXvnV4djiNeixeymO7F4s3g54U",
         authDomain: "coper20-826cf.firebaseapp.com",
@@ -1326,7 +1444,6 @@
         try { return JSON.parse(JSON.stringify(obj)); } catch (e) { return obj; }
     }
 
-    // ===== IMAGENS NA NUVEM (1 doc por foto) =====
     function uploadImageDoc(imageId, base64) {
         if (!fbReady || !fbDb) {
             pendingImageUploads[imageId] = base64;
@@ -1401,8 +1518,6 @@
         }).catch(function() { return 0; });
     }
 
-    // ===== MIGRAÇÕES =====
-    // Converte data: URLs antigas em documentos cloud + refs curtas
     function migrateLegacyImages() {
         if (!config || !Array.isArray(config.products)) return Promise.resolve(false);
         var tasks = [];
@@ -1411,11 +1526,9 @@
         config.products.forEach(function(p) {
             var img = p.image;
             if (!img || typeof img !== 'string') return;
-            // Placeholder SVG é pequeno, não mexe
             if (img.indexOf('data:image/svg') === 0) return;
 
             if (isDataUrl(img)) {
-                // base64 antigo — extrai para doc separado
                 tasks.push((function(prod) {
                     return compressForCloud(prod.image).then(function(small) {
                         var imgId = uid('img');
@@ -1429,7 +1542,6 @@
                     });
                 })(p));
             } else if (isIdbRef(img)) {
-                // idb:xxx -> ler do idb, subir como cloud
                 var idbKey = getRefKey(img);
                 tasks.push(idbGetImage(idbKey).then(function(dataUrl) {
                     if (!dataUrl) { p.image = ''; migrated = true; return; }
@@ -1458,14 +1570,11 @@
         });
     }
 
-    // ===== PUSH DA CONFIG =====
     function pushConfigToFirestore() {
         if (!fbReady || !fbDocRef) return Promise.resolve(false);
 
-        // 1) Sobe config principal
         var data = deepClone(config);
 
-        // Segurança: se por algum motivo sobrar base64 no config, avisa
         var leftover = (data.products || []).filter(function(p) { return isDataUrl(p.image); }).length;
         if (leftover) console.warn('Ainda há ' + leftover + ' imagens base64 no config — devem ser migradas.');
 
@@ -1473,7 +1582,6 @@
         setSyncStatus('saving');
 
         return fbDocRef.set(data, { merge: false }).then(function() {
-            // 2) Reenvia imagens pendentes (se houver)
             return flushPendingImageUploads();
         }).then(function() {
             setSyncStatus('online');
@@ -1525,7 +1633,6 @@
         });
     }
 
-    // ===== LOCAL =====
     function loadConfigLocal() {
         var loaded;
         try {
@@ -1630,7 +1737,6 @@
 
     function resetConfig() {
         if (!confirm('Tem certeza que deseja restaurar todas as configurações padrão? (isso apaga a configuração atual da nuvem)')) return;
-        // Apaga imagens antigas da nuvem
         var idsToDelete = [];
         (config.products || []).forEach(function(p) {
             if (isCloudRef(p.image)) idsToDelete.push(getCloudId(p.image));
@@ -2695,7 +2801,6 @@
     function saveAndApply() {
         var newConfig = collectConfigFromPanel();
 
-        // Se ainda tem imagens antigas (base64/idb) pendentes de migração, migra primeiro
         var legacy = newConfig.products.filter(function(p) {
             return isDataUrl(p.image) || isIdbRef(p.image);
         });
@@ -2727,7 +2832,6 @@
                 });
                 return Promise.all(uploadJobs);
             }).then(function() {
-                // Segue com o save normal
                 finalizeSave(newConfig);
             });
             return;
@@ -2751,9 +2855,6 @@
         });
     }
 
-    // ===== UPLOAD DE FOTO =====
-    // Comprime e envia como documento próprio na coleção de imagens.
-    // Guarda também em cache local (memória + IndexedDB).
     function handleFileUpload(file) {
         if (!file) return;
         showToast('⏳ Processando imagem…', 'info');
@@ -2765,7 +2866,6 @@
             imageCache[ref] = base64;
             idbPutImage('cloud_' + imgId, base64).catch(function(){});
 
-            // Envia para a nuvem (não precisa aguardar para atualizar a UI)
             uploadImageDoc(imgId, base64).then(function(ok) {
                 if (!ok) console.warn('Imagem ficou pendente (reenviada no próximo save):', imgId);
             });
@@ -3015,16 +3115,13 @@
 
         setSyncStatus('connecting');
 
-        // 1) Carrega imagens do IndexedDB (rápido, offline)
         loadImagesFromIDB().then(function(count) {
             if (count > 0) {
-                // Re-renderiza para mostrar imagens já disponíveis
                 renderCategories();
                 renderProductEditor();
             }
         });
 
-        // 2) Firebase
         if (initFirebase()) {
             fbDocRef.get().then(function(snap) {
                 if (snap.exists) {
@@ -3043,7 +3140,6 @@
                     suppressPush = false;
                     setSyncStatus('online');
 
-                    // Carrega imagens da nuvem e migra o que for legado
                     loadImagesFromCloud().then(function(n) {
                         if (n > 0) {
                             renderCategories();
@@ -3071,7 +3167,7 @@
             setSyncStatus('offline');
         }
 
-        console.log('✅ Respect Pharma carregado.');
+        console.log('✅ Respect Pharma PWA carregado.');
     }
 
     init();
