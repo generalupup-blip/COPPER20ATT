@@ -1,0 +1,32 @@
+{
+  "name": "Respect Pharma",
+  "short_name": "Respect",
+  "description": "As melhores marcas do mundo você encontra aqui.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#02050b",
+  "theme_color": "#02050b",
+  "lang": "pt-BR",
+  "icons": [
+    {
+      "src": "lobao.jpg",
+      "sizes": "192x192",
+      "type": "image/jpeg",
+      "purpose": "any"
+    },
+    {
+      "src": "lobao.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "any"
+    },
+    {
+      "src": "lobao.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "maskable"
+    }
+  ]
+}
