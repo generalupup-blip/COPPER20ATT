@@ -10,7 +10,6 @@
     <meta property="og:site_name" content="Respect Pharma">
     <meta name="theme-color" content="#09090b">
 
-    <!-- ===== PWA ===== -->
     <link rel="manifest" href="manifest.json">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -27,6 +26,7 @@
             --accent:#31c8ff;--accent-glow:rgba(49,200,255,.15);--accent-soft:rgba(49,200,255,.1);
             --text-primary:#eaf8ff;--text-secondary:#8fb4d6;--text-muted:#6b8ca8;
             --whatsapp:#25d366;--telegram:#29b6f6;--yellow:#f59e0b;
+            --gold:#d4af37;--gold-light:#f5d76e;
             --radius:12px;--radius-sm:8px;--radius-lg:16px;
             --font:'Inter',sans-serif;--transition:.25s cubic-bezier(.4,0,.2,1);
         }
@@ -90,7 +90,6 @@
         .hero-logo{height:60px;width:auto;max-width:100%;object-fit:contain;border-radius:8px}
         .hero-tagline{font-size:12px;color:var(--text-secondary);font-weight:500;text-align:center;letter-spacing:-.01em}
 
-        /* ===== CARD DO REPRESENTANTE ===== */
         .rep-card{position:relative;display:flex;align-items:center;gap:12px;padding:12px 14px;margin-bottom:12px;border-radius:var(--radius);border:1px solid var(--border-color);background:var(--bg-card);overflow:hidden;transition:all var(--transition)}
         .rep-card::before{content:'';position:absolute;inset:0;background:radial-gradient(at left center,rgba(49,200,255,.08),transparent 70%);pointer-events:none}
         .rep-card::after{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(to right,transparent,rgba(49,200,255,.45),transparent);pointer-events:none}
@@ -104,7 +103,35 @@
         .download-app-btn svg{width:14px;height:14px;flex-shrink:0}
         .download-app-btn.installed{background:linear-gradient(135deg,#22c55e,#15803d);box-shadow:0 4px 14px rgba(34,197,94,.35);cursor:default}
         .download-app-btn.installed:hover{transform:none;box-shadow:0 4px 14px rgba(34,197,94,.35)}
-        /* ===== FIM CARD DO REPRESENTANTE ===== */
+
+        /* ===== BOTÃO PDF ===== */
+        .pdf-catalog-btn{width:100%;position:relative;overflow:hidden;display:flex;align-items:center;gap:12px;padding:14px 16px;margin-bottom:12px;border-radius:var(--radius);border:2px solid rgba(212,175,55,.5);background:linear-gradient(135deg,rgba(212,175,55,.12),rgba(212,175,55,.04));font-family:var(--font);cursor:pointer;transition:all var(--transition);text-align:left;color:var(--text-primary)}
+        .pdf-catalog-btn::before{content:'';position:absolute;inset:0;background:radial-gradient(at right center,rgba(245,215,110,.15),transparent 60%);pointer-events:none;opacity:0;transition:opacity var(--transition)}
+        .pdf-catalog-btn:hover{border-color:var(--gold);transform:translateY(-1px);box-shadow:0 8px 25px rgba(212,175,55,.3)}
+        .pdf-catalog-btn:hover::before{opacity:1}
+        .pdf-catalog-btn:active{transform:scale(.98)}
+        .pdf-catalog-btn:disabled{opacity:.6;cursor:wait;pointer-events:none}
+        .pdf-icon-wrap{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,var(--gold),var(--gold-light));display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 4px 14px rgba(212,175,55,.4);position:relative;z-index:2}
+        .pdf-icon-wrap svg{width:22px;height:22px;color:#1a1a1a}
+        .pdf-btn-text{flex:1;min-width:0;position:relative;z-index:2;display:flex;flex-direction:column;gap:2px}
+        .pdf-btn-title{font-size:13.5px;font-weight:900;color:var(--gold-light);letter-spacing:-.01em;line-height:1.2;text-shadow:0 0 12px rgba(212,175,55,.35)}
+        .pdf-btn-subtitle{font-size:10.5px;color:var(--text-secondary);font-weight:500;letter-spacing:-.01em}
+        .pdf-btn-arrow{font-size:18px;color:var(--gold);flex-shrink:0;position:relative;z-index:2;font-weight:900;transition:transform var(--transition)}
+        .pdf-catalog-btn:hover .pdf-btn-arrow{transform:translateX(4px)}
+
+        /* ===== PDF OVERLAY ===== */
+        .pdf-overlay{position:fixed;inset:0;z-index:400;background:rgba(0,0,0,.9);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .3s}
+        .pdf-overlay.active{opacity:1;pointer-events:auto}
+        .pdf-modal-card{width:100%;max-width:340px;background:linear-gradient(160deg,#0a1322 0%,#060d18 100%);border:1px solid rgba(212,175,55,.4);border-radius:var(--radius-lg);padding:28px 22px 22px;text-align:center;position:relative;overflow:hidden;box-shadow:0 28px 80px rgba(0,0,0,.85);transform:scale(.94) translateY(10px);transition:transform .3s cubic-bezier(.32,.72,0,1)}
+        .pdf-overlay.active .pdf-modal-card{transform:scale(1) translateY(0)}
+        .pdf-modal-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,transparent,var(--gold),transparent)}
+        .pdf-modal-icon{width:66px;height:66px;margin:0 auto 16px;border-radius:50%;background:linear-gradient(135deg,rgba(212,175,55,.25),rgba(212,175,55,.08));border:1px solid rgba(212,175,55,.5);display:flex;align-items:center;justify-content:center;font-size:30px;animation:pdfPulse 2s infinite}
+        @keyframes pdfPulse{0%,100%{box-shadow:0 0 0 0 rgba(212,175,55,.4)}50%{box-shadow:0 0 0 15px rgba(212,175,55,0)}}
+        .pdf-modal-title{font-size:16px;font-weight:900;color:var(--gold-light);letter-spacing:-.01em;margin-bottom:6px}
+        .pdf-modal-status{font-size:12.5px;color:var(--text-secondary);margin-bottom:18px;letter-spacing:-.01em;min-height:18px}
+        .pdf-progress-track{width:100%;height:6px;border-radius:3px;background:rgba(255,255,255,.08);overflow:hidden;margin-bottom:12px}
+        .pdf-progress-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--gold),var(--gold-light));border-radius:3px;transition:width .3s ease;box-shadow:0 0 10px rgba(212,175,55,.5)}
+        .pdf-modal-hint{font-size:10.5px;color:var(--text-muted);letter-spacing:-.01em}
 
         .promo-button{width:100%;margin-bottom:12px;position:relative;overflow:hidden;display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:var(--radius);transition:all var(--transition);cursor:pointer;border:2px solid var(--border-color-strong);background:var(--bg-card);font-family:var(--font);text-align:left}
         .promo-button::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(239,68,68,.05),rgba(245,158,11,.05));pointer-events:none}
@@ -470,6 +497,10 @@
             .rep-name{font-size:13.5px}
             .download-app-btn{padding:8px 10px;font-size:10.5px}
             .download-app-btn svg{width:12px;height:12px}
+            .pdf-icon-wrap{width:38px;height:38px}
+            .pdf-icon-wrap svg{width:18px;height:18px}
+            .pdf-btn-title{font-size:12px}
+            .pdf-btn-subtitle{font-size:9.5px}
         }
     </style>
 </head>
@@ -524,25 +555,14 @@
             </div>
         </div>
 
-        <!-- ===== CARD DO REPRESENTANTE + BOTÃO INSTALAR APP ===== -->
+        <!-- CARD DO REPRESENTANTE + BOTÃO INSTALAR APP -->
         <div class="rep-card" id="repCard">
-            <img
-                class="rep-photo"
-                id="repPhoto"
-                alt="Representante David"
-                data-name="David"
-                src="lobao.jpg"
-            >
+            <img class="rep-photo" id="repPhoto" alt="Representante David" data-name="David" src="lobao.jpg">
             <div class="rep-info">
                 <span class="rep-label">REPRESENTANTE</span>
                 <span class="rep-name">DAVID</span>
             </div>
-            <button
-                class="download-app-btn"
-                id="downloadAppBtn"
-                type="button"
-                aria-label="Instalar aplicativo"
-            >
+            <button class="download-app-btn" id="downloadAppBtn" type="button" aria-label="Instalar aplicativo">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
                     <polyline points="7 10 12 15 17 10"/>
@@ -551,7 +571,23 @@
                 <span id="downloadAppLabel">Download do App</span>
             </button>
         </div>
-        <!-- ===== FIM CARD DO REPRESENTANTE ===== -->
+
+        <!-- BOTÃO CATÁLOGO PDF -->
+        <button class="pdf-catalog-btn" id="pdfCatalogBtn" type="button">
+            <div class="pdf-icon-wrap">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                    <polyline points="14 2 14 8 20 8"/>
+                    <line x1="12" y1="18" x2="12" y2="12"/>
+                    <polyline points="9 15 12 18 15 15"/>
+                </svg>
+            </div>
+            <div class="pdf-btn-text">
+                <span class="pdf-btn-title">Baixar Catálogo Completo em PDF</span>
+                <span class="pdf-btn-subtitle" id="pdfBtnSubtitle">Todos os produtos em um só arquivo</span>
+            </div>
+            <span class="pdf-btn-arrow">→</span>
+        </button>
 
         <button class="promo-button" id="promoButton" type="button">
             <span class="promo-count-badge" id="promoCountBadge">0</span>
@@ -1003,10 +1039,24 @@
         </div>
     </div>
 
+    <!-- OVERLAY PDF -->
+    <div class="pdf-overlay" id="pdfOverlay">
+        <div class="pdf-modal-card">
+            <div class="pdf-modal-icon">📄</div>
+            <h3 class="pdf-modal-title">Gerando Catálogo PDF</h3>
+            <p class="pdf-modal-status" id="pdfStatus">Preparando...</p>
+            <div class="pdf-progress-track">
+                <div class="pdf-progress-fill" id="pdfProgress"></div>
+            </div>
+            <p class="pdf-modal-hint">Não feche esta janela</p>
+        </div>
+    </div>
+
     <input type="file" id="hiddenFileInput" class="hidden-input" accept="image/*">
 
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <script>
 /* ========== SERVICE WORKER (PWA) ========== */
@@ -1026,7 +1076,6 @@ if ('serviceWorker' in navigator) {
     var btn = document.getElementById('downloadAppBtn');
     var label = document.getElementById('downloadAppLabel');
 
-    // Detecta se já está rodando como app instalado
     function isStandalone() {
         return window.matchMedia('(display-mode: standalone)').matches ||
                window.navigator.standalone === true ||
@@ -1042,7 +1091,6 @@ if ('serviceWorker' in navigator) {
     window.addEventListener('beforeinstallprompt', function(e) {
         e.preventDefault();
         deferredPrompt = e;
-        console.log('📲 PWA pronto para instalar');
     });
 
     window.addEventListener('appinstalled', function() {
@@ -1060,15 +1108,9 @@ if ('serviceWorker' in navigator) {
         if (deferredPrompt) {
             deferredPrompt.prompt();
             deferredPrompt.userChoice.then(function(choice) {
-                if (choice.outcome === 'accepted') {
-                    console.log('✅ Usuário aceitou instalar');
-                } else {
-                    console.log('❌ Usuário recusou instalar');
-                }
                 deferredPrompt = null;
             });
         } else {
-            // Fallback: instruções manuais
             var msg = '📱 Para instalar o app:\n\n' +
                       '• Android (Chrome): toque nos 3 pontinhos → "Instalar aplicativo"\n' +
                       '• iPhone (Safari): toque em Compartilhar → "Adicionar à Tela de Início"\n' +
@@ -1099,6 +1141,9 @@ if ('serviceWorker' in navigator) {
     var CLOUD_IMG_START_QUALITY = 0.85;
     var CLOUD_IMG_TARGET_BYTES = 550000;
     var CLOUD_IMG_HARD_LIMIT = 750000;
+
+    /* Imagem da capa do PDF */
+    var PDF_COVER_LOGO = 'logo-catalogo.jpg';
 
     var FREIGHT_TABLE = {
         'SP':55,'RJ':65,'MG':65,'SC':65,'RS':65,'PR':65,'ES':65,'DF':70,'GO':70,
@@ -1369,7 +1414,6 @@ if ('serviceWorker' in navigator) {
                         ctx.fillRect(0, 0, w, h);
                         ctx.drawImage(img, 0, 0, w, h);
                         var out = cv.toDataURL('image/jpeg', quality);
-
                         if (out.length > CLOUD_IMG_TARGET_BYTES && attempt < 8 && size > 320) {
                             tryOnce(Math.round(size * 0.85), Math.max(0.5, quality - 0.05), attempt + 1);
                             return;
@@ -1572,15 +1616,11 @@ if ('serviceWorker' in navigator) {
 
     function pushConfigToFirestore() {
         if (!fbReady || !fbDocRef) return Promise.resolve(false);
-
         var data = deepClone(config);
-
         var leftover = (data.products || []).filter(function(p) { return isDataUrl(p.image); }).length;
         if (leftover) console.warn('Ainda há ' + leftover + ' imagens base64 no config — devem ser migradas.');
-
         data.updatedAt = firebase.firestore.FieldValue.serverTimestamp();
         setSyncStatus('saving');
-
         return fbDocRef.set(data, { merge: false }).then(function() {
             return flushPendingImageUploads();
         }).then(function() {
@@ -1822,6 +1862,9 @@ if ('serviceWorker' in navigator) {
         document.getElementById('warningBannerText').textContent = config.warningBannerText;
         document.getElementById('footerText').textContent = config.footerText;
         document.getElementById('searchInput').placeholder = 'Buscar em ' + config.storeName + '...';
+
+        var pdfSub = document.getElementById('pdfBtnSubtitle');
+        if (pdfSub) pdfSub.textContent = (config.products || []).length + ' produtos em um só arquivo';
     }
 
     function rebuildSearchIndex() {
@@ -2800,7 +2843,6 @@ if ('serviceWorker' in navigator) {
 
     function saveAndApply() {
         var newConfig = collectConfigFromPanel();
-
         var legacy = newConfig.products.filter(function(p) {
             return isDataUrl(p.image) || isIdbRef(p.image);
         });
@@ -2890,7 +2932,572 @@ if ('serviceWorker' in navigator) {
         });
     }
 
+    /* ============================================================
+       GERAÇÃO DO PDF DO CATÁLOGO
+       ============================================================ */
+    function loadImageAsDataURL(src) {
+        return new Promise(function(resolve, reject) {
+            if (!src) return reject(new Error('sem src'));
+            if (typeof src !== 'string') return reject(new Error('src inválido'));
+            if (src.indexOf('data:') === 0) return resolve(src);
+
+            var img = new Image();
+            img.crossOrigin = 'anonymous';
+            var timer = setTimeout(function() { reject(new Error('timeout')); }, 9000);
+            img.onload = function() {
+                clearTimeout(timer);
+                try {
+                    var w = img.naturalWidth || 200, h = img.naturalHeight || 200;
+                    var maxDim = 500;
+                    if (w > maxDim || h > maxDim) {
+                        if (w >= h) { h = Math.round(h * maxDim / w); w = maxDim; }
+                        else { w = Math.round(w * maxDim / h); h = maxDim; }
+                    }
+                    var cv = document.createElement('canvas');
+                    cv.width = w; cv.height = h;
+                    var ctx = cv.getContext('2d');
+                    ctx.fillStyle = '#ffffff';
+                    ctx.fillRect(0, 0, w, h);
+                    ctx.drawImage(img, 0, 0, w, h);
+                    resolve(cv.toDataURL('image/jpeg', 0.85));
+                } catch (e) { reject(e); }
+            };
+            img.onerror = function() { clearTimeout(timer); reject(new Error('load error')); };
+            img.src = src;
+        });
+    }
+
+    function resolveImageForPDF(ref) {
+        return new Promise(function(resolve) {
+            if (!ref) return resolve(null);
+            if (typeof ref !== 'string') return resolve(null);
+            if (ref.indexOf('cloud:') === 0) return resolve(imageCache[ref] || null);
+            if (ref.indexOf('idb:') === 0) {
+                idbGetImage(ref.slice(4)).then(function(d) { resolve(d || null); }).catch(function() { resolve(null); });
+                return;
+            }
+            resolve(ref);
+        });
+    }
+
+    function batchLoadProductImages(products, onProgress) {
+        return new Promise(function(resolve) {
+            var cache = {};
+            var total = products.length;
+            if (total === 0) return resolve(cache);
+            var index = 0, loaded = 0;
+            var CONCURRENCY = 6;
+
+            function worker() {
+                if (index >= total) return Promise.resolve();
+                var i = index++;
+                var prod = products[i];
+                return resolveImageForPDF(prod.image).then(function(src) {
+                    if (!src) throw new Error('sem src');
+                    return loadImageAsDataURL(src);
+                }).then(function(data) {
+                    if (data) cache[prod.id] = data;
+                }).catch(function() {
+                    // sem imagem - ok
+                }).then(function() {
+                    loaded++;
+                    if (onProgress) onProgress(loaded, total);
+                    return worker();
+                });
+            }
+
+            var workers = [];
+            for (var w = 0; w < Math.min(CONCURRENCY, total); w++) workers.push(worker());
+            Promise.all(workers).then(function() { resolve(cache); });
+        });
+    }
+
+    function drawPageBackground(doc, W, H) {
+        doc.setFillColor(8, 10, 14);
+        doc.rect(0, 0, W, H, 'F');
+    }
+
+    function drawPageHeader(doc, W, title, subtitle, pageNum) {
+        // Top gold bar
+        doc.setFillColor(212, 175, 55);
+        doc.rect(0, 0, W, 2.5, 'F');
+        // Title
+        doc.setTextColor(245, 215, 110);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(17);
+        doc.text(String(title).toUpperCase(), 15, 20);
+        // Subtitle
+        if (subtitle) {
+            doc.setTextColor(150, 160, 175);
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(9);
+            doc.text(subtitle, 15, 25.5);
+        }
+        // Underline
+        doc.setDrawColor(212, 175, 55);
+        doc.setLineWidth(0.4);
+        doc.line(15, 28.5, W - 15, 28.5);
+        // Page number (right)
+        if (pageNum) {
+            doc.setTextColor(120, 130, 145);
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(8.5);
+            doc.text('Página ' + pageNum, W - 15, 20, { align: 'right' });
+        }
+    }
+
+    function drawPageFooter(doc, W, H) {
+        doc.setDrawColor(212, 175, 55);
+        doc.setLineWidth(0.2);
+        doc.line(15, H - 12, W - 15, H - 12);
+        doc.setTextColor(120, 130, 145);
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(8);
+        doc.text('BRATVA LABS  •  DAVID OFICIAL', W / 2, H - 7, { align: 'center' });
+    }
+
+    function gerarCatalogoPDF() {
+        var btn = document.getElementById('pdfCatalogBtn');
+        var overlay = document.getElementById('pdfOverlay');
+        var statusEl = document.getElementById('pdfStatus');
+        var progressEl = document.getElementById('pdfProgress');
+
+        if (typeof window.jspdf === 'undefined') {
+            showToast('Biblioteca PDF não carregada. Verifique a conexão.', 'error');
+            return;
+        }
+
+        btn.disabled = true;
+        overlay.classList.add('active');
+        statusEl.textContent = 'Preparando dados...';
+        progressEl.style.width = '5%';
+
+        setTimeout(function() {
+            try {
+                var jsPDF = window.jspdf.jsPDF;
+                var doc = new jsPDF({ orientation: 'p', unit: 'mm', format: 'a4' });
+                var W = 210, H = 297;
+                var GOLD = [212, 175, 55];
+                var GOLD_LIGHT = [245, 215, 110];
+                var DARK = [8, 10, 14];
+                var DARK2 = [16, 20, 26];
+                var WHITE = [255, 255, 255];
+                var GRAY = [150, 160, 175];
+                var GRAY_DARK = [100, 110, 125];
+
+                var products = config.products || [];
+                var categories = config.categories || [];
+
+                // ============ CAPA ============
+                drawPageBackground(doc, W, H);
+
+                // Ornamento dourado moldura
+                doc.setDrawColor(GOLD[0], GOLD[1], GOLD[2]);
+                doc.setLineWidth(1.5);
+                doc.rect(10, 10, W - 20, H - 20);
+                doc.setLineWidth(0.3);
+                doc.rect(14, 14, W - 28, H - 28);
+
+                // Cantos decorativos
+                doc.setLineWidth(0.8);
+                // TL
+                doc.line(14, 22, 22, 14);
+                // TR
+                doc.line(W - 14, 22, W - 22, 14);
+                // BL
+                doc.line(14, H - 22, 22, H - 14);
+                // BR
+                doc.line(W - 14, H - 22, W - 22, H - 14);
+
+                // Banda dourada topo
+                doc.setFillColor(GOLD[0], GOLD[1], GOLD[2]);
+                doc.rect(20, 20, W - 40, 0.5, 'F');
+                doc.rect(20, H - 20.5, W - 40, 0.5, 'F');
+
+                statusEl.textContent = 'Carregando imagem da capa...';
+                progressEl.style.width = '10%';
+
+                var continueCover = function(coverData) {
+                    if (coverData) {
+                        // Capa quadrada no topo
+                        var coverSize = 110;
+                        var coverX = (W - coverSize) / 2;
+                        var coverY = 40;
+
+                        // Sombra dourada ao redor
+                        doc.setFillColor(30, 25, 15);
+                        doc.roundedRect(coverX - 3, coverY - 3, coverSize + 6, coverSize + 6, 4, 4, 'F');
+
+                        try {
+                            doc.addImage(coverData, 'JPEG', coverX, coverY, coverSize, coverSize, undefined, 'FAST');
+                        } catch (e) {
+                            console.warn('Erro ao adicionar capa:', e);
+                        }
+
+                        // Borda dourada
+                        doc.setDrawColor(GOLD[0], GOLD[1], GOLD[2]);
+                        doc.setLineWidth(0.8);
+                        doc.roundedRect(coverX - 3, coverY - 3, coverSize + 6, coverSize + 6, 4, 4, 'S');
+                    }
+
+                    // Título principal
+                    var titleY = coverData ? 175 : 90;
+                    doc.setTextColor(GOLD[0], GOLD[1], GOLD[2]);
+                    doc.setFont('helvetica', 'bold');
+                    doc.setFontSize(38);
+                    doc.text('CATÁLOGO', W / 2, titleY, { align: 'center' });
+                    doc.setTextColor(GOLD_LIGHT[0], GOLD_LIGHT[1], GOLD_LIGHT[2]);
+                    doc.setFontSize(22);
+                    doc.text('DE PRODUTOS', W / 2, titleY + 11, { align: 'center' });
+
+                    // Linha decorativa
+                    doc.setDrawColor(GOLD[0], GOLD[1], GOLD[2]);
+                    doc.setLineWidth(0.6);
+                    doc.line(60, titleY + 17, 90, titleY + 17);
+                    doc.line(120, titleY + 17, 150, titleY + 17);
+                    // Diamante
+                    doc.setFillColor(GOLD[0], GOLD[1], GOLD[2]);
+                    doc.circle(W / 2, titleY + 17, 1.2, 'F');
+
+                    // Nome da loja
+                    doc.setTextColor(WHITE[0], WHITE[1], WHITE[2]);
+                    doc.setFont('helvetica', 'bold');
+                    doc.setFontSize(24);
+                    doc.text(String(config.storeName || 'Respect Pharma').toUpperCase(), W / 2, titleY + 32, { align: 'center' });
+
+                    // Tagline
+                    doc.setTextColor(GRAY[0], GRAY[1], GRAY[2]);
+                    doc.setFont('helvetica', 'italic');
+                    doc.setFontSize(11);
+                    doc.text(String(config.tagline || ''), W / 2, titleY + 42, { align: 'center', maxWidth: 160 });
+
+                    // Info final
+                    var today = new Date().toLocaleDateString('pt-BR');
+                    doc.setTextColor(GOLD_LIGHT[0], GOLD_LIGHT[1], GOLD_LIGHT[2]);
+                    doc.setFont('helvetica', 'bold');
+                    doc.setFontSize(11);
+                    doc.text(products.length + ' PRODUTOS NO CATÁLOGO', W / 2, H - 55, { align: 'center' });
+
+                    doc.setTextColor(GRAY_DARK[0], GRAY_DARK[1], GRAY_DARK[2]);
+                    doc.setFont('helvetica', 'normal');
+                    doc.setFontSize(10);
+                    doc.text('Atualizado em ' + today, W / 2, H - 45, { align: 'center' });
+
+                    // Selo BRATVA LABS embaixo
+                    doc.setTextColor(GOLD[0], GOLD[1], GOLD[2]);
+                    doc.setFont('helvetica', 'bold');
+                    doc.setFontSize(9);
+                    doc.text('BRATVA LABS  •  DAVID OFICIAL', W / 2, H - 30, { align: 'center' });
+
+                    progressEl.style.width = '20%';
+                    statusEl.textContent = 'Criando índice...';
+
+                    // ============ PÁGINA ÍNDICE ============
+                    doc.addPage();
+                    drawPageBackground(doc, W, H);
+                    drawPageHeader(doc, W, 'Índice de Categorias', 'Navegue pelas categorias do catálogo', 2);
+
+                    var yIdx = 40;
+                    var catCount = 0;
+                    categories.forEach(function(cat) {
+                        var count = products.filter(function(p) { return p.catId === cat.id; }).length;
+                        if (count === 0) return;
+                        catCount++;
+
+                        if (yIdx > H - 30) {
+                            doc.addPage();
+                            drawPageBackground(doc, W, H);
+                            drawPageHeader(doc, W, 'Índice (continuação)', '', null);
+                            yIdx = 40;
+                        }
+
+                        // Row bg
+                        doc.setFillColor(DARK2[0], DARK2[1], DARK2[2]);
+                        doc.roundedRect(15, yIdx, W - 30, 13, 2, 2, 'F');
+
+                        // Gold left bar
+                        doc.setFillColor(GOLD[0], GOLD[1], GOLD[2]);
+                        doc.rect(15, yIdx, 1.5, 13, 'F');
+
+                        // Number
+                        doc.setTextColor(GOLD[0], GOLD[1], GOLD[2]);
+                        doc.setFont('helvetica', 'bold');
+                        doc.setFontSize(11);
+                        doc.text(String(catCount).padStart(2, '0'), 20, yIdx + 8.5);
+
+                        // Category name
+                        doc.setTextColor(WHITE[0], WHITE[1], WHITE[2]);
+                        doc.setFont('helvetica', 'bold');
+                        doc.setFontSize(11);
+                        doc.text(String(cat.name || ''), 30, yIdx + 8.5);
+
+                        // Count
+                        doc.setTextColor(GOLD_LIGHT[0], GOLD_LIGHT[1], GOLD_LIGHT[2]);
+                        doc.setFont('helvetica', 'normal');
+                        doc.setFontSize(10);
+                        doc.text(count + ' produto' + (count !== 1 ? 's' : ''), W - 20, yIdx + 8.5, { align: 'right' });
+
+                        yIdx += 16;
+                    });
+
+                    drawPageFooter(doc, W, H);
+
+                    // ============ CARREGAR IMAGENS ============
+                    statusEl.textContent = 'Carregando fotos dos produtos...';
+                    progressEl.style.width = '25%';
+
+                    batchLoadProductImages(products, function(loaded, total) {
+                        var pct = 25 + Math.round((loaded / total) * 50);
+                        progressEl.style.width = pct + '%';
+                        statusEl.textContent = 'Carregando fotos (' + loaded + '/' + total + ')...';
+                    }).then(function(imgCache) {
+
+                        statusEl.textContent = 'Montando páginas...';
+                        progressEl.style.width = '80%';
+
+                        var PER_PAGE = 8;
+                        var pageNum = 3;
+
+                        // ============ PÁGINAS DE PRODUTOS ============
+                        categories.forEach(function(cat) {
+                            var catProducts = products.filter(function(p) { return p.catId === cat.id; });
+                            if (catProducts.length === 0) return;
+
+                            var totalPagesForCat = Math.ceil(catProducts.length / PER_PAGE);
+
+                            for (var p = 0; p < totalPagesForCat; p++) {
+                                doc.addPage();
+                                drawPageBackground(doc, W, H);
+                                var sub = (totalPagesForCat > 1 ? 'Parte ' + (p + 1) + ' de ' + totalPagesForCat : '') +
+                                          (catProducts.length + ' produto' + (catProducts.length !== 1 ? 's' : ''));
+                                drawPageHeader(doc, W, cat.name, sub, pageNum);
+
+                                var start = p * PER_PAGE;
+                                var slice = catProducts.slice(start, start + PER_PAGE);
+
+                                var gridX = 15;
+                                var gridY = 36;
+                                var cardW = (W - 30 - 5) / 2;
+                                var cardH = 55;
+                                var rowGap = 4;
+
+                                slice.forEach(function(prod, i) {
+                                    var col = i % 2;
+                                    var row = Math.floor(i / 2);
+                                    var x = gridX + col * (cardW + 5);
+                                    var y = gridY + row * (cardH + rowGap);
+
+                                    // Card bg
+                                    doc.setFillColor(DARK2[0], DARK2[1], DARK2[2]);
+                                    doc.roundedRect(x, y, cardW, cardH, 2, 2, 'F');
+
+                                    // Card border
+                                    doc.setDrawColor(70, 60, 35);
+                                    doc.setLineWidth(0.2);
+                                    doc.roundedRect(x, y, cardW, cardH, 2, 2, 'S');
+
+                                    // Image
+                                    var imgSize = 38;
+                                    var imgX = x + 4;
+                                    var imgY = y + (cardH - imgSize) / 2;
+                                    var imgData = imgCache[prod.id];
+
+                                    // Image bg
+                                    doc.setFillColor(20, 25, 32);
+                                    doc.roundedRect(imgX, imgY, imgSize, imgSize, 1.5, 1.5, 'F');
+
+                                    if (imgData) {
+                                        try {
+                                            doc.addImage(imgData, 'JPEG', imgX + 1, imgY + 1, imgSize - 2, imgSize - 2, undefined, 'FAST');
+                                        } catch (e) {}
+                                    } else {
+                                        doc.setTextColor(GRAY_DARK[0], GRAY_DARK[1], GRAY_DARK[2]);
+                                        doc.setFont('helvetica', 'bold');
+                                        doc.setFontSize(7);
+                                        doc.text('SEM FOTO', imgX + imgSize / 2, imgY + imgSize / 2 + 1, { align: 'center' });
+                                    }
+
+                                    // Image border
+                                    doc.setDrawColor(GOLD[0], GOLD[1], GOLD[2]);
+                                    doc.setLineWidth(0.15);
+                                    doc.roundedRect(imgX, imgY, imgSize, imgSize, 1.5, 1.5, 'S');
+
+                                    // Text area
+                                    var textX = imgX + imgSize + 3;
+                                    var textW = cardW - (imgSize + 10);
+
+                                    // Brand
+                                    doc.setTextColor(GOLD[0], GOLD[1], GOLD[2]);
+                                    doc.setFont('helvetica', 'bold');
+                                    doc.setFontSize(6.5);
+                                    var brand = String(prod.brand || '').toUpperCase().slice(0, 28);
+                                    doc.text(brand, textX, y + 8);
+
+                                    // Name (wrapped)
+                                    doc.setTextColor(WHITE[0], WHITE[1], WHITE[2]);
+                                    doc.setFont('helvetica', 'bold');
+                                    doc.setFontSize(8.5);
+                                    var nameLines = doc.splitTextToSize(String(prod.name || ''), textW);
+                                    var shownLines = nameLines.slice(0, 3);
+                                    doc.text(shownLines, textX, y + 14);
+
+                                    // Prices
+                                    var onPromo = isOnPromo(prod);
+                                    var priceY = y + cardH - 8;
+
+                                    if (onPromo) {
+                                        // Old price (strikethrough)
+                                        doc.setTextColor(GRAY[0], GRAY[1], GRAY[2]);
+                                        doc.setFont('helvetica', 'normal');
+                                        doc.setFontSize(7.5);
+                                        var oldTxt = formatBRL(prod.price);
+                                        doc.text(oldTxt, textX, priceY - 6);
+                                        var oldW = doc.getTextWidth(oldTxt);
+                                        doc.setDrawColor(GRAY[0], GRAY[1], GRAY[2]);
+                                        doc.setLineWidth(0.25);
+                                        doc.line(textX, priceY - 6.8, textX + oldW, priceY - 6.8);
+
+                                        // New price
+                                        doc.setTextColor(GOLD_LIGHT[0], GOLD_LIGHT[1], GOLD_LIGHT[2]);
+                                        doc.setFont('helvetica', 'bold');
+                                        doc.setFontSize(12);
+                                        doc.text(formatBRL(prod.promoPrice), textX, priceY);
+
+                                        // Promo badge (top-right)
+                                        doc.setFillColor(212, 175, 55);
+                                        doc.roundedRect(x + cardW - 20, y + 2, 18, 6, 1.5, 1.5, 'F');
+                                        doc.setTextColor(20, 15, 5);
+                                        doc.setFont('helvetica', 'bold');
+                                        doc.setFontSize(6);
+                                        doc.text('- ' + getPromoDiscount(prod) + '%', x + cardW - 11, y + 6.2, { align: 'center' });
+                                    } else {
+                                        doc.setTextColor(GOLD_LIGHT[0], GOLD_LIGHT[1], GOLD_LIGHT[2]);
+                                        doc.setFont('helvetica', 'bold');
+                                        doc.setFontSize(12);
+                                        doc.text(formatBRL(prod.price), textX, priceY);
+                                    }
+                                });
+
+                                drawPageFooter(doc, W, H);
+                                pageNum++;
+                            }
+                        });
+
+                        // ============ PÁGINA FINAL (CONTATO) ============
+                        doc.addPage();
+                        drawPageBackground(doc, W, H);
+
+                        // Moldura
+                        doc.setDrawColor(GOLD[0], GOLD[1], GOLD[2]);
+                        doc.setLineWidth(1.2);
+                        doc.rect(12, 12, W - 24, H - 24);
+
+                        // Título
+                        doc.setTextColor(GOLD[0], GOLD[1], GOLD[2]);
+                        doc.setFont('helvetica', 'bold');
+                        doc.setFontSize(30);
+                        doc.text('FAÇA SEU PEDIDO', W / 2, 70, { align: 'center' });
+
+                        doc.setTextColor(GOLD_LIGHT[0], GOLD_LIGHT[1], GOLD_LIGHT[2]);
+                        doc.setFontSize(14);
+                        doc.text('ENTRE EM CONTATO', W / 2, 82, { align: 'center' });
+
+                        // Linha
+                        doc.setDrawColor(GOLD[0], GOLD[1], GOLD[2]);
+                        doc.setLineWidth(0.5);
+                        doc.line(75, 90, 135, 90);
+
+                        // WhatsApp box
+                        doc.setFillColor(DARK2[0], DARK2[1], DARK2[2]);
+                        doc.roundedRect(30, 110, W - 60, 30, 3, 3, 'F');
+                        doc.setDrawColor(GOLD[0], GOLD[1], GOLD[2]);
+                        doc.setLineWidth(0.3);
+                        doc.roundedRect(30, 110, W - 60, 30, 3, 3, 'S');
+
+                        doc.setTextColor(GOLD[0], GOLD[1], GOLD[2]);
+                        doc.setFont('helvetica', 'bold');
+                        doc.setFontSize(11);
+                        doc.text('WHATSAPP', 40, 122);
+
+                        doc.setTextColor(WHITE[0], WHITE[1], WHITE[2]);
+                        doc.setFont('helvetica', 'normal');
+                        doc.setFontSize(11);
+                        var waLink = String(config.whatsappLink || '');
+                        var waNum = waLink.replace(/[^\d]/g, '');
+                        if (waNum) waNum = '+' + waNum;
+                        doc.text(waNum || waLink, 40, 130);
+
+                        // Telegram box
+                        doc.setFillColor(DARK2[0], DARK2[1], DARK2[2]);
+                        doc.roundedRect(30, 150, W - 60, 30, 3, 3, 'F');
+                        doc.setDrawColor(GOLD[0], GOLD[1], GOLD[2]);
+                        doc.roundedRect(30, 150, W - 60, 30, 3, 3, 'S');
+
+                        doc.setTextColor(GOLD[0], GOLD[1], GOLD[2]);
+                        doc.setFont('helvetica', 'bold');
+                        doc.setFontSize(11);
+                        doc.text('TELEGRAM', 40, 162);
+
+                        doc.setTextColor(WHITE[0], WHITE[1], WHITE[2]);
+                        doc.setFont('helvetica', 'normal');
+                        doc.setFontSize(11);
+                        doc.text(String(config.telegramSubtitle || '@David10151'), 40, 170);
+
+                        // Rodapé
+                        doc.setTextColor(GRAY[0], GRAY[1], GRAY[2]);
+                        doc.setFont('helvetica', 'italic');
+                        doc.setFontSize(11);
+                        doc.text('Obrigado por escolher a nossa loja!', W / 2, H - 80, { align: 'center' });
+
+                        doc.setTextColor(GOLD[0], GOLD[1], GOLD[2]);
+                        doc.setFont('helvetica', 'bold');
+                        doc.setFontSize(13);
+                        doc.text('BRATVA LABS  •  DAVID OFICIAL', W / 2, H - 50, { align: 'center' });
+
+                        // Save
+                        statusEl.textContent = 'Salvando PDF...';
+                        progressEl.style.width = '100%';
+
+                        var filename = 'catalogo-' + String(config.storeName || 'loja').toLowerCase()
+                            .replace(/[^a-z0-9]+/gi, '-').replace(/^-|-$/g, '') +
+                            '-' + new Date().toISOString().slice(0, 10) + '.pdf';
+
+                        doc.save(filename);
+
+                        setTimeout(function() {
+                            overlay.classList.remove('active');
+                            btn.disabled = false;
+                            progressEl.style.width = '0%';
+                            showToast('📄 Catálogo PDF gerado com sucesso!', 'success');
+                        }, 500);
+                    });
+                };
+
+                loadImageAsDataURL(PDF_COVER_LOGO).then(function(data) {
+                    continueCover(data);
+                }).catch(function() {
+                    // Tenta o heroLogoUrl como fallback
+                    loadImageAsDataURL(config.heroLogoUrl).then(function(data) {
+                        continueCover(data);
+                    }).catch(function() {
+                        continueCover(null);
+                    });
+                });
+
+            } catch (err) {
+                console.error('Erro PDF:', err);
+                overlay.classList.remove('active');
+                btn.disabled = false;
+                progressEl.style.width = '0%';
+                showToast('Erro ao gerar PDF: ' + err.message, 'error');
+            }
+        }, 100);
+    }
+
     function setupEventListeners() {
+        var pdfBtn = document.getElementById('pdfCatalogBtn');
+        if (pdfBtn) pdfBtn.addEventListener('click', gerarCatalogoPDF);
+
         document.getElementById('configToggleBtn').addEventListener('click', function() {
             if (configPanelOpen) closeConfigPanel(); else openPasswordModal();
         });
@@ -3063,6 +3670,7 @@ if ('serviceWorker' in navigator) {
 
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
+                if (document.getElementById('pdfOverlay').classList.contains('active')) return;
                 if (document.getElementById('checkoutOverlay').classList.contains('active')) { closeCheckoutModal(); return; }
                 if (document.getElementById('cartOverlay').classList.contains('active')) { closeCartModal(); return; }
                 if (document.getElementById('promoModalOverlay').classList.contains('active')) { closePromoModal(); return; }
@@ -3191,6 +3799,7 @@ if ('serviceWorker' in navigator) {
         getPromoProducts: getPromoProducts,
         pushToCloud: pushConfigToFirestore,
         flushPendingImages: flushPendingImageUploads,
+        gerarCatalogoPDF: gerarCatalogoPDF,
         showToast: showToast
     };
 })();
