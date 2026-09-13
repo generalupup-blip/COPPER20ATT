@@ -609,7 +609,6 @@
         </div>
     </header>
 
-    <!-- BANNER DE NOTIFICAÇÃO DE ATUALIZAÇÃO DO SISTEMA -->
     <div class="update-notification-banner" id="updateNotificationBanner">
         <span class="unb-icon">🔔</span>
         <span>Nova atualização disponível! Toque em <strong>ATUALIZAR SISTEMA</strong>.</span>
@@ -626,7 +625,6 @@
             </div>
         </div>
 
-        <!-- CARD DO REPRESENTANTE + BOTÃO INSTALAR APP -->
         <div class="rep-card" id="repCard">
             <img class="rep-photo" id="repPhoto" alt="Representante David" data-name="David" src="lobao.jpg">
             <div class="rep-info">
@@ -643,7 +641,6 @@
             </button>
         </div>
 
-        <!-- BOTÃO CATÁLOGO PDF -->
         <button class="pdf-catalog-btn" id="pdfCatalogBtn" type="button">
             <div class="pdf-icon-wrap">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
@@ -758,7 +755,6 @@
         </div>
     </footer>
 
-    <!-- BOTÃO ATUALIZAR SISTEMA -->
     <button class="update-system-btn" id="updateSystemBtn" type="button" aria-label="Atualizar sistema">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
             <path d="M21 12a9 9 0 1 1-3-6.7L21 8"/>
@@ -951,7 +947,6 @@
         </div>
     </div>
 
-    <!-- MODAL DE NOVIDADES (NOTIFICAÇÕES) -->
     <div class="info-modal-overlay" id="notifModalOverlay">
         <div class="info-modal" role="dialog" aria-modal="true">
             <div class="info-modal-header">
@@ -989,14 +984,24 @@
             <div class="checkout-modal-header">
                 <div class="checkout-modal-header-icon">📍</div>
                 <div class="checkout-modal-header-text">
-                    <h3 class="checkout-modal-title">Endereço de Entrega</h3>
+                    <h3 class="checkout-modal-title">Dados de Entrega</h3>
                     <p class="checkout-modal-subtitle">Preencha seus dados para finalizar</p>
                 </div>
                 <button class="checkout-modal-close" id="checkoutModalClose" type="button" aria-label="Fechar">✕</button>
             </div>
             <div class="checkout-modal-body">
                 <div class="checkout-mini-summary" id="checkoutMiniSummary"></div>
-                <div class="checkout-form-section-title">📍 Dados de Entrega</div>
+                <div class="checkout-form-section-title">👤 Dados Pessoais</div>
+                <div class="checkout-form">
+                    <div class="form-row">
+                        <div class="form-group"><label>Nome Completo <span class="required">*</span></label><input type="text" id="coNome" placeholder="Seu nome completo" autocomplete="name"></div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group"><label>Telefone <span class="required">*</span></label><input type="text" id="coTel" placeholder="(00) 00000-0000" maxlength="15" inputmode="numeric" autocomplete="tel"></div>
+                        <div class="form-group"><label>CPF <span class="required">*</span></label><input type="text" id="coCpf" placeholder="000.000.000-00" maxlength="14" inputmode="numeric" autocomplete="off"></div>
+                    </div>
+                </div>
+                <div class="checkout-form-section-title" style="margin-top:16px">📍 Endereço de Entrega</div>
                 <div class="checkout-form">
                     <div class="form-row">
                         <div class="form-group"><label>CEP <span class="required">*</span></label><input type="text" id="coCep" placeholder="00000-000" maxlength="9" inputmode="numeric" autocomplete="postal-code"></div>
@@ -1132,7 +1137,6 @@
         </div>
     </div>
 
-    <!-- OVERLAY PDF -->
     <div class="pdf-overlay" id="pdfOverlay">
         <div class="pdf-modal-card">
             <div class="pdf-modal-icon">📄</div>
@@ -1236,7 +1240,6 @@ if ('serviceWorker' in navigator) {
     var CLOUD_IMG_TARGET_BYTES = 550000;
     var CLOUD_IMG_HARD_LIMIT = 750000;
 
-    /* Imagem da capa do PDF */
     var PDF_COVER_LOGO = 'logo-catalogo.jpg';
 
     var FREIGHT_TABLE = {
@@ -2658,8 +2661,26 @@ if ('serviceWorker' in navigator) {
         v = String(v || '').replace(/\D/g, '').slice(0, 8);
         return v.length > 5 ? v.slice(0, 5) + '-' + v.slice(5) : v;
     }
+    function maskTel(v) {
+        v = String(v || '').replace(/\D/g, '').slice(0, 11);
+        if (v.length === 0) return '';
+        if (v.length <= 2) return '(' + v;
+        if (v.length <= 6) return '(' + v.slice(0,2) + ') ' + v.slice(2);
+        if (v.length <= 10) return '(' + v.slice(0,2) + ') ' + v.slice(2,6) + '-' + v.slice(6);
+        return '(' + v.slice(0,2) + ') ' + v.slice(2,7) + '-' + v.slice(7);
+    }
+    function maskCPF(v) {
+        v = String(v || '').replace(/\D/g, '').slice(0, 11);
+        if (v.length <= 3) return v;
+        if (v.length <= 6) return v.slice(0,3) + '.' + v.slice(3);
+        if (v.length <= 9) return v.slice(0,3) + '.' + v.slice(3,6) + '.' + v.slice(6);
+        return v.slice(0,3) + '.' + v.slice(3,6) + '.' + v.slice(6,9) + '-' + v.slice(9);
+    }
     function validateCheckoutForm() {
         var fields = [
+            { id: 'coNome', label: 'Nome Completo', min: 3 },
+            { id: 'coTel', label: 'Telefone', min: 14 },
+            { id: 'coCpf', label: 'CPF', min: 14 },
             { id: 'coCep', label: 'CEP', min: 9 },
             { id: 'coLogradouro', label: 'Logradouro', min: 2 },
             { id: 'coNumero', label: 'Número', min: 1 },
@@ -2694,6 +2715,9 @@ if ('serviceWorker' in navigator) {
         var freight = FREIGHT_TABLE[state] !== undefined ? FREIGHT_TABLE[state] : 0;
         var total = subtotal + freight;
 
+        var nome = (document.getElementById('coNome').value || '').trim();
+        var tel = (document.getElementById('coTel').value || '').trim();
+        var cpf = (document.getElementById('coCpf').value || '').trim();
         var cep = (document.getElementById('coCep').value || '').trim();
         var logradouro = (document.getElementById('coLogradouro').value || '').trim();
         var numero = (document.getElementById('coNumero').value || '').trim();
@@ -2702,27 +2726,31 @@ if ('serviceWorker' in navigator) {
         var cidade = (document.getElementById('coCidade').value || '').trim();
 
         var lines = [];
-        lines.push('🛒 *NOVO PEDIDO - ' + config.storeName + '*');
+        lines.push('🛒 *NOVO PEDIDO ');
         lines.push('');
-        lines.push('📦 *ITENS DO PEDIDO:*');
+        lines.push('Nome: ' + nome);
+        lines.push('Tel: ' + tel);
+        lines.push('CPF: ' + cpf);
+        lines.push('Endereço: ' + logradouro);
+        lines.push('N*: ' + numero);
+        lines.push('REF - ' + (complemento || ''));
+        lines.push('Bairro: ' + bairro);
+        lines.push('Cidade: ' + cidade);
+        lines.push('Estado: ' + state);
+        lines.push('CEP: ' + cep);
+        lines.push('');
+        lines.push('');
+        lines.push('PEDIDO');
         items.forEach(function(it, idx) {
             var prod = it.product;
-            var promoTag = isOnPromo(prod) ? ' 🔥' : '';
-            lines.push((idx + 1) + '. ' + it.qty + 'x ' + prod.name + promoTag + ' _(' + prod.brand + ')_');
+            lines.push((idx + 1) + '. ' + it.qty + 'x ' + prod.name + ' ' + prod.brand + ' (' + prod.brand + ')');
             lines.push('   ' + formatBRL(it.unitPrice) + ' cada = ' + formatBRL(it.subtotal));
         });
         lines.push('');
-        lines.push('💰 *Subtotal:* ' + formatBRL(subtotal));
-        lines.push(freight > 0 ? '🚚 *Frete (' + state + '):* ' + formatBRL(freight) : '🚚 *Frete:* a combinar');
-        lines.push('💵 *TOTAL:* ' + formatBRL(total));
+        lines.push('Subtotal: ' + formatBRL(subtotal));
+        lines.push('Frete: ' + formatBRL(freight));
+        lines.push('TOTAL:* ' + formatBRL(total));
         lines.push('');
-        lines.push('📍 *ENDEREÇO DE ENTREGA:*');
-        lines.push('*CEP:* ' + cep);
-        lines.push('*Logradouro:* ' + logradouro);
-        lines.push('*Número:* ' + numero);
-        if (complemento) lines.push('*Complemento:* ' + complemento);
-        lines.push('*Bairro:* ' + bairro);
-        lines.push('*Cidade:* ' + cidade + ' - ' + state);
         lines.push('');
         lines.push('⏳ Aguardando confirmação do pedido!');
 
@@ -2809,9 +2837,6 @@ if ('serviceWorker' in navigator) {
         body.appendChild(note);
     }
 
-    /* ============================================================
-       MODAL DE NOVIDADES (NOTIFICAÇÕES)
-       ============================================================ */
     function openNotifModal() {
         renderNotifModal();
         document.getElementById('notifModalOverlay').classList.add('active');
@@ -3263,7 +3288,6 @@ if ('serviceWorker' in navigator) {
     function finalizeSave(newConfig) {
         var prev = config;
 
-        /* Detecta produtos novos comparando com o estado anterior */
         var prevIds = {};
         (prev.products || []).forEach(function(p) { prevIds[p.id] = true; });
         var addedIds = (newConfig.products || [])
@@ -3281,7 +3305,6 @@ if ('serviceWorker' in navigator) {
         if (!newConfig.notifText) newConfig.notifText = prev.notifText || '1 novidade';
         if (!newConfig.notifCount) newConfig.notifCount = prev.notifCount || '1';
 
-        /* Bump na versão do sistema para sinalizar atualização aos outros dispositivos */
         newConfig.systemVersion = String(Date.now());
 
         config = newConfig;
@@ -3341,9 +3364,6 @@ if ('serviceWorker' in navigator) {
         });
     }
 
-    /* ============================================================
-       GERAÇÃO DO PDF DO CATÁLOGO
-       ============================================================ */
     function loadImageAsDataURL(src) {
         return new Promise(function(resolve, reject) {
             if (!src) return reject(new Error('sem src'));
@@ -3859,7 +3879,6 @@ if ('serviceWorker' in navigator) {
             updateBtn.addEventListener('click', applySystemUpdate);
         }
 
-        /* ===== ACESSO AO PAINEL: 5 CLIQUES SEGUIDOS NA TELA ===== */
         var tapCount = 0;
         var tapTimer = null;
         document.addEventListener('click', function() {
@@ -3985,7 +4004,6 @@ if ('serviceWorker' in navigator) {
             if (prod) { closePromoModal(); openProductModal(prod); }
         });
 
-        /* ===== MODAL DE NOVIDADES ===== */
         document.getElementById('notifModalBody').addEventListener('click', function(e) {
             var card = e.target.closest('.promo-card');
             if (!card) return;
@@ -4029,7 +4047,15 @@ if ('serviceWorker' in navigator) {
             e.target.value = maskCEP(e.target.value);
             e.target.classList.remove('invalid');
         });
-        ['coLogradouro','coNumero','coBairro','coCidade'].forEach(function(id) {
+        document.getElementById('coTel').addEventListener('input', function(e) {
+            e.target.value = maskTel(e.target.value);
+            e.target.classList.remove('invalid');
+        });
+        document.getElementById('coCpf').addEventListener('input', function(e) {
+            e.target.value = maskCPF(e.target.value);
+            e.target.classList.remove('invalid');
+        });
+        ['coNome','coLogradouro','coNumero','coBairro','coCidade'].forEach(function(id) {
             document.getElementById(id).addEventListener('input', function(e) { e.target.classList.remove('invalid'); });
         });
         document.getElementById('coEstado').addEventListener('change', function(e) {
@@ -4077,7 +4103,6 @@ if ('serviceWorker' in navigator) {
             }
         });
 
-        /* ===== BOTÃO DE NOTIFICAÇÃO (AGORA ABRE O MODAL DE NOVIDADES) ===== */
         document.getElementById('notifBtn').addEventListener('click', function() {
             openNotifModal();
         });
@@ -4097,14 +4122,12 @@ if ('serviceWorker' in navigator) {
             }
         });
 
-        /* ===== BOTÃO UPLOAD LOGO (foto do PC) ===== */
         document.getElementById('cfgLogoUploadBtn').addEventListener('click', function() {
             uploadingProductId = null;
             uploadingBannerLogo = false;
             document.getElementById('hiddenFileInput').click();
         });
 
-        /* ===== BOTÃO UPLOAD BANNER (foto do PC) ===== */
         document.getElementById('cfgHeroLogoUploadBtn').addEventListener('click', function() {
             uploadingProductId = null;
             uploadingBannerLogo = true;
