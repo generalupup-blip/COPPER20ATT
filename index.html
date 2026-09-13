@@ -806,7 +806,6 @@
             <div class="config-section">
                 <div class="config-btn-row">
                     <button class="config-btn config-btn-primary" id="saveConfigBtn" type="button">💾 Salvar na Nuvem</button>
-                    <button class="config-btn config-btn-secondary" id="resetConfigBtn" type="button">🔄 Restaurar Padrão</button>
                 </div>
             </div>
         </div>
@@ -2952,6 +2951,18 @@ if ('serviceWorker' in navigator) {
 
     function finalizeSave(newConfig) {
         var prev = config;
+        
+        // >>> INÍCIO DA ALTERAÇÃO: Atualizar notificação com base em novos produtos
+        var prevCount = (prev.products || []).length;
+        var newCount = (newConfig.products || []).length;
+        var addedCount = newCount - prevCount;
+        
+        if (addedCount > 0) {
+            newConfig.notifText = addedCount + ' novidade' + (addedCount > 1 ? 's' : '');
+            newConfig.notifCount = String(addedCount);
+        }
+        // <<< FIM DA ALTERAÇÃO
+
         config = newConfig;
         if (!saveConfigLocal()) { config = prev; return; }
         rebuildSearchIndex();
@@ -3524,7 +3535,6 @@ if ('serviceWorker' in navigator) {
         document.getElementById('configCloseBtn').addEventListener('click', closeConfigPanel);
         document.getElementById('configOverlay').addEventListener('click', closeConfigPanel);
         document.getElementById('saveConfigBtn').addEventListener('click', saveAndApply);
-        document.getElementById('resetConfigBtn').addEventListener('click', resetConfig);
 
         document.getElementById('addCategoryBtn').addEventListener('click', function() {
             categoryEditorState.push({
