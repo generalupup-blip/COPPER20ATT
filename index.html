@@ -795,9 +795,10 @@
                 <div class="config-field"><label>Nome da Loja</label><input type="text" id="cfgStoreName" placeholder="Ex: Respect Pharma"></div>
                 <div class="config-field"><label>Tagline / Slogan</label><input type="text" id="cfgTagline" placeholder="Ex: As melhores marcas do mundo"></div>
                 <div class="config-field">
-                    <label>Logo (URL da imagem)</label>
-                    <input type="text" id="cfgLogoUrl" placeholder="https://...">
+                    <label>Logo (URL da imagem ou foto do PC)</label>
+                    <input type="text" id="cfgLogoUrl" placeholder="https://... ou use o botão abaixo">
                     <div class="image-preview" id="cfgLogoPreview" title="Clique para abrir a imagem"><img src="" alt="Preview logo" id="cfgLogoPreviewImg"></div>
+                    <button class="pec-upload-btn" id="cfgLogoUploadBtn" type="button" style="width:100%;margin-top:4px;padding:9px 12px;font-size:12px">📷 Enviar foto do computador</button>
                 </div>
                 <div class="config-field"><label>Cor de Fundo Principal</label><input type="color" id="cfgBgColor" value="#02050b"></div>
                 <div class="config-field"><label>Cor de Fundo dos Cards</label><input type="color" id="cfgCardColor" value="#0a1322"></div>
@@ -808,7 +809,12 @@
 
             <div class="config-section">
                 <p class="config-section-label">🎯 Banner Principal</p>
-                <div class="config-field"><label>Logo do Banner (URL)</label><input type="text" id="cfgHeroLogoUrl" placeholder="https://..."></div>
+                <div class="config-field">
+                    <label>Logo do Banner (URL ou foto do PC)</label>
+                    <input type="text" id="cfgHeroLogoUrl" placeholder="https://... ou use o botão abaixo">
+                    <div class="image-preview" id="cfgHeroLogoPreview" title="Clique para abrir a imagem"><img src="" alt="Preview banner" id="cfgHeroLogoPreviewImg"></div>
+                    <button class="pec-upload-btn" id="cfgHeroLogoUploadBtn" type="button" style="width:100%;margin-top:4px;padding:9px 12px;font-size:12px">📷 Enviar foto do computador</button>
+                </div>
                 <div class="config-field"><label>Texto do Banner (Tagline)</label><input type="text" id="cfgHeroTagline" placeholder="Ex: As melhores marcas..."></div>
             </div>
 
@@ -1300,6 +1306,7 @@ if ('serviceWorker' in navigator) {
     var productEditorState = [];
     var selectedProductCategoryId = null;
     var uploadingProductId = null;
+    var uploadingBannerLogo = false;
     var currentProduct = null;
 
     var imageCache = {};
@@ -2032,6 +2039,18 @@ if ('serviceWorker' in navigator) {
         }, 2400);
     }
 
+    function applyLogoToImg(imgEl, ref, fallbackText) {
+        if (!imgEl) return;
+        if (!ref) { imgEl.src = svgPlaceholder(fallbackText); return; }
+        if (isCloudRef(ref) || isIdbRef(ref)) {
+            var cached = getRefSync(ref);
+            if (cached) { imgEl.src = cached; return; }
+            loadRefIntoImg(ref, imgEl, fallbackText);
+            return;
+        }
+        imgEl.src = ref;
+    }
+
     function applyConfigToUI() {
         var r = document.documentElement.style;
         r.setProperty('--bg-primary', config.bgColor);
@@ -2046,10 +2065,10 @@ if ('serviceWorker' in navigator) {
         r.setProperty('--border-color-strong', hexToRgba(config.accentColor, 0.30));
 
         document.getElementById('headerStoreName').textContent = config.storeName;
-        document.getElementById('headerLogo').src = config.logoUrl;
+        applyLogoToImg(document.getElementById('headerLogo'), config.logoUrl, 'Logo');
         document.getElementById('notifText').textContent = config.notifText;
         document.getElementById('notifCount').textContent = config.notifCount;
-        document.getElementById('heroLogo').src = config.heroLogoUrl;
+        applyLogoToImg(document.getElementById('heroLogo'), config.heroLogoUrl, 'Logo');
         document.getElementById('heroTagline').textContent = config.heroTagline;
         document.getElementById('promoEmoji').textContent = config.promoEmoji;
         document.getElementById('promoTitle').textContent = config.promoTitle;
@@ -3083,6 +3102,7 @@ if ('serviceWorker' in navigator) {
             if (!t) return;
             if (t.classList.contains('pec-thumb-wrap') || t.classList.contains('pec-upload-btn')) {
                 uploadingProductId = product.id;
+                uploadingBannerLogo = false;
                 document.getElementById('hiddenFileInput').click();
             } else if (t.classList.contains('pec-remove')) {
                 if (!confirm('Excluir o produto "' + (product.name || 'sem nome') + '"?')) return;
@@ -3135,7 +3155,8 @@ if ('serviceWorker' in navigator) {
         set('cfgWarningBannerText', config.warningBannerText);
         set('cfgFooterText', config.footerText);
         set('cfgNotifText', config.notifText);
-        document.getElementById('cfgLogoPreviewImg').src = config.logoUrl;
+        applyLogoToImg(document.getElementById('cfgLogoPreviewImg'), config.logoUrl, 'Logo');
+        applyLogoToImg(document.getElementById('cfgHeroLogoPreviewImg'), config.heroLogoUrl, 'Banner');
 
         syncCategoryEditorState();
         renderCategoryEditor();
@@ -3316,6 +3337,11 @@ if ('serviceWorker' in navigator) {
                     renderProductEditor();
                     showToast('📷 Foto anexada! Clique em "💾 Salvar na Nuvem".', 'success');
                 }
+            } else if (uploadingBannerLogo) {
+                uploadingBannerLogo = false;
+                document.getElementById('cfgHeroLogoUrl').value = ref;
+                document.getElementById('cfgHeroLogoPreviewImg').src = base64;
+                showToast('Banner anexado! Clique em "💾 Salvar na Nuvem".', 'success');
             } else {
                 document.getElementById('cfgLogoUrl').value = ref;
                 document.getElementById('cfgLogoPreviewImg').src = base64;
@@ -3323,6 +3349,7 @@ if ('serviceWorker' in navigator) {
             }
         }).catch(function(err) {
             uploadingProductId = null;
+            uploadingBannerLogo = false;
             console.error('Erro imagem:', err);
             showToast('Erro ao processar a imagem.', 'error');
         });
@@ -4059,8 +4086,40 @@ if ('serviceWorker' in navigator) {
             if (url && isHttpUrl(url)) window.open(url, '_blank');
         });
         document.getElementById('cfgLogoUrl').addEventListener('input', function(e) {
-            document.getElementById('cfgLogoPreviewImg').src = e.target.value;
+            var v = e.target.value.trim();
+            if (isCloudRef(v) || isIdbRef(v)) {
+                loadRefIntoImg(v, document.getElementById('cfgLogoPreviewImg'), 'Logo');
+            } else {
+                document.getElementById('cfgLogoPreviewImg').src = v;
+            }
         });
+
+        /* ===== BOTÃO UPLOAD LOGO (foto do PC) ===== */
+        document.getElementById('cfgLogoUploadBtn').addEventListener('click', function() {
+            uploadingProductId = null;
+            uploadingBannerLogo = false;
+            document.getElementById('hiddenFileInput').click();
+        });
+
+        /* ===== BOTÃO UPLOAD BANNER (foto do PC) ===== */
+        document.getElementById('cfgHeroLogoUploadBtn').addEventListener('click', function() {
+            uploadingProductId = null;
+            uploadingBannerLogo = true;
+            document.getElementById('hiddenFileInput').click();
+        });
+        document.getElementById('cfgHeroLogoUrl').addEventListener('input', function(e) {
+            var v = e.target.value.trim();
+            if (isCloudRef(v) || isIdbRef(v)) {
+                loadRefIntoImg(v, document.getElementById('cfgHeroLogoPreviewImg'), 'Banner');
+            } else {
+                document.getElementById('cfgHeroLogoPreviewImg').src = v;
+            }
+        });
+        document.getElementById('cfgHeroLogoPreview').addEventListener('click', function() {
+            var url = document.getElementById('cfgHeroLogoUrl').value.trim();
+            if (url && isHttpUrl(url)) window.open(url, '_blank');
+        });
+
         document.getElementById('hiddenFileInput').addEventListener('change', function(e) {
             var file = e.target.files && e.target.files[0];
             if (file) handleFileUpload(file);
@@ -4084,6 +4143,7 @@ if ('serviceWorker' in navigator) {
 
         loadImagesFromIDB().then(function(count) {
             if (count > 0) {
+                applyConfigToUI();
                 renderCategories();
                 renderProductEditor();
             }
@@ -4111,6 +4171,7 @@ if ('serviceWorker' in navigator) {
 
                     loadImagesFromCloud().then(function(n) {
                         if (n > 0) {
+                            applyConfigToUI();
                             renderCategories();
                             renderProductEditor();
                         }
