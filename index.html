@@ -104,7 +104,6 @@
         .download-app-btn.installed{background:linear-gradient(135deg,#22c55e,#15803d);box-shadow:0 4px 14px rgba(34,197,94,.35);cursor:default}
         .download-app-btn.installed:hover{transform:none;box-shadow:0 4px 14px rgba(34,197,94,.35)}
 
-        /* ===== BOTÃO PDF ===== */
         .pdf-catalog-btn{width:100%;position:relative;overflow:hidden;display:flex;align-items:center;gap:12px;padding:14px 16px;margin-bottom:12px;border-radius:var(--radius);border:2px solid rgba(212,175,55,.5);background:linear-gradient(135deg,rgba(212,175,55,.12),rgba(212,175,55,.04));font-family:var(--font);cursor:pointer;transition:all var(--transition);text-align:left;color:var(--text-primary)}
         .pdf-catalog-btn::before{content:'';position:absolute;inset:0;background:radial-gradient(at right center,rgba(245,215,110,.15),transparent 60%);pointer-events:none;opacity:0;transition:opacity var(--transition)}
         .pdf-catalog-btn:hover{border-color:var(--gold);transform:translateY(-1px);box-shadow:0 8px 25px rgba(212,175,55,.3)}
@@ -119,7 +118,6 @@
         .pdf-btn-arrow{font-size:18px;color:var(--gold);flex-shrink:0;position:relative;z-index:2;font-weight:900;transition:transform var(--transition)}
         .pdf-catalog-btn:hover .pdf-btn-arrow{transform:translateX(4px)}
 
-        /* ===== PDF OVERLAY ===== */
         .pdf-overlay{position:fixed;inset:0;z-index:400;background:rgba(0,0,0,.9);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .3s}
         .pdf-overlay.active{opacity:1;pointer-events:auto}
         .pdf-modal-card{width:100%;max-width:340px;background:linear-gradient(160deg,#0a1322 0%,#060d18 100%);border:1px solid rgba(212,175,55,.4);border-radius:var(--radius-lg);padding:28px 22px 22px;text-align:center;position:relative;overflow:hidden;box-shadow:0 28px 80px rgba(0,0,0,.85);transform:scale(.94) translateY(10px);transition:transform .3s cubic-bezier(.32,.72,0,1)}
@@ -215,7 +213,6 @@
         .config-toggle-btn svg{width:22px;height:22px}
         .config-toggle-btn.active{background:#ef4444;box-shadow:0 8px 25px rgba(239,68,68,.4)}
 
-        /* ===== BOTÃO ATUALIZAR SISTEMA ===== */
         .update-system-btn{
             position:fixed;
             bottom:80px;
@@ -249,7 +246,6 @@
             50%{box-shadow:0 10px 42px rgba(34,197,94,.95)}
         }
 
-        /* Banner de notificação de atualização */
         .update-notification-banner{
             position:fixed;
             top:calc(118px + 10px);
@@ -961,6 +957,21 @@
         </div>
     </div>
 
+    <!-- MODAL DE NOVIDADES (NOTIFICAÇÕES) -->
+    <div class="info-modal-overlay" id="notifModalOverlay">
+        <div class="info-modal" role="dialog" aria-modal="true">
+            <div class="info-modal-header">
+                <div class="info-modal-header-icon">🔔</div>
+                <div class="info-modal-header-text">
+                    <h3 class="info-modal-title" id="notifModalTitle">Novidades</h3>
+                    <p class="info-modal-subtitle" id="notifModalSubtitle">Produtos adicionados recentemente</p>
+                </div>
+                <button class="info-modal-close" id="notifModalClose" type="button" aria-label="Fechar">✕</button>
+            </div>
+            <div class="info-modal-body" id="notifModalBody"></div>
+        </div>
+    </div>
+
     <div class="cart-overlay" id="cartOverlay">
         <div class="cart-modal" role="dialog" aria-modal="true">
             <div class="cart-modal-header">
@@ -1255,6 +1266,7 @@ if ('serviceWorker' in navigator) {
         zoomBannerText:'Toque na foto do produto para ampliar a imagem',
         warningBannerText:'ALGUMAS MARCAS FABRICAM PRODUTOS TANTO EM AMPOLA QUANTO EM BUJÃO. AS IMAGENS SÃO ILUSTRATIVAS.',
         footerText:'Respect Pharma • 813 produtos',notifText:'1 novidade',notifCount:'1',
+        notifProductIds: [],
         systemVersion:'1',
         categories:[
             {name:'EMAGRECEDORES',abbr:'EM',count:'16 marcas • 79 produtos',color:'#31c8ff'},
@@ -1729,6 +1741,7 @@ if ('serviceWorker' in navigator) {
         if (!Array.isArray(merged.categories) || !merged.categories.length)
             merged.categories = deepClone(DEFAULT_CONFIG.categories);
         if (!Array.isArray(merged.products)) merged.products = [];
+        if (!Array.isArray(merged.notifProductIds)) merged.notifProductIds = [];
         if (!merged.whatsappLink || String(merged.whatsappLink).indexOf('5500000000000') !== -1)
             merged.whatsappLink = WHATSAPP_DEFAULT;
         if (!merged.systemVersion) merged.systemVersion = '1';
@@ -1758,7 +1771,7 @@ if ('serviceWorker' in navigator) {
             updateCartBadge();
             suppressPush = false;
             setSyncStatus('online');
-            checkForUpdate(); // verifica versão remota
+            checkForUpdate();
         }, function(err) {
             console.warn('Listener Firestore com erro:', err);
             setSyncStatus('offline');
@@ -1775,6 +1788,7 @@ if ('serviceWorker' in navigator) {
                 if (!Array.isArray(parsed.categories) || !parsed.categories.length)
                     loaded.categories = deepClone(DEFAULT_CONFIG.categories);
                 if (!Array.isArray(parsed.products)) loaded.products = [];
+                if (!Array.isArray(loaded.notifProductIds)) loaded.notifProductIds = [];
                 if (!loaded.whatsappLink || String(loaded.whatsappLink).indexOf('5500000000000') !== -1)
                     loaded.whatsappLink = WHATSAPP_DEFAULT;
                 if (!loaded.systemVersion) loaded.systemVersion = '1';
@@ -1817,7 +1831,6 @@ if ('serviceWorker' in navigator) {
         if (!remoteV) return;
         var localV = getLocalSysVersion();
         if (!localV) {
-            // Primeira visita: apenas registra a versão atual sem exibir botão
             setLocalSysVersion(remoteV);
             hideUpdateUI();
             return;
@@ -1861,17 +1874,14 @@ if ('serviceWorker' in navigator) {
         if (btn) btn.disabled = true;
         if (labelEl) labelEl.textContent = 'ATUALIZANDO...';
 
-        // Marca a versão como vista para que após o reload o botão não reapareça
         setLocalSysVersion(remoteV);
 
-        // Garante que a config atual (já sincronizada via listener) fica salva localmente
         try { saveConfigLocal(); } catch (e) {}
 
         var doReload = function() {
             try {
                 var url = location.href.split('#')[0];
                 var sep = url.indexOf('?') !== -1 ? '&' : '?';
-                // Bypass de cache via query string
                 location.replace(url + sep + '_update=' + Date.now());
             } catch (e) {
                 try { location.reload(); } catch (e2) { location.href = location.href; }
@@ -1880,7 +1890,6 @@ if ('serviceWorker' in navigator) {
 
         var tasks = [];
 
-        // 1) Atualiza o Service Worker
         if ('serviceWorker' in navigator) {
             tasks.push(
                 navigator.serviceWorker.getRegistrations().then(function(regs) {
@@ -1889,7 +1898,6 @@ if ('serviceWorker' in navigator) {
                     }));
                 }).catch(function(){})
             );
-            // Avisa o SW para assumir a nova versão
             try {
                 if (navigator.serviceWorker.controller) {
                     navigator.serviceWorker.controller.postMessage({ type: 'SKIP_WAITING' });
@@ -1897,7 +1905,6 @@ if ('serviceWorker' in navigator) {
             } catch (e) {}
         }
 
-        // 2) Limpa caches do Cache Storage
         if (window.caches && caches.keys) {
             tasks.push(
                 caches.keys().then(function(names) {
@@ -1920,6 +1927,7 @@ if ('serviceWorker' in navigator) {
             if (!c.color) c.color = config.accentColor || '#31c8ff';
         });
         if (!Array.isArray(config.products)) config.products = [];
+        if (!Array.isArray(config.notifProductIds)) config.notifProductIds = [];
         var needsGen = !config.products.length, migrated = false;
         config.products.forEach(function(p) {
             if (p.catIndex !== undefined && p.catId === undefined) {
@@ -2099,7 +2107,6 @@ if ('serviceWorker' in navigator) {
         else badge.classList.remove('visible');
     }
 
-    /* ====== Retorna a referência da imagem do primeiro produto da categoria (para usar como ícone) ====== */
     function getFirstCategoryImage(catId) {
         if (!Array.isArray(config.products)) return '';
         for (var i = 0; i < config.products.length; i++) {
@@ -2134,7 +2141,6 @@ if ('serviceWorker' in navigator) {
             var catLeft = document.createElement('div');
             catLeft.className = 'category-left';
 
-            // ====== Ícone da categoria: foto do produto OU abreviação ======
             var firstImg = getFirstCategoryImage(cat.id);
             var iconBox = document.createElement('div');
             iconBox.className = 'category-icon-box';
@@ -2427,6 +2433,7 @@ if ('serviceWorker' in navigator) {
             document.getElementById('freightModalOverlay').classList.contains('active') ||
             document.getElementById('rulesModalOverlay').classList.contains('active') ||
             document.getElementById('passwordOverlay').classList.contains('active') ||
+            document.getElementById('notifModalOverlay').classList.contains('active') ||
             configPanelOpen;
     }
 
@@ -2795,6 +2802,100 @@ if ('serviceWorker' in navigator) {
         body.appendChild(note);
     }
 
+    /* ============================================================
+       MODAL DE NOVIDADES (NOTIFICAÇÕES)
+       ============================================================ */
+    function openNotifModal() {
+        renderNotifModal();
+        document.getElementById('notifModalOverlay').classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+    function closeNotifModal() {
+        document.getElementById('notifModalOverlay').classList.remove('active');
+        if (!isAnyModalOpen()) document.body.style.overflow = '';
+    }
+    function renderNotifModal() {
+        var body = document.getElementById('notifModalBody');
+        var subtitle = document.getElementById('notifModalSubtitle');
+        var ids = Array.isArray(config.notifProductIds) ? config.notifProductIds : [];
+        var prods = [];
+        ids.forEach(function(id) {
+            var p = findProductById(id);
+            if (p) prods.push(p);
+        });
+
+        if (!prods.length) {
+            subtitle.textContent = 'Nenhuma novidade no momento';
+            body.innerHTML = '<div class="promo-empty"><div class="promo-empty-icon">🔔</div><h4 class="promo-empty-title">Sem novidades</h4><p class="promo-empty-desc">Assim que novos produtos forem adicionados, eles aparecerão aqui automaticamente.</p></div>';
+            return;
+        }
+
+        subtitle.textContent = prods.length === 1 ? '1 produto novo adicionado' : prods.length + ' produtos novos adicionados';
+
+        var grid = document.createElement('div');
+        grid.className = 'promo-grid';
+        var frag = document.createDocumentFragment();
+
+        prods.forEach(function(product) {
+            var onPromo = isOnPromo(product);
+            var card = document.createElement('div');
+            card.className = 'promo-card';
+            card.setAttribute('role', 'button');
+            card.setAttribute('tabindex', '0');
+            card.dataset.productId = product.id;
+
+            if (onPromo) {
+                var badge = document.createElement('span');
+                badge.className = 'promo-card-discount';
+                badge.textContent = '-' + getPromoDiscount(product) + '%';
+                card.appendChild(badge);
+            }
+
+            var img = document.createElement('img');
+            img.className = 'promo-card-thumb';
+            img.alt = product.name;
+            img.loading = 'lazy';
+            img.setAttribute('data-name', product.name);
+            var cached = getRefSync(product.image);
+            img.src = cached || svgPlaceholder(product.name);
+            if ((isCloudRef(product.image) || isIdbRef(product.image)) && !cached) {
+                loadRefIntoImg(product.image, img, product.name);
+            }
+
+            var info = document.createElement('div');
+            info.className = 'promo-card-info';
+
+            var priceHtml;
+            if (onPromo) {
+                priceHtml = '<div class="promo-card-prices">' +
+                    '<span class="promo-card-old">' + formatBRL(product.price) + '</span>' +
+                    '<span class="promo-card-new">' + formatBRL(product.promoPrice) + '</span>' +
+                '</div>';
+            } else {
+                priceHtml = '<div class="promo-card-prices">' +
+                    '<span class="promo-card-new" style="color:var(--accent);text-shadow:0 0 14px rgba(49,200,255,.35)">' + formatBRL(product.price) + '</span>' +
+                '</div>';
+            }
+
+            info.innerHTML = '<span class="promo-card-brand">' + esc(product.brand) + '</span>' +
+                '<span class="promo-card-name">' + esc(product.name) + '</span>' +
+                priceHtml;
+
+            card.appendChild(img);
+            card.appendChild(info);
+            frag.appendChild(card);
+        });
+
+        grid.appendChild(frag);
+        body.innerHTML = '';
+        body.appendChild(grid);
+
+        var note = document.createElement('div');
+        note.className = 'promo-footer-note';
+        note.innerHTML = '<span style="flex-shrink:0">💡</span><span>Toque em um produto para ver os detalhes e adicionar ao carrinho.</span>';
+        body.appendChild(note);
+    }
+
     function openFreightModal() { document.getElementById('freightModalOverlay').classList.add('active'); document.body.style.overflow = 'hidden'; }
     function closeFreightModal() { document.getElementById('freightModalOverlay').classList.remove('active'); if (!isAnyModalOpen()) document.body.style.overflow = ''; }
     function openRulesModal() { document.getElementById('rulesModalOverlay').classList.add('active'); document.body.style.overflow = 'hidden'; }
@@ -3155,23 +3256,30 @@ if ('serviceWorker' in navigator) {
     function finalizeSave(newConfig) {
         var prev = config;
 
-        // Atualiza notificação com base em novos produtos
-        var prevCount = (prev.products || []).length;
-        var newCount = (newConfig.products || []).length;
-        var addedCount = newCount - prevCount;
+        /* Detecta produtos novos comparando com o estado anterior */
+        var prevIds = {};
+        (prev.products || []).forEach(function(p) { prevIds[p.id] = true; });
+        var addedIds = (newConfig.products || [])
+            .filter(function(p) { return !prevIds[p.id]; })
+            .map(function(p) { return p.id; });
 
-        if (addedCount > 0) {
-            newConfig.notifText = addedCount + ' novidade' + (addedCount > 1 ? 's' : '');
-            newConfig.notifCount = String(addedCount);
+        if (addedIds.length > 0) {
+            newConfig.notifText = addedIds.length + ' novidade' + (addedIds.length > 1 ? 's' : '');
+            newConfig.notifCount = String(addedIds.length);
+            newConfig.notifProductIds = addedIds;
+        } else {
+            newConfig.notifProductIds = Array.isArray(prev.notifProductIds) ? prev.notifProductIds.slice() : [];
         }
 
-        // Bump na versão do sistema para sinalizar atualização aos outros dispositivos
+        if (!newConfig.notifText) newConfig.notifText = prev.notifText || '1 novidade';
+        if (!newConfig.notifCount) newConfig.notifCount = prev.notifCount || '1';
+
+        /* Bump na versão do sistema para sinalizar atualização aos outros dispositivos */
         newConfig.systemVersion = String(Date.now());
 
         config = newConfig;
         if (!saveConfigLocal()) { config = prev; return; }
 
-        // Registra localmente a versão recém-salva para o próprio admin não ver o botão
         setLocalSysVersion(newConfig.systemVersion);
 
         rebuildSearchIndex();
@@ -3286,7 +3394,6 @@ if ('serviceWorker' in navigator) {
                 }).then(function(data) {
                     if (data) cache[prod.id] = data;
                 }).catch(function() {
-                    // sem imagem - ok
                 }).then(function() {
                     loaded++;
                     if (onProgress) onProgress(loaded, total);
@@ -3734,7 +3841,6 @@ if ('serviceWorker' in navigator) {
         var pdfBtn = document.getElementById('pdfCatalogBtn');
         if (pdfBtn) pdfBtn.addEventListener('click', gerarCatalogoPDF);
 
-        // ===== BOTÃO ATUALIZAR SISTEMA =====
         var updateBtn = document.getElementById('updateSystemBtn');
         if (updateBtn) {
             updateBtn.addEventListener('click', applySystemUpdate);
@@ -3849,6 +3955,16 @@ if ('serviceWorker' in navigator) {
             if (prod) { closePromoModal(); openProductModal(prod); }
         });
 
+        /* ===== MODAL DE NOVIDADES ===== */
+        document.getElementById('notifModalBody').addEventListener('click', function(e) {
+            var card = e.target.closest('.promo-card');
+            if (!card) return;
+            var prod = findProductById(card.dataset.productId);
+            if (prod) { closeNotifModal(); openProductModal(prod); }
+        });
+        document.getElementById('notifModalClose').addEventListener('click', closeNotifModal);
+        document.getElementById('notifModalOverlay').addEventListener('click', function(e) { if (e.target === this) closeNotifModal(); });
+
         document.getElementById('productModalClose').addEventListener('click', closeProductModal);
         document.getElementById('productOverlay').addEventListener('click', function(e) { if (e.target === this) closeProductModal(); });
         document.getElementById('pmBuyBtn').addEventListener('click', buyCurrentProduct);
@@ -3914,6 +4030,7 @@ if ('serviceWorker' in navigator) {
                 if (document.getElementById('pdfOverlay').classList.contains('active')) return;
                 if (document.getElementById('checkoutOverlay').classList.contains('active')) { closeCheckoutModal(); return; }
                 if (document.getElementById('cartOverlay').classList.contains('active')) { closeCartModal(); return; }
+                if (document.getElementById('notifModalOverlay').classList.contains('active')) { closeNotifModal(); return; }
                 if (document.getElementById('promoModalOverlay').classList.contains('active')) { closePromoModal(); return; }
                 if (document.getElementById('freightModalOverlay').classList.contains('active')) { closeFreightModal(); return; }
                 if (document.getElementById('rulesModalOverlay').classList.contains('active')) { closeRulesModal(); return; }
@@ -3930,8 +4047,9 @@ if ('serviceWorker' in navigator) {
             }
         });
 
+        /* ===== BOTÃO DE NOTIFICAÇÃO (AGORA ABRE O MODAL DE NOVIDADES) ===== */
         document.getElementById('notifBtn').addEventListener('click', function() {
-            showToast('🔔 Você tem ' + config.notifText + '!', 'success');
+            openNotifModal();
         });
         document.getElementById('whatsappBtn').addEventListener('click', function() {
             window.open(config.whatsappLink || WHATSAPP_DEFAULT, '_blank');
@@ -3989,7 +4107,6 @@ if ('serviceWorker' in navigator) {
                     suppressPush = false;
                     setSyncStatus('online');
 
-                    // Checa se há atualização do sistema disponível
                     checkForUpdate();
 
                     loadImagesFromCloud().then(function(n) {
@@ -4034,6 +4151,7 @@ if ('serviceWorker' in navigator) {
         openConfigPanel: openConfigPanel,
         openPasswordModal: openPasswordModal,
         openPromoModal: openPromoModal,
+        openNotifModal: openNotifModal,
         openCartModal: openCartModal,
         openCheckoutModal: openCheckoutModal,
         openFreightModal: openFreightModal,
