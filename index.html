@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Respect Pharma - Painel Configurável</title>
+    <title>REPRESENTANTE - DAVID</title>
     <meta name="description" content="As melhores marcas do mundo você encontra aqui.">
     <meta property="og:title" content="Respect Pharma">
     <meta property="og:description" content="As melhores marcas do mundo você encontra aqui.">
@@ -178,7 +178,8 @@
         .category-card-header{width:100%;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;background:transparent;border:none;cursor:pointer;font-family:var(--font);transition:background .2s}
         .category-card-header:hover{background:rgba(255,255,255,.03)}
         .category-left{display:flex;align-items:center;gap:12px;min-width:0}
-        .category-icon-box{width:36px;height:36px;border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;flex-shrink:0;letter-spacing:-.01em}
+        .category-icon-box{width:36px;height:36px;border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;flex-shrink:0;letter-spacing:-.01em;overflow:hidden}
+        .category-icon-box img{width:100%;height:100%;object-fit:cover;display:block;border-radius:inherit}
         .category-text{text-align:left;min-width:0}
         .category-name{font-weight:700;font-size:14px;letter-spacing:-.01em}
         .category-count{font-size:12px}
@@ -1896,6 +1897,19 @@ if ('serviceWorker' in navigator) {
         else badge.classList.remove('visible');
     }
 
+    /* ====== Retorna a referência da imagem do primeiro produto da categoria (para usar como ícone) ====== */
+    function getFirstCategoryImage(catId) {
+        if (!Array.isArray(config.products)) return '';
+        for (var i = 0; i < config.products.length; i++) {
+            var p = config.products[i];
+            if (p.catId === catId && p.image && typeof p.image === 'string') {
+                if (p.image.indexOf('data:image/svg') === 0) continue;
+                return p.image;
+            }
+        }
+        return '';
+    }
+
     function renderCategories() {
         var container = document.getElementById('categoriesList');
         var frag = document.createDocumentFragment();
@@ -1914,15 +1928,69 @@ if ('serviceWorker' in navigator) {
             var header = document.createElement('button');
             header.className = 'category-card-header';
             header.type = 'button';
-            header.innerHTML =
-                '<div class="category-left">' +
-                    '<div class="category-icon-box" style="background:' + bgStyle + ';color:' + textColor + ';">' + esc(cat.abbr) + '</div>' +
-                    '<div class="category-text">' +
-                        '<h2 class="category-name" style="color:' + textColor + ';">' + esc(cat.name) + '</h2>' +
-                        '<p class="category-count" style="color:var(--text-secondary);">' + esc(cat.count) + '</p>' +
-                    '</div>' +
-                '</div>' +
-                '<svg class="category-chevron" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="' + textColor + '" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>';
+
+            var catLeft = document.createElement('div');
+            catLeft.className = 'category-left';
+
+            // ====== Ícone da categoria: foto do produto OU abreviação ======
+            var firstImg = getFirstCategoryImage(cat.id);
+            var iconBox = document.createElement('div');
+            iconBox.className = 'category-icon-box';
+
+            if (firstImg) {
+                iconBox.style.background = bgStyle;
+                iconBox.style.border = '1px solid ' + hexToRgba(accent, 0.5);
+                var iconImg = document.createElement('img');
+                iconImg.alt = cat.name;
+                iconImg.setAttribute('data-name', cat.abbr || 'CA');
+                var cached = getRefSync(firstImg);
+                iconImg.src = cached || svgPlaceholder(cat.abbr || 'CA');
+                if ((isCloudRef(firstImg) || isIdbRef(firstImg)) && !cached) {
+                    loadRefIntoImg(firstImg, iconImg, cat.abbr || 'CA');
+                }
+                iconBox.appendChild(iconImg);
+            } else {
+                iconBox.style.background = bgStyle;
+                iconBox.style.color = textColor;
+                iconBox.textContent = cat.abbr;
+            }
+
+            var catText = document.createElement('div');
+            catText.className = 'category-text';
+
+            var nameH = document.createElement('h2');
+            nameH.className = 'category-name';
+            nameH.style.color = textColor;
+            nameH.textContent = cat.name;
+
+            var countP = document.createElement('p');
+            countP.className = 'category-count';
+            countP.style.color = 'var(--text-secondary)';
+            countP.textContent = cat.count;
+
+            catText.appendChild(nameH);
+            catText.appendChild(countP);
+
+            catLeft.appendChild(iconBox);
+            catLeft.appendChild(catText);
+
+            var chevron = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+            chevron.setAttribute('class', 'category-chevron');
+            chevron.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+            chevron.setAttribute('width', '24');
+            chevron.setAttribute('height', '24');
+            chevron.setAttribute('viewBox', '0 0 24 24');
+            chevron.setAttribute('fill', 'none');
+            chevron.setAttribute('stroke', textColor);
+            chevron.setAttribute('stroke-width', '2');
+            chevron.setAttribute('stroke-linecap', 'round');
+            chevron.setAttribute('stroke-linejoin', 'round');
+            var chevPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            chevPath.setAttribute('d', 'm6 9 6 6 6-6');
+            chevron.appendChild(chevPath);
+
+            header.appendChild(catLeft);
+            header.appendChild(chevron);
 
             var productsWrap = document.createElement('div');
             productsWrap.className = 'category-products';
@@ -3018,26 +3086,21 @@ if ('serviceWorker' in navigator) {
     }
 
     function drawPageHeader(doc, W, title, subtitle, pageNum) {
-        // Top gold bar
         doc.setFillColor(212, 175, 55);
         doc.rect(0, 0, W, 2.5, 'F');
-        // Title
         doc.setTextColor(245, 215, 110);
         doc.setFont('helvetica', 'bold');
         doc.setFontSize(17);
         doc.text(String(title).toUpperCase(), 15, 20);
-        // Subtitle
         if (subtitle) {
             doc.setTextColor(150, 160, 175);
             doc.setFont('helvetica', 'normal');
             doc.setFontSize(9);
             doc.text(subtitle, 15, 25.5);
         }
-        // Underline
         doc.setDrawColor(212, 175, 55);
         doc.setLineWidth(0.4);
         doc.line(15, 28.5, W - 15, 28.5);
-        // Page number (right)
         if (pageNum) {
             doc.setTextColor(120, 130, 145);
             doc.setFont('helvetica', 'normal');
@@ -3088,28 +3151,20 @@ if ('serviceWorker' in navigator) {
                 var products = config.products || [];
                 var categories = config.categories || [];
 
-                // ============ CAPA ============
                 drawPageBackground(doc, W, H);
 
-                // Ornamento dourado moldura
                 doc.setDrawColor(GOLD[0], GOLD[1], GOLD[2]);
                 doc.setLineWidth(1.5);
                 doc.rect(10, 10, W - 20, H - 20);
                 doc.setLineWidth(0.3);
                 doc.rect(14, 14, W - 28, H - 28);
 
-                // Cantos decorativos
                 doc.setLineWidth(0.8);
-                // TL
                 doc.line(14, 22, 22, 14);
-                // TR
                 doc.line(W - 14, 22, W - 22, 14);
-                // BL
                 doc.line(14, H - 22, 22, H - 14);
-                // BR
                 doc.line(W - 14, H - 22, W - 22, H - 14);
 
-                // Banda dourada topo
                 doc.setFillColor(GOLD[0], GOLD[1], GOLD[2]);
                 doc.rect(20, 20, W - 40, 0.5, 'F');
                 doc.rect(20, H - 20.5, W - 40, 0.5, 'F');
@@ -3119,12 +3174,10 @@ if ('serviceWorker' in navigator) {
 
                 var continueCover = function(coverData) {
                     if (coverData) {
-                        // Capa quadrada no topo
                         var coverSize = 110;
                         var coverX = (W - coverSize) / 2;
                         var coverY = 40;
 
-                        // Sombra dourada ao redor
                         doc.setFillColor(30, 25, 15);
                         doc.roundedRect(coverX - 3, coverY - 3, coverSize + 6, coverSize + 6, 4, 4, 'F');
 
@@ -3134,13 +3187,11 @@ if ('serviceWorker' in navigator) {
                             console.warn('Erro ao adicionar capa:', e);
                         }
 
-                        // Borda dourada
                         doc.setDrawColor(GOLD[0], GOLD[1], GOLD[2]);
                         doc.setLineWidth(0.8);
                         doc.roundedRect(coverX - 3, coverY - 3, coverSize + 6, coverSize + 6, 4, 4, 'S');
                     }
 
-                    // Título principal
                     var titleY = coverData ? 175 : 90;
                     doc.setTextColor(GOLD[0], GOLD[1], GOLD[2]);
                     doc.setFont('helvetica', 'bold');
@@ -3150,28 +3201,23 @@ if ('serviceWorker' in navigator) {
                     doc.setFontSize(22);
                     doc.text('DE PRODUTOS', W / 2, titleY + 11, { align: 'center' });
 
-                    // Linha decorativa
                     doc.setDrawColor(GOLD[0], GOLD[1], GOLD[2]);
                     doc.setLineWidth(0.6);
                     doc.line(60, titleY + 17, 90, titleY + 17);
                     doc.line(120, titleY + 17, 150, titleY + 17);
-                    // Diamante
                     doc.setFillColor(GOLD[0], GOLD[1], GOLD[2]);
                     doc.circle(W / 2, titleY + 17, 1.2, 'F');
 
-                    // Nome da loja
                     doc.setTextColor(WHITE[0], WHITE[1], WHITE[2]);
                     doc.setFont('helvetica', 'bold');
                     doc.setFontSize(24);
                     doc.text(String(config.storeName || 'Respect Pharma').toUpperCase(), W / 2, titleY + 32, { align: 'center' });
 
-                    // Tagline
                     doc.setTextColor(GRAY[0], GRAY[1], GRAY[2]);
                     doc.setFont('helvetica', 'italic');
                     doc.setFontSize(11);
                     doc.text(String(config.tagline || ''), W / 2, titleY + 42, { align: 'center', maxWidth: 160 });
 
-                    // Info final
                     var today = new Date().toLocaleDateString('pt-BR');
                     doc.setTextColor(GOLD_LIGHT[0], GOLD_LIGHT[1], GOLD_LIGHT[2]);
                     doc.setFont('helvetica', 'bold');
@@ -3183,7 +3229,6 @@ if ('serviceWorker' in navigator) {
                     doc.setFontSize(10);
                     doc.text('Atualizado em ' + today, W / 2, H - 45, { align: 'center' });
 
-                    // Selo BRATVA LABS embaixo
                     doc.setTextColor(GOLD[0], GOLD[1], GOLD[2]);
                     doc.setFont('helvetica', 'bold');
                     doc.setFontSize(9);
@@ -3192,7 +3237,6 @@ if ('serviceWorker' in navigator) {
                     progressEl.style.width = '20%';
                     statusEl.textContent = 'Criando índice...';
 
-                    // ============ PÁGINA ÍNDICE ============
                     doc.addPage();
                     drawPageBackground(doc, W, H);
                     drawPageHeader(doc, W, 'Índice de Categorias', 'Navegue pelas categorias do catálogo', 2);
@@ -3211,27 +3255,22 @@ if ('serviceWorker' in navigator) {
                             yIdx = 40;
                         }
 
-                        // Row bg
                         doc.setFillColor(DARK2[0], DARK2[1], DARK2[2]);
                         doc.roundedRect(15, yIdx, W - 30, 13, 2, 2, 'F');
 
-                        // Gold left bar
                         doc.setFillColor(GOLD[0], GOLD[1], GOLD[2]);
                         doc.rect(15, yIdx, 1.5, 13, 'F');
 
-                        // Number
                         doc.setTextColor(GOLD[0], GOLD[1], GOLD[2]);
                         doc.setFont('helvetica', 'bold');
                         doc.setFontSize(11);
                         doc.text(String(catCount).padStart(2, '0'), 20, yIdx + 8.5);
 
-                        // Category name
                         doc.setTextColor(WHITE[0], WHITE[1], WHITE[2]);
                         doc.setFont('helvetica', 'bold');
                         doc.setFontSize(11);
                         doc.text(String(cat.name || ''), 30, yIdx + 8.5);
 
-                        // Count
                         doc.setTextColor(GOLD_LIGHT[0], GOLD_LIGHT[1], GOLD_LIGHT[2]);
                         doc.setFont('helvetica', 'normal');
                         doc.setFontSize(10);
@@ -3242,7 +3281,6 @@ if ('serviceWorker' in navigator) {
 
                     drawPageFooter(doc, W, H);
 
-                    // ============ CARREGAR IMAGENS ============
                     statusEl.textContent = 'Carregando fotos dos produtos...';
                     progressEl.style.width = '25%';
 
@@ -3258,7 +3296,6 @@ if ('serviceWorker' in navigator) {
                         var PER_PAGE = 8;
                         var pageNum = 3;
 
-                        // ============ PÁGINAS DE PRODUTOS ============
                         categories.forEach(function(cat) {
                             var catProducts = products.filter(function(p) { return p.catId === cat.id; });
                             if (catProducts.length === 0) return;
@@ -3287,22 +3324,18 @@ if ('serviceWorker' in navigator) {
                                     var x = gridX + col * (cardW + 5);
                                     var y = gridY + row * (cardH + rowGap);
 
-                                    // Card bg
                                     doc.setFillColor(DARK2[0], DARK2[1], DARK2[2]);
                                     doc.roundedRect(x, y, cardW, cardH, 2, 2, 'F');
 
-                                    // Card border
                                     doc.setDrawColor(70, 60, 35);
                                     doc.setLineWidth(0.2);
                                     doc.roundedRect(x, y, cardW, cardH, 2, 2, 'S');
 
-                                    // Image
                                     var imgSize = 38;
                                     var imgX = x + 4;
                                     var imgY = y + (cardH - imgSize) / 2;
                                     var imgData = imgCache[prod.id];
 
-                                    // Image bg
                                     doc.setFillColor(20, 25, 32);
                                     doc.roundedRect(imgX, imgY, imgSize, imgSize, 1.5, 1.5, 'F');
 
@@ -3317,23 +3350,19 @@ if ('serviceWorker' in navigator) {
                                         doc.text('SEM FOTO', imgX + imgSize / 2, imgY + imgSize / 2 + 1, { align: 'center' });
                                     }
 
-                                    // Image border
                                     doc.setDrawColor(GOLD[0], GOLD[1], GOLD[2]);
                                     doc.setLineWidth(0.15);
                                     doc.roundedRect(imgX, imgY, imgSize, imgSize, 1.5, 1.5, 'S');
 
-                                    // Text area
                                     var textX = imgX + imgSize + 3;
                                     var textW = cardW - (imgSize + 10);
 
-                                    // Brand
                                     doc.setTextColor(GOLD[0], GOLD[1], GOLD[2]);
                                     doc.setFont('helvetica', 'bold');
                                     doc.setFontSize(6.5);
                                     var brand = String(prod.brand || '').toUpperCase().slice(0, 28);
                                     doc.text(brand, textX, y + 8);
 
-                                    // Name (wrapped)
                                     doc.setTextColor(WHITE[0], WHITE[1], WHITE[2]);
                                     doc.setFont('helvetica', 'bold');
                                     doc.setFontSize(8.5);
@@ -3341,12 +3370,10 @@ if ('serviceWorker' in navigator) {
                                     var shownLines = nameLines.slice(0, 3);
                                     doc.text(shownLines, textX, y + 14);
 
-                                    // Prices
                                     var onPromo = isOnPromo(prod);
                                     var priceY = y + cardH - 8;
 
                                     if (onPromo) {
-                                        // Old price (strikethrough)
                                         doc.setTextColor(GRAY[0], GRAY[1], GRAY[2]);
                                         doc.setFont('helvetica', 'normal');
                                         doc.setFontSize(7.5);
@@ -3357,13 +3384,11 @@ if ('serviceWorker' in navigator) {
                                         doc.setLineWidth(0.25);
                                         doc.line(textX, priceY - 6.8, textX + oldW, priceY - 6.8);
 
-                                        // New price
                                         doc.setTextColor(GOLD_LIGHT[0], GOLD_LIGHT[1], GOLD_LIGHT[2]);
                                         doc.setFont('helvetica', 'bold');
                                         doc.setFontSize(12);
                                         doc.text(formatBRL(prod.promoPrice), textX, priceY);
 
-                                        // Promo badge (top-right)
                                         doc.setFillColor(212, 175, 55);
                                         doc.roundedRect(x + cardW - 20, y + 2, 18, 6, 1.5, 1.5, 'F');
                                         doc.setTextColor(20, 15, 5);
@@ -3383,16 +3408,13 @@ if ('serviceWorker' in navigator) {
                             }
                         });
 
-                        // ============ PÁGINA FINAL (CONTATO) ============
                         doc.addPage();
                         drawPageBackground(doc, W, H);
 
-                        // Moldura
                         doc.setDrawColor(GOLD[0], GOLD[1], GOLD[2]);
                         doc.setLineWidth(1.2);
                         doc.rect(12, 12, W - 24, H - 24);
 
-                        // Título
                         doc.setTextColor(GOLD[0], GOLD[1], GOLD[2]);
                         doc.setFont('helvetica', 'bold');
                         doc.setFontSize(30);
@@ -3402,12 +3424,10 @@ if ('serviceWorker' in navigator) {
                         doc.setFontSize(14);
                         doc.text('ENTRE EM CONTATO', W / 2, 82, { align: 'center' });
 
-                        // Linha
                         doc.setDrawColor(GOLD[0], GOLD[1], GOLD[2]);
                         doc.setLineWidth(0.5);
                         doc.line(75, 90, 135, 90);
 
-                        // WhatsApp box
                         doc.setFillColor(DARK2[0], DARK2[1], DARK2[2]);
                         doc.roundedRect(30, 110, W - 60, 30, 3, 3, 'F');
                         doc.setDrawColor(GOLD[0], GOLD[1], GOLD[2]);
@@ -3427,7 +3447,6 @@ if ('serviceWorker' in navigator) {
                         if (waNum) waNum = '+' + waNum;
                         doc.text(waNum || waLink, 40, 130);
 
-                        // Telegram box
                         doc.setFillColor(DARK2[0], DARK2[1], DARK2[2]);
                         doc.roundedRect(30, 150, W - 60, 30, 3, 3, 'F');
                         doc.setDrawColor(GOLD[0], GOLD[1], GOLD[2]);
@@ -3443,7 +3462,6 @@ if ('serviceWorker' in navigator) {
                         doc.setFontSize(11);
                         doc.text(String(config.telegramSubtitle || '@David10151'), 40, 170);
 
-                        // Rodapé
                         doc.setTextColor(GRAY[0], GRAY[1], GRAY[2]);
                         doc.setFont('helvetica', 'italic');
                         doc.setFontSize(11);
@@ -3454,7 +3472,6 @@ if ('serviceWorker' in navigator) {
                         doc.setFontSize(13);
                         doc.text('BRATVA LABS  •  DAVID OFICIAL', W / 2, H - 50, { align: 'center' });
 
-                        // Save
                         statusEl.textContent = 'Salvando PDF...';
                         progressEl.style.width = '100%';
 
@@ -3476,7 +3493,6 @@ if ('serviceWorker' in navigator) {
                 loadImageAsDataURL(PDF_COVER_LOGO).then(function(data) {
                     continueCover(data);
                 }).catch(function() {
-                    // Tenta o heroLogoUrl como fallback
                     loadImageAsDataURL(config.heroLogoUrl).then(function(data) {
                         continueCover(data);
                     }).catch(function() {
