@@ -214,6 +214,77 @@
         .config-toggle-btn:hover{transform:scale(1.1);box-shadow:0 12px 35px rgba(49,200,255,.5)}
         .config-toggle-btn svg{width:22px;height:22px}
         .config-toggle-btn.active{background:#ef4444;box-shadow:0 8px 25px rgba(239,68,68,.4)}
+
+        /* ===== BOTÃO ATUALIZAR SISTEMA ===== */
+        .update-system-btn{
+            position:fixed;
+            bottom:80px;
+            left:16px;
+            z-index:101;
+            display:none;
+            align-items:center;
+            gap:8px;
+            padding:12px 18px;
+            border-radius:50px;
+            background:linear-gradient(135deg,#22c55e,#15803d);
+            color:#ffffff;
+            border:2px solid rgba(255,255,255,.25);
+            font-family:var(--font);
+            font-size:12px;
+            font-weight:900;
+            letter-spacing:.02em;
+            cursor:pointer;
+            box-shadow:0 10px 30px rgba(34,197,94,.55);
+            -webkit-tap-highlight-color:transparent;
+            transition:transform var(--transition);
+            animation:updateGlow 2s infinite;
+        }
+        .update-system-btn.visible{display:flex}
+        .update-system-btn:active{transform:scale(.95)}
+        .update-system-btn:disabled{opacity:.75;cursor:wait;animation:none}
+        .update-system-btn svg{width:16px;height:16px;flex-shrink:0;animation:spinUpdate 2.4s linear infinite}
+        @keyframes spinUpdate{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+        @keyframes updateGlow{
+            0%,100%{box-shadow:0 10px 30px rgba(34,197,94,.55)}
+            50%{box-shadow:0 10px 42px rgba(34,197,94,.95)}
+        }
+
+        /* Banner de notificação de atualização */
+        .update-notification-banner{
+            position:fixed;
+            top:calc(118px + 10px);
+            left:50%;
+            transform:translateX(-50%) translateY(-24px);
+            z-index:120;
+            display:none;
+            align-items:center;
+            gap:10px;
+            padding:12px 18px;
+            max-width:calc(100vw - 32px);
+            background:linear-gradient(135deg,rgba(34,197,94,.95),rgba(21,128,61,.95));
+            color:#ffffff;
+            border:1px solid rgba(255,255,255,.3);
+            border-radius:14px;
+            font-family:var(--font);
+            font-size:12.5px;
+            font-weight:800;
+            letter-spacing:-.01em;
+            box-shadow:0 12px 32px rgba(0,0,0,.55),0 0 22px rgba(34,197,94,.55);
+            opacity:0;
+            transition:opacity .3s ease, transform .3s ease;
+            text-align:center;
+        }
+        .update-notification-banner.visible{
+            display:flex;
+            opacity:1;
+            transform:translateX(-50%) translateY(0);
+        }
+        .update-notification-banner .unb-icon{
+            font-size:16px;
+            flex-shrink:0;
+            animation:bounce 2s infinite;
+        }
+
         .config-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:99;opacity:0;pointer-events:none;transition:opacity .3s;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
         .config-overlay.active{opacity:1;pointer-events:auto}
         .config-panel{position:fixed;top:0;right:0;bottom:0;width:100%;max-width:440px;background:var(--bg-secondary);border-left:1px solid var(--border-color);z-index:100;transform:translateX(100%);transition:transform .35s cubic-bezier(.32,.72,0,1);display:flex;flex-direction:column;box-shadow:-10px 0 40px rgba(0,0,0,.4)}
@@ -502,6 +573,8 @@
             .pdf-icon-wrap svg{width:18px;height:18px}
             .pdf-btn-title{font-size:12px}
             .pdf-btn-subtitle{font-size:9.5px}
+            .update-system-btn{font-size:10.5px;padding:10px 14px;bottom:88px}
+            .update-system-btn svg{width:14px;height:14px}
         }
     </style>
 </head>
@@ -544,6 +617,12 @@
             </div>
         </div>
     </header>
+
+    <!-- BANNER DE NOTIFICAÇÃO DE ATUALIZAÇÃO DO SISTEMA -->
+    <div class="update-notification-banner" id="updateNotificationBanner">
+        <span class="unb-icon">🔔</span>
+        <span>Nova atualização disponível! Toque em <strong>ATUALIZAR SISTEMA</strong>.</span>
+    </div>
 
     <div class="header-spacer"></div>
 
@@ -693,6 +772,15 @@
             <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/>
             <circle cx="12" cy="12" r="3"/>
         </svg>
+    </button>
+
+    <!-- BOTÃO ATUALIZAR SISTEMA -->
+    <button class="update-system-btn" id="updateSystemBtn" type="button" aria-label="Atualizar sistema">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12a9 9 0 1 1-3-6.7L21 8"/>
+            <path d="M21 3v5h-5"/>
+        </svg>
+        <span id="updateSystemLabel">ATUALIZAR SISTEMA</span>
     </button>
 
     <div class="config-overlay" id="configOverlay"></div>
@@ -1128,6 +1216,7 @@ if ('serviceWorker' in navigator) {
     var WHATSAPP_DEFAULT = 'https://wa.me/5519997390834';
     var CART_KEY = 'respectPharmaCart';
     var LOCAL_CONFIG_KEY = 'respectPharmaConfig';
+    var SYS_VERSION_KEY = 'respectPharmaSysVersion';
     var IDB_NAME = 'respectPharmaImages';
     var IDB_STORE = 'images';
 
@@ -1166,6 +1255,7 @@ if ('serviceWorker' in navigator) {
         zoomBannerText:'Toque na foto do produto para ampliar a imagem',
         warningBannerText:'ALGUMAS MARCAS FABRICAM PRODUTOS TANTO EM AMPOLA QUANTO EM BUJÃO. AS IMAGENS SÃO ILUSTRATIVAS.',
         footerText:'Respect Pharma • 813 produtos',notifText:'1 novidade',notifCount:'1',
+        systemVersion:'1',
         categories:[
             {name:'EMAGRECEDORES',abbr:'EM',count:'16 marcas • 79 produtos',color:'#31c8ff'},
             {name:'FARMÁCIA + MANIPULADOS',abbr:'FA',count:'2 marcas • 53 produtos',color:'#31c8ff'},
@@ -1641,6 +1731,7 @@ if ('serviceWorker' in navigator) {
         if (!Array.isArray(merged.products)) merged.products = [];
         if (!merged.whatsappLink || String(merged.whatsappLink).indexOf('5500000000000') !== -1)
             merged.whatsappLink = WHATSAPP_DEFAULT;
+        if (!merged.systemVersion) merged.systemVersion = '1';
         return merged;
     }
 
@@ -1667,6 +1758,7 @@ if ('serviceWorker' in navigator) {
             updateCartBadge();
             suppressPush = false;
             setSyncStatus('online');
+            checkForUpdate(); // verifica versão remota
         }, function(err) {
             console.warn('Listener Firestore com erro:', err);
             setSyncStatus('offline');
@@ -1685,6 +1777,7 @@ if ('serviceWorker' in navigator) {
                 if (!Array.isArray(parsed.products)) loaded.products = [];
                 if (!loaded.whatsappLink || String(loaded.whatsappLink).indexOf('5500000000000') !== -1)
                     loaded.whatsappLink = WHATSAPP_DEFAULT;
+                if (!loaded.systemVersion) loaded.systemVersion = '1';
             } else {
                 loaded = deepClone(DEFAULT_CONFIG);
             }
@@ -1708,6 +1801,116 @@ if ('serviceWorker' in navigator) {
         var ok = saveConfigLocal();
         if (fbReady && !suppressPush) pushConfigToFirestore();
         return ok;
+    }
+
+    /* ========== CONTROLE DE VERSÃO / ATUALIZAÇÃO DO SISTEMA ========== */
+    function getLocalSysVersion() {
+        try { return localStorage.getItem(SYS_VERSION_KEY) || ''; } catch (e) { return ''; }
+    }
+    function setLocalSysVersion(v) {
+        try { localStorage.setItem(SYS_VERSION_KEY, String(v == null ? '' : v)); } catch (e) {}
+    }
+
+    function checkForUpdate() {
+        if (!config) return;
+        var remoteV = String(config.systemVersion || '');
+        if (!remoteV) return;
+        var localV = getLocalSysVersion();
+        if (!localV) {
+            // Primeira visita: apenas registra a versão atual sem exibir botão
+            setLocalSysVersion(remoteV);
+            hideUpdateUI();
+            return;
+        }
+        if (remoteV !== localV) {
+            showUpdateUI(remoteV);
+        } else {
+            hideUpdateUI();
+        }
+    }
+
+    function showUpdateUI(remoteV) {
+        var btn = document.getElementById('updateSystemBtn');
+        var banner = document.getElementById('updateNotificationBanner');
+        if (!btn) return;
+        btn.classList.add('visible');
+        btn.dataset.remoteVersion = remoteV;
+        if (banner) banner.classList.add('visible');
+
+        if (!btn.dataset.notified) {
+            btn.dataset.notified = '1';
+            showToast('🔔 Houve uma atualização no sistema! Toque em ATUALIZAR.', 'success');
+        }
+    }
+
+    function hideUpdateUI() {
+        var btn = document.getElementById('updateSystemBtn');
+        var banner = document.getElementById('updateNotificationBanner');
+        if (btn) {
+            btn.classList.remove('visible');
+            delete btn.dataset.remoteVersion;
+            delete btn.dataset.notified;
+        }
+        if (banner) banner.classList.remove('visible');
+    }
+
+    function applySystemUpdate() {
+        var btn = document.getElementById('updateSystemBtn');
+        var labelEl = document.getElementById('updateSystemLabel');
+        var remoteV = (btn && btn.dataset.remoteVersion) || String((config && config.systemVersion) || '');
+        if (btn) btn.disabled = true;
+        if (labelEl) labelEl.textContent = 'ATUALIZANDO...';
+
+        // Marca a versão como vista para que após o reload o botão não reapareça
+        setLocalSysVersion(remoteV);
+
+        // Garante que a config atual (já sincronizada via listener) fica salva localmente
+        try { saveConfigLocal(); } catch (e) {}
+
+        var doReload = function() {
+            try {
+                var url = location.href.split('#')[0];
+                var sep = url.indexOf('?') !== -1 ? '&' : '?';
+                // Bypass de cache via query string
+                location.replace(url + sep + '_update=' + Date.now());
+            } catch (e) {
+                try { location.reload(); } catch (e2) { location.href = location.href; }
+            }
+        };
+
+        var tasks = [];
+
+        // 1) Atualiza o Service Worker
+        if ('serviceWorker' in navigator) {
+            tasks.push(
+                navigator.serviceWorker.getRegistrations().then(function(regs) {
+                    return Promise.all(regs.map(function(r) {
+                        return r.update().catch(function(){});
+                    }));
+                }).catch(function(){})
+            );
+            // Avisa o SW para assumir a nova versão
+            try {
+                if (navigator.serviceWorker.controller) {
+                    navigator.serviceWorker.controller.postMessage({ type: 'SKIP_WAITING' });
+                }
+            } catch (e) {}
+        }
+
+        // 2) Limpa caches do Cache Storage
+        if (window.caches && caches.keys) {
+            tasks.push(
+                caches.keys().then(function(names) {
+                    return Promise.all(names.map(function(n) { return caches.delete(n); }));
+                }).catch(function(){})
+            );
+        }
+
+        Promise.all(tasks).then(function() {
+            setTimeout(doReload, 350);
+        }).catch(function() {
+            setTimeout(doReload, 350);
+        });
     }
 
     function ensureData() {
@@ -2951,20 +3154,26 @@ if ('serviceWorker' in navigator) {
 
     function finalizeSave(newConfig) {
         var prev = config;
-        
-        // >>> INÍCIO DA ALTERAÇÃO: Atualizar notificação com base em novos produtos
+
+        // Atualiza notificação com base em novos produtos
         var prevCount = (prev.products || []).length;
         var newCount = (newConfig.products || []).length;
         var addedCount = newCount - prevCount;
-        
+
         if (addedCount > 0) {
             newConfig.notifText = addedCount + ' novidade' + (addedCount > 1 ? 's' : '');
             newConfig.notifCount = String(addedCount);
         }
-        // <<< FIM DA ALTERAÇÃO
+
+        // Bump na versão do sistema para sinalizar atualização aos outros dispositivos
+        newConfig.systemVersion = String(Date.now());
 
         config = newConfig;
         if (!saveConfigLocal()) { config = prev; return; }
+
+        // Registra localmente a versão recém-salva para o próprio admin não ver o botão
+        setLocalSysVersion(newConfig.systemVersion);
+
         rebuildSearchIndex();
         applyConfigToUI();
         renderCategories();
@@ -3525,6 +3734,12 @@ if ('serviceWorker' in navigator) {
         var pdfBtn = document.getElementById('pdfCatalogBtn');
         if (pdfBtn) pdfBtn.addEventListener('click', gerarCatalogoPDF);
 
+        // ===== BOTÃO ATUALIZAR SISTEMA =====
+        var updateBtn = document.getElementById('updateSystemBtn');
+        if (updateBtn) {
+            updateBtn.addEventListener('click', applySystemUpdate);
+        }
+
         document.getElementById('configToggleBtn').addEventListener('click', function() {
             if (configPanelOpen) closeConfigPanel(); else openPasswordModal();
         });
@@ -3774,6 +3989,9 @@ if ('serviceWorker' in navigator) {
                     suppressPush = false;
                     setSyncStatus('online');
 
+                    // Checa se há atualização do sistema disponível
+                    checkForUpdate();
+
                     loadImagesFromCloud().then(function(n) {
                         if (n > 0) {
                             renderCategories();
@@ -3826,7 +4044,9 @@ if ('serviceWorker' in navigator) {
         pushToCloud: pushConfigToFirestore,
         flushPendingImages: flushPendingImageUploads,
         gerarCatalogoPDF: gerarCatalogoPDF,
-        showToast: showToast
+        showToast: showToast,
+        checkForUpdate: checkForUpdate,
+        applySystemUpdate: applySystemUpdate
     };
 })();
 </script>
