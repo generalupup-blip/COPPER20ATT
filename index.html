@@ -131,15 +131,15 @@
         .pdf-progress-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--gold),var(--gold-light));border-radius:3px;transition:width .3s ease;box-shadow:0 0 10px rgba(212,175,55,.5)}
         .pdf-modal-hint{font-size:10.5px;color:var(--text-muted);letter-spacing:-.01em}
 
-        .promo-button{width:100%;margin-bottom:12px;position:relative;overflow:hidden;display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:var(--radius);transition:all var(--transition);cursor:pointer;border:2px solid var(--border-color-strong);background:var(--bg-card);font-family:var(--font);text-align:left}
-        .promo-button::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(239,68,68,.05),rgba(245,158,11,.05));pointer-events:none}
+        .promo-button{width:100%;margin-bottom:12px;position:relative;overflow:visible;display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:var(--radius);transition:all var(--transition);cursor:pointer;border:2px solid var(--border-color-strong);background:var(--bg-card);font-family:var(--font);text-align:left}
+        .promo-button::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(239,68,68,.05),rgba(245,158,11,.05));pointer-events:none;border-radius:inherit}
         .promo-button:hover{border-color:#f59e0b;transform:translateY(-1px);box-shadow:0 8px 25px rgba(245,158,11,.2)}
         .promo-emoji{font-size:28px;flex-shrink:0;position:relative;z-index:10}
         .promo-text{flex:1;position:relative;z-index:10}
         .promo-title{font-size:14px;font-weight:800;letter-spacing:.02em;color:var(--text-primary);line-height:1.2}
         .promo-subtitle{font-size:10px;font-weight:500;color:var(--text-secondary);margin-top:2px}
         .promo-action{font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;color:#fbbf24;background:rgba(245,158,11,.15);position:relative;z-index:10;white-space:nowrap;letter-spacing:-.01em}
-        .promo-count-badge{position:absolute;top:8px;right:8px;min-width:20px;height:20px;padding:0 6px;border-radius:10px;background:#ef4444;color:#fff;font-size:10px;font-weight:800;display:none;align-items:center;justify-content:center;z-index:11;box-shadow:0 4px 12px rgba(239,68,68,.5);letter-spacing:-.01em}
+        .promo-count-badge{position:absolute;top:-6px;right:-6px;min-width:22px;height:22px;padding:0 7px;border-radius:12px;background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff;font-size:11px;font-weight:900;display:none;align-items:center;justify-content:center;z-index:11;box-shadow:0 4px 12px rgba(239,68,68,.6);letter-spacing:-.02em;line-height:1;border:2px solid var(--bg-primary);font-family:var(--font)}
         .promo-count-badge.visible{display:flex;animation:pulseBadge 1.8s infinite}
 
         .quick-links-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
@@ -206,7 +206,7 @@
 
         .store-footer{position:fixed;bottom:0;left:0;right:0;z-index:30;background:var(--bg-header);border-top:1px solid var(--border-color);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
         .store-footer-inner{width:100%;max-width:800px;margin:0 auto;padding:10px 16px;text-align:center}
-        .store-footer-text{font-size:12px;color:var(--text-secondary);letter-spacing:-.01em;font-weight:500}
+        .store-footer-text{font-size:12px;color:var(--text-secondary);letter-spacing:-.01em;font-weight:500;cursor:default;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent}
 
         .update-system-btn{
             position:fixed;
@@ -883,7 +883,7 @@
                 <div class="config-field"><label>Categoria</label><select id="productEditorCategorySelect"></select></div>
                 <div id="productEditorList" class="product-editor-list"></div>
                 <button class="add-category-btn" id="addProductBtn" type="button">+ Adicionar Produto</button>
-                <small style="font-size:10px;color:var(--text-muted)">Use os botões ▲▼ para <strong>mudar a ordem</strong> dos produtos. Preencha <strong>Preço Promo</strong> para colocar em promoção.</small>
+                <small style="font-size:10px;color:var(--text-muted)">Use os botões ▲▼ para <strong>mudar a ordem</strong> dos produtos. Preencha <strong>Preço Promo</strong> para colocar em promoção (SEM LIMITE de quantidade).</small>
             </div>
 
             <hr class="config-divider">
@@ -1167,6 +1167,32 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <script>
+/* ========== TOAST GLOBAL (acessível antes do main() ) ========== */
+var __globalToastEl = null;
+function showToast(msg, type) {
+    type = type || 'success';
+    if (__globalToastEl && __globalToastEl.parentNode) {
+        __globalToastEl.parentNode.removeChild(__globalToastEl);
+    }
+    var t = document.createElement('div');
+    t.className = 'custom-toast';
+    t.textContent = msg;
+    t.style.cssText = 'position:fixed;bottom:140px;left:50%;transform:translateX(-50%);' +
+        'background:' + (type === 'success' ? '#22c55e' : type === 'error' ? '#ef4444' : '#31c8ff') + ';' +
+        'color:#02050b;font-weight:700;font-size:13px;padding:10px 20px;border-radius:8px;' +
+        'z-index:400;box-shadow:0 8px 25px rgba(0,0,0,.4);font-family:Inter,sans-serif;' +
+        'letter-spacing:-.01em;max-width:88vw;text-align:center;transition:opacity .3s;opacity:1;';
+    document.body.appendChild(t);
+    __globalToastEl = t;
+    setTimeout(function() {
+        t.style.opacity = '0';
+        setTimeout(function() {
+            if (t.parentNode) t.parentNode.removeChild(t);
+            if (__globalToastEl === t) __globalToastEl = null;
+        }, 320);
+    }, 2400);
+}
+
 /* ========== SERVICE WORKER (PWA) ========== */
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', function() {
@@ -1206,7 +1232,7 @@ if ('serviceWorker' in navigator) {
         btn.classList.add('installed');
         label.textContent = 'App Instalado';
         btn.disabled = true;
-        if (typeof showToast === 'function') showToast('✅ App instalado com sucesso!', 'success');
+        showToast('✅ App instalado com sucesso!', 'success');
     });
 
     btn.addEventListener('click', function(e) {
@@ -1215,7 +1241,7 @@ if ('serviceWorker' in navigator) {
 
         if (deferredPrompt) {
             deferredPrompt.prompt();
-            deferredPrompt.userChoice.then(function(choice) {
+            deferredPrompt.userChoice.then(function() {
                 deferredPrompt = null;
             });
         } else {
@@ -1371,7 +1397,8 @@ if ('serviceWorker' in navigator) {
 
     document.addEventListener('error', function(e) {
         var t = e.target;
-        if (t && t.tagName === 'IMG') {
+        if (t && t.tagName === 'IMG' && !t.dataset.fallbackDone) {
+            t.dataset.fallbackDone = '1';
             t.onerror = null;
             t.src = svgPlaceholder(t.getAttribute('data-name') || t.alt || 'Produto');
         }
@@ -1411,6 +1438,16 @@ if ('serviceWorker' in navigator) {
             });
         });
     }
+    function idbDeleteImage(key) {
+        return openIDB().then(function(db) {
+            return new Promise(function(res) {
+                var tx = db.transaction(IDB_STORE, 'readwrite');
+                tx.objectStore(IDB_STORE).delete(key);
+                tx.oncomplete = function() { res(true); };
+                tx.onerror = function() { res(false); };
+            });
+        }).catch(function() { return false; });
+    }
     function idbClear() {
         return openIDB().then(function(db) {
             return new Promise(function(res) {
@@ -1439,11 +1476,20 @@ if ('serviceWorker' in navigator) {
         if (!ref) { imgEl.src = svgPlaceholder(fallbackText); return; }
         var c = getRefSync(ref);
         if (c) { imgEl.src = c; return; }
+
         if (isCloudRef(ref)) {
             var imgId = getCloudId(ref);
             idbGetImage('cloud_' + imgId).then(function(d) {
-                if (d) { imageCache[ref] = d; imgEl.src = d; }
-                else imgEl.src = svgPlaceholder(fallbackText);
+                if (d) { imageCache[ref] = d; imgEl.src = d; return; }
+                fetchImageFromFirestore(imgId).then(function(data) {
+                    if (data) {
+                        imageCache[ref] = data;
+                        imgEl.src = data;
+                        idbPutImage('cloud_' + imgId, data).catch(function(){});
+                    } else {
+                        imgEl.src = svgPlaceholder(fallbackText);
+                    }
+                });
             }).catch(function() { imgEl.src = svgPlaceholder(fallbackText); });
         } else if (isIdbRef(ref)) {
             idbGetImage(getRefKey(ref)).then(function(d) {
@@ -1455,15 +1501,37 @@ if ('serviceWorker' in navigator) {
         }
     }
 
+    function fetchImageFromFirestore(imageId) {
+        if (!fbReady || !fbDb || !imageId) return Promise.resolve(null);
+        return fbDb.collection(FB_IMG_COLLECTION).doc(imageId).get().then(function(snap) {
+            if (snap.exists) {
+                var d = snap.data();
+                return d && d.d ? d.d : null;
+            }
+            return null;
+        }).catch(function(err) {
+            console.warn('Erro ao carregar imagem ' + imageId + ':', err);
+            return null;
+        });
+    }
+
     function resolveRef(ref, fallbackText) {
         if (!ref) return Promise.resolve(svgPlaceholder(fallbackText));
         var c = getRefSync(ref);
         if (c) return Promise.resolve(c);
+
         if (isCloudRef(ref)) {
             var imgId = getCloudId(ref);
             return idbGetImage('cloud_' + imgId).then(function(d) {
                 if (d) { imageCache[ref] = d; return d; }
-                return svgPlaceholder(fallbackText);
+                return fetchImageFromFirestore(imgId).then(function(data) {
+                    if (data) {
+                        imageCache[ref] = data;
+                        idbPutImage('cloud_' + imgId, data).catch(function(){});
+                        return data;
+                    }
+                    return svgPlaceholder(fallbackText);
+                });
             }).catch(function() { return svgPlaceholder(fallbackText); });
         }
         if (isIdbRef(ref)) {
@@ -1482,7 +1550,9 @@ if ('serviceWorker' in navigator) {
                 var img = new Image();
                 img.onload = function() {
                     try {
-                        var w = img.naturalWidth || img.width, h = img.naturalHeight || img.height;
+                        var w = img.naturalWidth || img.width;
+                        var h = img.naturalHeight || img.height;
+                        if (!w || !h) { reject(new Error('Dimensões inválidas')); return; }
                         if (w > IMG_MAX_SIZE || h > IMG_MAX_SIZE) {
                             if (w >= h) { h = Math.round(h * IMG_MAX_SIZE / w); w = IMG_MAX_SIZE; }
                             else { w = Math.round(w * IMG_MAX_SIZE / h); h = IMG_MAX_SIZE; }
@@ -1513,7 +1583,9 @@ if ('serviceWorker' in navigator) {
                 var img = new Image();
                 img.onload = function() {
                     try {
-                        var w = img.naturalWidth || img.width, h = img.naturalHeight || img.height;
+                        var w = img.naturalWidth || img.width;
+                        var h = img.naturalHeight || img.height;
+                        if (!w || !h) { resolve(dataUrl); return; }
                         if (w > size || h > size) {
                             if (w >= h) { h = Math.round(h * size / w); w = size; }
                             else { w = Math.round(w * size / h); h = size; }
@@ -1630,106 +1702,9 @@ if ('serviceWorker' in navigator) {
         return fbDb.collection(FB_IMG_COLLECTION).doc(imageId).delete().catch(function(){});
     }
 
-    function loadImagesFromCloud() {
-        if (!fbReady || !fbDb) return Promise.resolve(0);
-        return fbDb.collection(FB_IMG_COLLECTION).get().then(function(snap) {
-            var writes = [];
-            snap.forEach(function(doc) {
-                var d = doc.data();
-                if (d && d.d) {
-                    var key = makeCloudRef(doc.id);
-                    imageCache[key] = d.d;
-                    writes.push(idbPutImage('cloud_' + doc.id, d.d).catch(function(){}));
-                }
-            });
-            return Promise.all(writes).then(function() { return snap.size; });
-        }).catch(function(err) {
-            console.warn('Erro ao carregar imagens:', err);
-            return 0;
-        });
-    }
-
-    function loadImagesFromIDB() {
-        if (!idbSupported) return Promise.resolve(0);
-        return openIDB().then(function(db) {
-            return new Promise(function(res) {
-                var tx = db.transaction(IDB_STORE, 'readonly');
-                var store = tx.objectStore(IDB_STORE);
-                var req = store.openCursor();
-                var count = 0;
-                req.onsuccess = function(e) {
-                    var cur = e.target.result;
-                    if (cur) {
-                        var k = String(cur.key);
-                        if (k.indexOf('cloud_') === 0) {
-                            imageCache['cloud:' + k.slice(6)] = cur.value;
-                            count++;
-                        }
-                        cur.continue();
-                    } else res(count);
-                };
-                req.onerror = function() { res(0); };
-            });
-        }).catch(function() { return 0; });
-    }
-
-    function migrateLegacyImages() {
-        if (!config || !Array.isArray(config.products)) return Promise.resolve(false);
-        var tasks = [];
-        var migrated = false;
-
-        config.products.forEach(function(p) {
-            var img = p.image;
-            if (!img || typeof img !== 'string') return;
-            if (img.indexOf('data:image/svg') === 0) return;
-
-            if (isDataUrl(img)) {
-                tasks.push((function(prod) {
-                    return compressForCloud(prod.image).then(function(small) {
-                        var imgId = uid('img');
-                        return uploadImageDoc(imgId, small).then(function(ok) {
-                            var ref = makeCloudRef(imgId);
-                            imageCache[ref] = small;
-                            idbPutImage('cloud_' + imgId, small).catch(function(){});
-                            prod.image = ref;
-                            migrated = true;
-                        });
-                    });
-                })(p));
-            } else if (isIdbRef(img)) {
-                var idbKey = getRefKey(img);
-                tasks.push(idbGetImage(idbKey).then(function(dataUrl) {
-                    if (!dataUrl) { p.image = ''; migrated = true; return; }
-                    return compressForCloud(dataUrl).then(function(small) {
-                        var imgId = uid('img');
-                        return uploadImageDoc(imgId, small).then(function() {
-                            var ref = makeCloudRef(imgId);
-                            imageCache[ref] = small;
-                            idbPutImage('cloud_' + imgId, small).catch(function(){});
-                            p.image = ref;
-                            migrated = true;
-                        });
-                    });
-                }).catch(function(){}));
-            }
-        });
-
-        if (!tasks.length) return Promise.resolve(false);
-        return Promise.all(tasks).then(function() {
-            if (migrated) {
-                saveConfigLocal();
-                renderCategories();
-                renderProductEditor();
-            }
-            return migrated;
-        });
-    }
-
     function pushConfigToFirestore() {
         if (!fbReady || !fbDocRef) return Promise.resolve(false);
         var data = deepClone(config);
-        var leftover = (data.products || []).filter(function(p) { return isDataUrl(p.image); }).length;
-        if (leftover) console.warn('Ainda há ' + leftover + ' imagens base64 no config — devem ser migradas.');
         data.updatedAt = firebase.firestore.FieldValue.serverTimestamp();
         setSyncStatus('saving');
         return fbDocRef.set(data, { merge: false }).then(function() {
@@ -2021,26 +1996,6 @@ if ('serviceWorker' in navigator) {
         });
     }
 
-    var _toastEl = null;
-    function showToast(msg, type) {
-        type = type || 'success';
-        if (_toastEl && _toastEl.parentNode) _toastEl.parentNode.removeChild(_toastEl);
-        var t = document.createElement('div');
-        t.className = 'custom-toast';
-        t.textContent = msg;
-        t.style.cssText = 'position:fixed;bottom:140px;left:50%;transform:translateX(-50%);' +
-            'background:' + (type === 'success' ? '#22c55e' : type === 'error' ? '#ef4444' : '#31c8ff') + ';' +
-            'color:#02050b;font-weight:700;font-size:13px;padding:10px 20px;border-radius:8px;' +
-            'z-index:400;box-shadow:0 8px 25px rgba(0,0,0,.4);font-family:Inter,sans-serif;' +
-            'letter-spacing:-.01em;max-width:88vw;text-align:center;transition:opacity .3s;opacity:1;';
-        document.body.appendChild(t);
-        _toastEl = t;
-        setTimeout(function() {
-            t.style.opacity = '0';
-            setTimeout(function() { if (t.parentNode) t.parentNode.removeChild(t); if (_toastEl === t) _toastEl = null; }, 320);
-        }, 2400);
-    }
-
     function applyLogoToImg(imgEl, ref, fallbackText) {
         if (!imgEl) return;
         if (!ref) { imgEl.src = svgPlaceholder(fallbackText); return; }
@@ -2124,8 +2079,12 @@ if ('serviceWorker' in navigator) {
     function updatePromoBadge() {
         var badge = document.getElementById('promoCountBadge');
         var count = getPromoProducts().length;
-        if (count > 0) { badge.textContent = count; badge.classList.add('visible'); }
-        else badge.classList.remove('visible');
+        if (count > 0) {
+            badge.textContent = count > 99 ? '99+' : String(count);
+            badge.classList.add('visible');
+        } else {
+            badge.classList.remove('visible');
+        }
     }
 
     function getFirstCategoryImage(catId) {
@@ -2302,12 +2261,16 @@ if ('serviceWorker' in navigator) {
     function highlightMatch(text, query) {
         var safe = esc(text || '');
         if (!query) return safe;
-        var nText = norm(text || '');
-        var nQuery = norm(query);
-        var idx = nText.indexOf(nQuery);
-        if (idx === -1) return safe;
-        return safe.slice(0, idx) + '<span class="search-match-highlight">' +
-            safe.slice(idx, idx + query.length) + '</span>' + safe.slice(idx + query.length);
+        try {
+            var nText = norm(text || '');
+            var nQuery = norm(query);
+            var idx = nText.indexOf(nQuery);
+            if (idx === -1) return safe;
+            return safe.slice(0, idx) + '<span class="search-match-highlight">' +
+                safe.slice(idx, idx + query.length) + '</span>' + safe.slice(idx + query.length);
+        } catch (e) {
+            return safe;
+        }
     }
 
     function performSearch(query) {
@@ -2716,15 +2679,15 @@ if ('serviceWorker' in navigator) {
         }
         return true;
     }
+
     function submitOrder() {
         if (!cart.length) { showToast('Carrinho vazio.', 'error'); return; }
         if (!validateCheckoutForm()) return;
 
         var items = getCartItems();
-        var subtotal = getCartSubtotal();
         var state = document.getElementById('coEstado').value;
         var freight = FREIGHT_TABLE[state] !== undefined ? FREIGHT_TABLE[state] : 0;
-        var total = subtotal + freight;
+        var total = getCartSubtotal() + freight;
 
         var nome = (document.getElementById('coNome').value || '').trim();
         var tel = (document.getElementById('coTel').value || '').trim();
@@ -2752,13 +2715,15 @@ if ('serviceWorker' in navigator) {
         lines.push('');
         lines.push('');
         lines.push('PEDIDO');
-        items.forEach(function(it, idx) {
+
+        items.forEach(function(it) {
             var prod = it.product;
-            lines.push((idx + 1) + '. ' + it.qty + 'x ' + prod.name + ' ' + prod.brand + ' (' + prod.brand + ')');
-            lines.push('   ' + formatBRL(it.unitPrice) + ' cada = ' + formatBRL(it.subtotal));
+            var brand = String(prod.brand || '').toUpperCase();
+            var name = String(prod.name || '');
+            lines.push(it.qty + 'x ' + name + '  ' + brand + ' ' + formatBRL(it.unitPrice) + ' ');
         });
+
         lines.push('');
-        lines.push('Subtotal: ' + formatBRL(subtotal));
         lines.push('Frete: ' + formatBRL(freight));
         lines.push('TOTAL:* ' + formatBRL(total));
         lines.push('');
@@ -3097,7 +3062,7 @@ if ('serviceWorker' in navigator) {
             '</div>' +
             '<div class="pec-row pec-promo-row">' +
                 '<span class="pec-promo-label">🔥 Promo:</span>' +
-                '<input type="number" step="0.01" min="0" class="pec-promo-input" placeholder="Preço promocional (R$)" value="' + (Number(product.promoPrice) || 0) + '">' +
+                '<input type="number" step="0.01" min="0" class="pec-promo-input" placeholder="Preço promocional (R$) - sem limite" value="' + (Number(product.promoPrice) || 0) + '">' +
             '</div>' +
             '<div class="pec-row pec-image-row">' +
                 '<input type="text" class="pec-image" placeholder="' + esc(placeholderText) + '" value="' + esc(urlValue) + '">' +
@@ -3156,7 +3121,6 @@ if ('serviceWorker' in navigator) {
         return card;
     }
 
-    /* ===== Mover produto dentro da mesma categoria (mudar ordem) ===== */
     function moveProductInCategory(productId, direction) {
         var idx = -1;
         for (var i = 0; i < productEditorState.length; i++) {
@@ -3188,7 +3152,6 @@ if ('serviceWorker' in navigator) {
         if (list) requestAnimationFrame(function() { list.scrollTop = scrollTop; });
     }
 
-    /* ===== Mover categoria (mudar ordem das categorias) ===== */
     function moveCategory(index, direction) {
         if (typeof index !== 'number' || isNaN(index)) return;
         var target = index + direction;
@@ -3383,6 +3346,29 @@ if ('serviceWorker' in navigator) {
         if (!newConfig.notifText) newConfig.notifText = prev.notifText || '1 novidade';
         if (!newConfig.notifCount) newConfig.notifCount = prev.notifCount || '1';
 
+        // Coleta IDs de imagens em uso (nova config) para limpar órfãs
+        var usedImageIds = {};
+        (newConfig.products || []).forEach(function(p) {
+            if (isCloudRef(p.image)) usedImageIds[getCloudId(p.image)] = true;
+        });
+        if (isCloudRef(newConfig.logoUrl)) usedImageIds[getCloudId(newConfig.logoUrl)] = true;
+        if (isCloudRef(newConfig.heroLogoUrl)) usedImageIds[getCloudId(newConfig.heroLogoUrl)] = true;
+
+        // Limpa imagens que estavam em uso na config anterior e não estão mais
+        var toDelete = [];
+        (prev.products || []).forEach(function(p) {
+            if (isCloudRef(p.image)) {
+                var id = getCloudId(p.image);
+                if (!usedImageIds[id]) toDelete.push(id);
+            }
+        });
+        if (isCloudRef(prev.logoUrl) && !usedImageIds[getCloudId(prev.logoUrl)]) {
+            toDelete.push(getCloudId(prev.logoUrl));
+        }
+        if (isCloudRef(prev.heroLogoUrl) && !usedImageIds[getCloudId(prev.heroLogoUrl)]) {
+            toDelete.push(getCloudId(prev.heroLogoUrl));
+        }
+
         newConfig.systemVersion = String(Date.now());
 
         config = newConfig;
@@ -3396,7 +3382,17 @@ if ('serviceWorker' in navigator) {
         updatePromoBadge();
         syncConfigPanel();
         setSyncStatus('saving');
+
         pushConfigToFirestore().then(function(ok) {
+            // Limpa órfãs depois de salvar (não bloqueia o usuário)
+            if (ok && toDelete.length) {
+                Promise.all(toDelete.map(function(id) {
+                    imageCache['cloud:' + id] = undefined;
+                    delete imageCache['cloud:' + id];
+                    idbDeleteImage('cloud_' + id).catch(function(){});
+                    return deleteImageDoc(id);
+                })).catch(function(){});
+            }
             showToast(ok ? '☁️ Configurações salvas na nuvem!' : '⚠️ Salvo apenas localmente (sem conexão).', ok ? 'success' : 'error');
         });
     }
@@ -3478,7 +3474,21 @@ if ('serviceWorker' in navigator) {
         return new Promise(function(resolve) {
             if (!ref) return resolve(null);
             if (typeof ref !== 'string') return resolve(null);
-            if (ref.indexOf('cloud:') === 0) return resolve(imageCache[ref] || null);
+            if (ref.indexOf('cloud:') === 0) {
+                var imgId = getCloudId(ref);
+                if (imageCache[ref]) return resolve(imageCache[ref]);
+                return idbGetImage('cloud_' + imgId).then(function(d) {
+                    if (d) { imageCache[ref] = d; return d; }
+                    return fetchImageFromFirestore(imgId).then(function(data) {
+                        if (data) {
+                            imageCache[ref] = data;
+                            idbPutImage('cloud_' + imgId, data).catch(function(){});
+                            return data;
+                        }
+                        return null;
+                    });
+                }).catch(function() { return null; });
+            }
             if (ref.indexOf('idb:') === 0) {
                 idbGetImage(ref.slice(4)).then(function(d) { resolve(d || null); }).catch(function() { resolve(null); });
                 return;
@@ -3493,7 +3503,7 @@ if ('serviceWorker' in navigator) {
             var total = products.length;
             if (total === 0) return resolve(cache);
             var index = 0, loaded = 0;
-            var CONCURRENCY = 6;
+            var CONCURRENCY = 5;
 
             function worker() {
                 if (index >= total) return Promise.resolve();
@@ -3580,7 +3590,6 @@ if ('serviceWorker' in navigator) {
                 var W = 210, H = 297;
                 var GOLD = [212, 175, 55];
                 var GOLD_LIGHT = [245, 215, 110];
-                var DARK = [8, 10, 14];
                 var DARK2 = [16, 20, 26];
                 var WHITE = [255, 255, 255];
                 var GRAY = [150, 160, 175];
@@ -3957,24 +3966,28 @@ if ('serviceWorker' in navigator) {
             updateBtn.addEventListener('click', applySystemUpdate);
         }
 
+        // ===== TOQUES NO RODAPÉ (5 toques) para abrir/fechar painel admin =====
         var tapCount = 0;
         var tapTimer = null;
-        document.addEventListener('click', function() {
-            tapCount++;
-            if (tapTimer) clearTimeout(tapTimer);
-            if (tapCount >= 5) {
-                tapCount = 0;
-                clearTimeout(tapTimer);
-                tapTimer = null;
-                if (configPanelOpen) closeConfigPanel();
-                else openPasswordModal();
-                return;
-            }
-            tapTimer = setTimeout(function() {
-                tapCount = 0;
-                tapTimer = null;
-            }, 900);
-        });
+        var footerEl = document.getElementById('storeFooter');
+        if (footerEl) {
+            footerEl.addEventListener('click', function() {
+                tapCount++;
+                if (tapTimer) clearTimeout(tapTimer);
+                if (tapCount >= 5) {
+                    tapCount = 0;
+                    clearTimeout(tapTimer);
+                    tapTimer = null;
+                    if (configPanelOpen) closeConfigPanel();
+                    else openPasswordModal();
+                    return;
+                }
+                tapTimer = setTimeout(function() {
+                    tapCount = 0;
+                    tapTimer = null;
+                }, 900);
+            });
+        }
 
         document.getElementById('passwordConfirmBtn').addEventListener('click', confirmPassword);
         document.getElementById('passwordCancelBtn').addEventListener('click', closePasswordModal);
@@ -4253,6 +4266,7 @@ if ('serviceWorker' in navigator) {
 
         setSyncStatus('connecting');
 
+        // Carrega imagens cacheadas do IDB (sem ir à rede)
         loadImagesFromIDB().then(function(count) {
             if (count > 0) {
                 applyConfigToUI();
@@ -4281,18 +4295,13 @@ if ('serviceWorker' in navigator) {
 
                     checkForUpdate();
 
-                    loadImagesFromCloud().then(function(n) {
-                        if (n > 0) {
-                            applyConfigToUI();
-                            renderCategories();
-                            renderProductEditor();
+                    // Não carrega mais TODAS as imagens de uma vez.
+                    // Elas serão carregadas sob demanda quando aparecerem na tela.
+                    migrateLegacyImages().then(function(migrated) {
+                        if (migrated) {
+                            pushConfigToFirestore();
+                            showToast('📷 Fotos migradas para a nuvem!', 'success');
                         }
-                        migrateLegacyImages().then(function(migrated) {
-                            if (migrated) {
-                                pushConfigToFirestore();
-                                showToast('📷 Fotos migradas para a nuvem!', 'success');
-                            }
-                        });
                     });
                 } else {
                     pushConfigToFirestore().then(function(ok) {
@@ -4310,6 +4319,82 @@ if ('serviceWorker' in navigator) {
         }
 
         console.log('✅ Respect Pharma PWA carregado.');
+    }
+
+    function loadImagesFromIDB() {
+        if (!idbSupported) return Promise.resolve(0);
+        return openIDB().then(function(db) {
+            return new Promise(function(res) {
+                var tx = db.transaction(IDB_STORE, 'readonly');
+                var store = tx.objectStore(IDB_STORE);
+                var req = store.openCursor();
+                var count = 0;
+                req.onsuccess = function(e) {
+                    var cur = e.target.result;
+                    if (cur) {
+                        var k = String(cur.key);
+                        if (k.indexOf('cloud_') === 0) {
+                            imageCache['cloud:' + k.slice(6)] = cur.value;
+                            count++;
+                        }
+                        cur.continue();
+                    } else res(count);
+                };
+                req.onerror = function() { res(0); };
+            });
+        }).catch(function() { return 0; });
+    }
+
+    function migrateLegacyImages() {
+        if (!config || !Array.isArray(config.products)) return Promise.resolve(false);
+        var tasks = [];
+        var migrated = false;
+
+        config.products.forEach(function(p) {
+            var img = p.image;
+            if (!img || typeof img !== 'string') return;
+            if (img.indexOf('data:image/svg') === 0) return;
+
+            if (isDataUrl(img)) {
+                tasks.push((function(prod) {
+                    return compressForCloud(prod.image).then(function(small) {
+                        var imgId = uid('img');
+                        return uploadImageDoc(imgId, small).then(function() {
+                            var ref = makeCloudRef(imgId);
+                            imageCache[ref] = small;
+                            idbPutImage('cloud_' + imgId, small).catch(function(){});
+                            prod.image = ref;
+                            migrated = true;
+                        });
+                    });
+                })(p));
+            } else if (isIdbRef(img)) {
+                var idbKey = getRefKey(img);
+                tasks.push(idbGetImage(idbKey).then(function(dataUrl) {
+                    if (!dataUrl) { p.image = ''; migrated = true; return; }
+                    return compressForCloud(dataUrl).then(function(small) {
+                        var imgId = uid('img');
+                        return uploadImageDoc(imgId, small).then(function() {
+                            var ref = makeCloudRef(imgId);
+                            imageCache[ref] = small;
+                            idbPutImage('cloud_' + imgId, small).catch(function(){});
+                            p.image = ref;
+                            migrated = true;
+                        });
+                    });
+                }).catch(function(){}));
+            }
+        });
+
+        if (!tasks.length) return Promise.resolve(false);
+        return Promise.all(tasks).then(function() {
+            if (migrated) {
+                saveConfigLocal();
+                renderCategories();
+                renderProductEditor();
+            }
+            return migrated;
+        });
     }
 
     init();
