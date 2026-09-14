@@ -1258,7 +1258,7 @@ if ('serviceWorker' in navigator) {
 (function() {
     'use strict';
 
-    var CONFIG_PASSWORD = '20362881';
+    var CONFIG_PASSWORD = '5858';
     var WHATSAPP_DEFAULT = 'https://wa.me/5519997390834';
     var CART_KEY = 'respectPharmaCart';
     var LOCAL_CONFIG_KEY = 'respectPharmaConfig';
@@ -1801,7 +1801,6 @@ if ('serviceWorker' in navigator) {
         return ok;
     }
 
-    /* ========== CONTROLE DE VERSÃO / ATUALIZAÇÃO DO SISTEMA ========== */
     function getLocalSysVersion() {
         try { return localStorage.getItem(SYS_VERSION_KEY) || ''; } catch (e) { return ''; }
     }
@@ -3346,7 +3345,6 @@ if ('serviceWorker' in navigator) {
         if (!newConfig.notifText) newConfig.notifText = prev.notifText || '1 novidade';
         if (!newConfig.notifCount) newConfig.notifCount = prev.notifCount || '1';
 
-        // Coleta IDs de imagens em uso (nova config) para limpar órfãs
         var usedImageIds = {};
         (newConfig.products || []).forEach(function(p) {
             if (isCloudRef(p.image)) usedImageIds[getCloudId(p.image)] = true;
@@ -3354,7 +3352,6 @@ if ('serviceWorker' in navigator) {
         if (isCloudRef(newConfig.logoUrl)) usedImageIds[getCloudId(newConfig.logoUrl)] = true;
         if (isCloudRef(newConfig.heroLogoUrl)) usedImageIds[getCloudId(newConfig.heroLogoUrl)] = true;
 
-        // Limpa imagens que estavam em uso na config anterior e não estão mais
         var toDelete = [];
         (prev.products || []).forEach(function(p) {
             if (isCloudRef(p.image)) {
@@ -3384,7 +3381,6 @@ if ('serviceWorker' in navigator) {
         setSyncStatus('saving');
 
         pushConfigToFirestore().then(function(ok) {
-            // Limpa órfãs depois de salvar (não bloqueia o usuário)
             if (ok && toDelete.length) {
                 Promise.all(toDelete.map(function(id) {
                     imageCache['cloud:' + id] = undefined;
@@ -3446,7 +3442,7 @@ if ('serviceWorker' in navigator) {
 
             var img = new Image();
             img.crossOrigin = 'anonymous';
-            var timer = setTimeout(function() { reject(new Error('timeout')); }, 9000);
+            var timer = setTimeout(function() { reject(new Error('timeout')); }, 3500);
             img.onload = function() {
                 clearTimeout(timer);
                 try {
@@ -3503,7 +3499,7 @@ if ('serviceWorker' in navigator) {
             var total = products.length;
             if (total === 0) return resolve(cache);
             var index = 0, loaded = 0;
-            var CONCURRENCY = 5;
+            var CONCURRENCY = 10;
 
             function worker() {
                 if (index >= total) return Promise.resolve();
@@ -3966,7 +3962,6 @@ if ('serviceWorker' in navigator) {
             updateBtn.addEventListener('click', applySystemUpdate);
         }
 
-        // ===== TOQUES NO RODAPÉ (5 toques) para abrir/fechar painel admin =====
         var tapCount = 0;
         var tapTimer = null;
         var footerEl = document.getElementById('storeFooter');
@@ -4252,75 +4247,6 @@ if ('serviceWorker' in navigator) {
         });
     }
 
-    function init() {
-        config = loadConfigLocal();
-        ensureData();
-        saveConfigLocal();
-        loadCart();
-        applyConfigToUI();
-        renderCategories();
-        updatePromoBadge();
-        updateCartBadge();
-        syncConfigPanel();
-        setupEventListeners();
-
-        setSyncStatus('connecting');
-
-        // Carrega imagens cacheadas do IDB (sem ir à rede)
-        loadImagesFromIDB().then(function(count) {
-            if (count > 0) {
-                applyConfigToUI();
-                renderCategories();
-                renderProductEditor();
-            }
-        });
-
-        if (initFirebase()) {
-            fbDocRef.get().then(function(snap) {
-                if (snap.exists) {
-                    var remote = snap.data() || {};
-                    delete remote.updatedAt;
-                    try { lastRemoteJson = JSON.stringify(remote); } catch (e) {}
-                    suppressPush = true;
-                    config = mergeWithDefaults(remote);
-                    ensureData();
-                    saveConfigLocal();
-                    rebuildSearchIndex();
-                    applyConfigToUI();
-                    renderCategories();
-                    updatePromoBadge();
-                    syncConfigPanel();
-                    suppressPush = false;
-                    setSyncStatus('online');
-
-                    checkForUpdate();
-
-                    // Não carrega mais TODAS as imagens de uma vez.
-                    // Elas serão carregadas sob demanda quando aparecerem na tela.
-                    migrateLegacyImages().then(function(migrated) {
-                        if (migrated) {
-                            pushConfigToFirestore();
-                            showToast('📷 Fotos migradas para a nuvem!', 'success');
-                        }
-                    });
-                } else {
-                    pushConfigToFirestore().then(function(ok) {
-                        if (ok) showToast('☁️ Loja criada na nuvem!', 'success');
-                    });
-                }
-                startRealtimeListener();
-            }).catch(function(err) {
-                console.warn('Firestore indisponível:', err);
-                setSyncStatus('offline');
-                startRealtimeListener();
-            });
-        } else {
-            setSyncStatus('offline');
-        }
-
-        console.log('✅ Respect Pharma PWA carregado.');
-    }
-
     function loadImagesFromIDB() {
         if (!idbSupported) return Promise.resolve(0);
         return openIDB().then(function(db) {
@@ -4395,6 +4321,72 @@ if ('serviceWorker' in navigator) {
             }
             return migrated;
         });
+    }
+
+    function init() {
+        config = loadConfigLocal();
+        ensureData();
+        saveConfigLocal();
+        loadCart();
+        applyConfigToUI();
+        renderCategories();
+        updatePromoBadge();
+        updateCartBadge();
+        syncConfigPanel();
+        setupEventListeners();
+
+        setSyncStatus('connecting');
+
+        loadImagesFromIDB().then(function(count) {
+            if (count > 0) {
+                applyConfigToUI();
+                renderCategories();
+                renderProductEditor();
+            }
+        });
+
+        if (initFirebase()) {
+            fbDocRef.get().then(function(snap) {
+                if (snap.exists) {
+                    var remote = snap.data() || {};
+                    delete remote.updatedAt;
+                    try { lastRemoteJson = JSON.stringify(remote); } catch (e) {}
+                    suppressPush = true;
+                    config = mergeWithDefaults(remote);
+                    ensureData();
+                    saveConfigLocal();
+                    rebuildSearchIndex();
+                    applyConfigToUI();
+                    renderCategories();
+                    updatePromoBadge();
+                    syncConfigPanel();
+                    suppressPush = false;
+                    setSyncStatus('online');
+
+                    checkForUpdate();
+
+                    migrateLegacyImages().then(function(migrated) {
+                        if (migrated) {
+                            pushConfigToFirestore();
+                            showToast('📷 Fotos migradas para a nuvem!', 'success');
+                        }
+                    });
+                } else {
+                    pushConfigToFirestore().then(function(ok) {
+                        if (ok) showToast('☁️ Loja criada na nuvem!', 'success');
+                    });
+                }
+                startRealtimeListener();
+            }).catch(function(err) {
+                console.warn('Firestore indisponível:', err);
+                setSyncStatus('offline');
+                startRealtimeListener();
+            });
+        } else {
+            setSyncStatus('offline');
+        }
+
+        console.log('✅ Respect Pharma PWA carregado.');
     }
 
     init();
