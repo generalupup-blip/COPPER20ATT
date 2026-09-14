@@ -883,7 +883,8 @@
                 <div class="config-field"><label>Categoria</label><select id="productEditorCategorySelect"></select></div>
                 <div id="productEditorList" class="product-editor-list"></div>
                 <button class="add-category-btn" id="addProductBtn" type="button">+ Adicionar Produto</button>
-                <small style="font-size:10px;color:var(--text-muted)">Use os botões ▲▼ para <strong>mudar a ordem</strong> dos produtos. Preencha <strong>Preço Promo</strong> para colocar em promoção (SEM LIMITE de quantidade).</small>
+                <small style="font-size:10px;color:var(--text-muted)"><strong>💡 Formato brasileiro:</strong> use <strong>ponto</strong> para milhar e <strong>vírgula</strong> para decimal. Ex: <code style="background:rgba(49,200,255,.1);padding:1px 4px;border-radius:3px">1.930</code> = mil novecentos e trinta reais, <code style="background:rgba(49,200,255,.1);padding:1px 4px;border-radius:3px">1.930,50</code> = mil novecentos e trinta reais e cinquenta centavos, <code style="background:rgba(49,200,255,.1);padding:1px 4px;border-radius:3px">1,93</code> = um real e noventa e três centavos.</small>
+                <small style="font-size:10px;color:var(--text-muted)">Use os botões ▲▼ para <strong>mudar a ordem</strong> dos produtos. Preencha <strong>Preço Promo</strong> para colocar em promoção.</small>
             </div>
 
             <hr class="config-divider">
@@ -1381,6 +1382,57 @@ if ('serviceWorker' in navigator) {
     function uid(p) {
         return (p||'id') + '_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2,8);
     }
+
+    /* ========== NOVO: PARSER E FORMATADOR DE NÚMEROS BRASILEIROS ========== */
+    // Aceita "1.930" -> 1930  |  "1.930,50" -> 1930.50  |  "1,93" -> 1.93  |  "1930" -> 1930  |  "1.5" -> 1.5
+    function parseBRNumber(str) {
+        if (str == null) return 0;
+        str = String(str).trim();
+        if (!str) return 0;
+        // Remove símbolo de moeda e espaços
+        str = str.replace(/R\$\s*/gi, '').replace(/\s/g, '');
+        if (!str) return 0;
+
+        if (str.indexOf(',') !== -1) {
+            // Tem vírgula: vírgula é decimal, pontos são milhares
+            str = str.replace(/\./g, '').replace(',', '.');
+        } else if (str.indexOf('.') !== -1) {
+            // Só pontos. Padrão de milhar: 1-3 dígitos + ponto + 3 dígitos (repetido)
+            var parts = str.split('.');
+            var allThousands = parts.length >= 2;
+            if (allThousands) {
+                if (!/^\d{1,3}$/.test(parts[0])) allThousands = false;
+                for (var i = 1; i < parts.length; i++) {
+                    if (!/^\d{3}$/.test(parts[i])) { allThousands = false; break; }
+                }
+            }
+            if (allThousands) {
+                // Todos os pontos são separadores de milhar
+                str = parts.join('');
+            }
+            // Senão, deixa os pontos como estão (o parseFloat trata como decimal)
+        }
+
+        // Remove qualquer outro caractere não numérico (exceto ponto, dígitos e sinal)
+        str = str.replace(/[^0-9.\-]/g, '');
+
+        var n = parseFloat(str);
+        if (isNaN(n) || !isFinite(n)) return 0;
+        if (n < 0) n = 0;
+        return n;
+    }
+
+    // Formata número para exibir no input de edição (usa vírgula como decimal)
+    function formatBRNumberForInput(n) {
+        n = Number(n);
+        if (!isFinite(n) || n === 0) return '0';
+        // Se for inteiro, mostra sem decimais
+        if (Math.floor(n) === n && Math.abs(n) < 1e15) return String(n);
+        // Senão, mostra com vírgula
+        var s = n.toFixed(2).replace(/\.?0+$/, '');
+        return s.replace('.', ',');
+    }
+
     function svgPlaceholder(text) {
         var key = String(text || 'Produto').slice(0,22);
         if (_svgCache[key]) return _svgCache[key];
@@ -1921,9 +1973,12 @@ if ('serviceWorker' in navigator) {
             }
             if (!p.id) p.id = uid('prd');
             if (p.price === undefined) p.price = 0;
+            else p.price = Number(p.price) || 0;
             if (p.oldPrice === undefined) p.oldPrice = 0;
+            else p.oldPrice = Number(p.oldPrice) || 0;
             if (p.image === undefined) p.image = '';
             if (p.promoPrice === undefined) p.promoPrice = 0;
+            else p.promoPrice = Number(p.promoPrice) || 0;
         });
         if (needsGen) {
             config.products = [];
@@ -3046,6 +3101,7 @@ if ('serviceWorker' in navigator) {
         else if (isIdb) placeholderText = '📷 Foto local (será migrada)';
         else placeholderText = 'URL da imagem';
 
+        // ============ NOVO: inputs de preço agora são type="text" inputmode="decimal" ============
         card.innerHTML =
             '<div class="pec-header">' +
                 '<div class="pec-thumb-wrap" title="Clique para enviar uma foto"><img class="pec-thumb" alt="" src=""></div>' +
@@ -3056,12 +3112,12 @@ if ('serviceWorker' in navigator) {
             '</div>' +
             '<div class="pec-row"><input type="text" class="pec-brand" placeholder="Marca" value="' + esc(product.brand) + '"></div>' +
             '<div class="pec-row">' +
-                '<input type="number" step="0.01" min="0" class="pec-price" placeholder="Preço atual (R$)" value="' + (Number(product.price) || 0) + '">' +
-                '<input type="number" step="0.01" min="0" class="pec-oldprice" placeholder="Preço antigo (R$)" value="' + (Number(product.oldPrice) || 0) + '">' +
+                '<input type="text" inputmode="decimal" class="pec-price" placeholder="Preço atual (R$)" value="' + esc(formatBRNumberForInput(product.price)) + '">' +
+                '<input type="text" inputmode="decimal" class="pec-oldprice" placeholder="Preço antigo (R$)" value="' + esc(formatBRNumberForInput(product.oldPrice)) + '">' +
             '</div>' +
             '<div class="pec-row pec-promo-row">' +
                 '<span class="pec-promo-label">🔥 Promo:</span>' +
-                '<input type="number" step="0.01" min="0" class="pec-promo-input" placeholder="Preço promocional (R$) - sem limite" value="' + (Number(product.promoPrice) || 0) + '">' +
+                '<input type="text" inputmode="decimal" class="pec-promo-input" placeholder="Preço promocional (R$) - sem limite" value="' + esc(formatBRNumberForInput(product.promoPrice)) + '">' +
             '</div>' +
             '<div class="pec-row pec-image-row">' +
                 '<input type="text" class="pec-image" placeholder="' + esc(placeholderText) + '" value="' + esc(urlValue) + '">' +
@@ -3079,14 +3135,17 @@ if ('serviceWorker' in navigator) {
             if (t.classList.contains('pec-name')) product.name = t.value;
             else if (t.classList.contains('pec-brand')) product.brand = t.value;
             else if (t.classList.contains('pec-price')) {
-                var v = parseFloat(t.value); product.price = isNaN(v) ? 0 : v;
+                // ============ NOVO: usa parser brasileiro ============
+                product.price = parseBRNumber(t.value);
                 refreshCardPromoState(card, product);
             }
             else if (t.classList.contains('pec-oldprice')) {
-                var v2 = parseFloat(t.value); product.oldPrice = isNaN(v2) ? 0 : v2;
+                // ============ NOVO: usa parser brasileiro ============
+                product.oldPrice = parseBRNumber(t.value);
             }
             else if (t.classList.contains('pec-promo-input')) {
-                var v3 = parseFloat(t.value); product.promoPrice = isNaN(v3) ? 0 : v3;
+                // ============ NOVO: usa parser brasileiro ============
+                product.promoPrice = parseBRNumber(t.value);
                 refreshCardPromoState(card, product);
             }
             else if (t.classList.contains('pec-image')) {
@@ -3095,6 +3154,19 @@ if ('serviceWorker' in navigator) {
                 thumbImg.src = v4 || svgPlaceholder('Sem foto');
             }
         });
+
+        // ============ NOVO: quando o usuário sai do campo, reformata visualmente ============
+        card.addEventListener('blur', function(e) {
+            var t = e.target;
+            if (!t || !t.classList) return;
+            if (t.classList.contains('pec-price')) {
+                t.value = formatBRNumberForInput(product.price);
+            } else if (t.classList.contains('pec-oldprice')) {
+                t.value = formatBRNumberForInput(product.oldPrice);
+            } else if (t.classList.contains('pec-promo-input')) {
+                t.value = formatBRNumberForInput(product.promoPrice);
+            }
+        }, true);
 
         card.addEventListener('click', function(e) {
             var t = e.target.closest ? e.target.closest('.pec-thumb-wrap, .pec-upload-btn, .pec-remove, .pec-move-up, .pec-move-down') : null;
@@ -3243,8 +3315,10 @@ if ('serviceWorker' in navigator) {
                 return {
                     id: p.id || uid('prd'), catId: p.catId,
                     name: p.name || 'Produto', brand: p.brand || 'Marca',
-                    price: Number(p.price) || 0, oldPrice: Number(p.oldPrice) || 0,
-                    promoPrice: Number(p.promoPrice) || 0, image: p.image || ''
+                    price: Number(p.price) || 0,
+                    oldPrice: Number(p.oldPrice) || 0,
+                    promoPrice: Number(p.promoPrice) || 0,
+                    image: p.image || ''
                 };
             });
 
@@ -4416,7 +4490,9 @@ if ('serviceWorker' in navigator) {
         checkForUpdate: checkForUpdate,
         applySystemUpdate: applySystemUpdate,
         moveProductInCategory: moveProductInCategory,
-        moveCategory: moveCategory
+        moveCategory: moveCategory,
+        parseBRNumber: parseBRNumber,
+        formatBRNumberForInput: formatBRNumberForInput
     };
 })();
 </script>
