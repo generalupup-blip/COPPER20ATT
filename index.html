@@ -371,6 +371,7 @@
         .password-cancel:hover{background:rgba(255,255,255,.14);color:var(--text-primary)}
         .password-confirm{background:var(--accent);color:var(--bg-primary);border:none}
         .password-confirm:hover{background:#5dd6ff;box-shadow:0 4px 15px rgba(49,200,255,.35)}
+        .password-confirm:disabled{opacity:.6;cursor:wait}
         @keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
         .shake{animation:shake .4s ease}
 
@@ -893,6 +894,9 @@
                 <div class="config-btn-row">
                     <button class="config-btn config-btn-primary" id="saveConfigBtn" type="button">💾 Salvar na Nuvem</button>
                 </div>
+                <div class="config-btn-row" style="margin-top:8px">
+                    <button class="config-btn config-btn-secondary" id="logoutBtn" type="button" style="background:rgba(239,68,68,.15);color:#f87171;border:1px solid rgba(239,68,68,.35)">🚪 Sair da Conta</button>
+                </div>
             </div>
         </div>
     </aside>
@@ -906,8 +910,9 @@
                 </svg>
             </div>
             <h3 class="password-title">Acesso Restrito</h3>
-            <p class="password-desc">Digite a senha para acessar o painel de configuração</p>
-            <input type="password" class="password-input" id="passwordInput" placeholder="Senha" inputmode="numeric" autocomplete="off" maxlength="20">
+            <p class="password-desc">Faça login com sua conta de administrador</p>
+            <input type="email" class="password-input" id="authEmail" placeholder="E-mail" autocomplete="username" style="letter-spacing:0;text-align:left;font-size:14px;margin-bottom:8px">
+            <input type="password" class="password-input" id="authPassword" placeholder="Senha" autocomplete="current-password" style="letter-spacing:0;text-align:left;font-size:14px">
             <p class="password-error" id="passwordError"></p>
             <div class="password-actions">
                 <button class="password-cancel" id="passwordCancelBtn" type="button">Cancelar</button>
@@ -1162,9 +1167,10 @@
     </div>
 
     <input type="file" id="hiddenFileInput" class="hidden-input" accept="image/*">
-
+    
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <script>
@@ -1255,7 +1261,12 @@ if ('serviceWorker' in navigator) {
 (function() {
     'use strict';
 
-    var CONFIG_PASSWORD = '2036';
+    // ============================================================
+    // 🔐 AUTENTICAÇÃO VIA FIREBASE AUTH
+    //    Não há senha no código. Login validado pelo servidor Google.
+    //    Admins são criados no Console > Authentication > Users
+    // ============================================================
+
     var WHATSAPP_DEFAULT = 'https://wa.me/5519997390834';
     var CART_KEY = 'respectPharmaCart';
     var LOCAL_CONFIG_KEY = 'respectPharmaConfig';
@@ -1345,10 +1356,11 @@ if ('serviceWorker' in navigator) {
 
     var pendingImageUploads = {};
 
-    var fbApp = null, fbDb = null, fbDocRef = null;
+    var fbApp = null, fbDb = null, fbDocRef = null, fbAuth = null;
     var fbReady = false;
     var unsubscribeSnapshot = null;
     var lastRemoteJson = '';
+    var currentAuthUser = null;
 
     var _svgCache = {};
     var _hexCache = {};
@@ -1379,15 +1391,6 @@ if ('serviceWorker' in navigator) {
         return (p||'id') + '_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2,8);
     }
 
-    /* ============ PARSER BRASILEIRO ============
-       Aceita:
-         "1.930"     -> 1930
-         "1.930,50"  -> 1930.50
-         "1,93"      -> 1.93
-         "1930"      -> 1930
-         "1.5"       -> 1.5
-         "R$ 1.930"  -> 1930
-    */
     function parseBRNumber(str) {
         if (str == null) return 0;
         str = String(str).trim();
@@ -1423,7 +1426,6 @@ if ('serviceWorker' in navigator) {
         var s = n.toFixed(2).replace(/\.?0+$/, '');
         return s.replace('.', ',');
     }
-    /* ============ FIM PARSER ============ */
 
     function svgPlaceholder(text) {
         var key = String(text || 'Produto').slice(0,22);
@@ -1676,6 +1678,7 @@ if ('serviceWorker' in navigator) {
             else fbApp = firebase.app();
             fbDb = firebase.firestore();
             fbDocRef = fbDb.collection(FB_COLLECTION).doc(FB_DOC_ID);
+            if (firebase.auth) fbAuth = firebase.auth();
             fbReady = true;
             return true;
         } catch (e) {
@@ -2011,32 +2014,6 @@ if ('serviceWorker' in navigator) {
             });
         }
         return list;
-    }
-
-    function resetConfig() {
-        if (!confirm('Tem certeza que deseja restaurar todas as configurações padrão? (isso apaga a configuração atual da nuvem)')) return;
-        var idsToDelete = [];
-        (config.products || []).forEach(function(p) {
-            if (isCloudRef(p.image)) idsToDelete.push(getCloudId(p.image));
-        });
-        Promise.all(idsToDelete.map(deleteImageDoc)).then(function() {
-            return idbClear();
-        }).then(function() {
-            imageCache = {};
-            pendingImageUploads = {};
-            config = deepClone(DEFAULT_CONFIG);
-            ensureData();
-            saveConfigLocal();
-            applyConfigToUI();
-            syncConfigPanel();
-            renderCategories();
-            updatePromoBadge();
-            clearSearch();
-            setSyncStatus('saving');
-            pushConfigToFirestore().then(function(ok) {
-                showToast(ok ? '☁️ Padrão restaurado na nuvem!' : '⚠️ Padrão restaurado localmente.', ok ? 'success' : 'error');
-            });
-        });
     }
 
     function applyLogoToImg(imgEl, ref, fallbackText) {
@@ -2952,36 +2929,100 @@ if ('serviceWorker' in navigator) {
     function openRulesModal() { document.getElementById('rulesModalOverlay').classList.add('active'); document.body.style.overflow = 'hidden'; }
     function closeRulesModal() { document.getElementById('rulesModalOverlay').classList.remove('active'); if (!isAnyModalOpen()) document.body.style.overflow = ''; }
 
+    // ============================================================
+    // 🔐 AUTENTICAÇÃO — FIREBASE AUTH
+    // ============================================================
     function openPasswordModal() {
         var overlay = document.getElementById('passwordOverlay');
-        document.getElementById('passwordInput').value = '';
+        document.getElementById('authEmail').value = '';
+        document.getElementById('authPassword').value = '';
         document.getElementById('passwordError').textContent = '';
         overlay.classList.add('active');
-        setTimeout(function() { document.getElementById('passwordInput').focus(); }, 150);
+        setTimeout(function() { document.getElementById('authEmail').focus(); }, 150);
     }
     function closePasswordModal() {
         document.getElementById('passwordOverlay').classList.remove('active');
-        document.getElementById('passwordInput').value = '';
+        document.getElementById('authEmail').value = '';
+        document.getElementById('authPassword').value = '';
         document.getElementById('passwordError').textContent = '';
     }
     function confirmPassword() {
-        var input = document.getElementById('passwordInput');
+        var email = document.getElementById('authEmail').value.trim();
+        var password = document.getElementById('authPassword').value;
         var err = document.getElementById('passwordError');
         var modal = document.getElementById('passwordModal');
-        if (input.value.trim() === CONFIG_PASSWORD) {
-            closePasswordModal(); openConfigPanel();
-            showToast('Acesso liberado!', 'success');
-        } else {
-            err.textContent = 'Senha incorreta. Tente novamente.';
+
+        if (!email || !password) {
+            err.textContent = 'Preencha e-mail e senha.';
             modal.classList.remove('shake');
             void modal.offsetWidth;
             modal.classList.add('shake');
-            input.value = '';
-            input.focus();
+            return;
         }
+
+        var btn = document.getElementById('passwordConfirmBtn');
+        btn.disabled = true;
+        btn.textContent = 'Entrando...';
+        err.textContent = '';
+
+        if (!fbAuth) {
+            err.textContent = 'Firebase Auth não carregado. Recarregue a página.';
+            btn.disabled = false;
+            btn.textContent = 'Entrar';
+            return;
+        }
+
+        fbAuth.signInWithEmailAndPassword(email, password)
+            .then(function(userCredential) {
+                var user = userCredential.user;
+                if (user) {
+                    currentAuthUser = user;
+                    showToast('✅ Bem-vindo, ' + (user.email || 'admin') + '!', 'success');
+                    closePasswordModal();
+                    openConfigPanel();
+                }
+            })
+            .catch(function(error) {
+                var msg = 'Erro ao entrar.';
+                if (error.code === 'auth/wrong-password' || error.code === 'auth/invalid-credential' || error.code === 'auth/invalid-login-credentials') {
+                    msg = 'E-mail ou senha incorretos.';
+                } else if (error.code === 'auth/user-not-found') {
+                    msg = 'Usuário não encontrado.';
+                } else if (error.code === 'auth/invalid-email') {
+                    msg = 'E-mail inválido.';
+                } else if (error.code === 'auth/too-many-requests') {
+                    msg = 'Muitas tentativas. Aguarde alguns minutos.';
+                } else if (error.code === 'auth/network-request-failed') {
+                    msg = 'Sem conexão com a internet.';
+                } else if (error.code === 'auth/user-disabled') {
+                    msg = 'Conta desativada.';
+                }
+                err.textContent = msg;
+                modal.classList.remove('shake');
+                void modal.offsetWidth;
+                modal.classList.add('shake');
+            })
+            .then(function() {
+                btn.disabled = false;
+                btn.textContent = 'Entrar';
+            });
+    }
+
+    function isUserAuthenticated() {
+        return !!(fbAuth && fbAuth.currentUser);
+    }
+
+    function doLogout() {
+        if (!fbAuth) return Promise.resolve();
+        return fbAuth.signOut().catch(function(){});
     }
 
     function openConfigPanel() {
+        if (!isUserAuthenticated()) {
+            showToast('Faça login primeiro.', 'error');
+            openPasswordModal();
+            return;
+        }
         configPanelOpen = true;
         document.getElementById('configPanel').classList.add('active');
         document.getElementById('configOverlay').classList.add('active');
@@ -3071,9 +3112,6 @@ if ('serviceWorker' in navigator) {
         list.appendChild(frag);
     }
 
-    /* ===================================================================
-       CARD EDITOR DE PRODUTO — TODOS OS CAMPOS DE PREÇO USAM PARSER BR
-       =================================================================== */
     function buildProductEditorCard(product, index, totalInCat) {
         var card = document.createElement('div');
         var onPromo = (Number(product.promoPrice) > 0 && Number(product.promoPrice) < Number(product.price));
@@ -3122,7 +3160,6 @@ if ('serviceWorker' in navigator) {
         thumbImg.src = cached || svgPlaceholder('Sem foto');
         if ((isCloud || isIdb) && !cached) loadRefIntoImg(product.image, thumbImg, 'Sem foto');
 
-        // ====== INPUT: usa parseBRNumber para TODOS os campos de preço (inclusive promo) ======
         card.addEventListener('input', function(e) {
             var t = e.target;
             if (t.classList.contains('pec-name')) product.name = t.value;
@@ -3145,7 +3182,6 @@ if ('serviceWorker' in navigator) {
             }
         });
 
-        // ====== BLUR: reformata visualmente TODOS os campos de preço (inclusive promo) ======
         card.addEventListener('blur', function(e) {
             var t = e.target;
             if (!t || !t.classList) return;
@@ -3349,6 +3385,11 @@ if ('serviceWorker' in navigator) {
     }
 
     function saveAndApply() {
+        if (!isUserAuthenticated()) {
+            showToast('Faça login para salvar.', 'error');
+            openPasswordModal();
+            return;
+        }
         var newConfig = collectConfigFromPanel();
         var legacy = newConfig.products.filter(function(p) {
             return isDataUrl(p.image) || isIdbRef(p.image);
@@ -4051,10 +4092,22 @@ if ('serviceWorker' in navigator) {
         document.getElementById('passwordConfirmBtn').addEventListener('click', confirmPassword);
         document.getElementById('passwordCancelBtn').addEventListener('click', closePasswordModal);
         document.getElementById('passwordOverlay').addEventListener('click', function(e) { if (e.target === this) closePasswordModal(); });
-        document.getElementById('passwordInput').addEventListener('keydown', function(e) { if (e.key === 'Enter') { e.preventDefault(); confirmPassword(); } });
+        document.getElementById('authEmail').addEventListener('keydown', function(e) { if (e.key === 'Enter') { e.preventDefault(); document.getElementById('authPassword').focus(); } });
+        document.getElementById('authPassword').addEventListener('keydown', function(e) { if (e.key === 'Enter') { e.preventDefault(); confirmPassword(); } });
         document.getElementById('configCloseBtn').addEventListener('click', closeConfigPanel);
         document.getElementById('configOverlay').addEventListener('click', closeConfigPanel);
         document.getElementById('saveConfigBtn').addEventListener('click', saveAndApply);
+
+        var logoutBtn = document.getElementById('logoutBtn');
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', function() {
+                if (!confirm('Deseja sair da conta de administrador?')) return;
+                doLogout().then(function() {
+                    closeConfigPanel();
+                    showToast('👋 Você saiu da conta.', 'success');
+                });
+            });
+        }
 
         document.getElementById('addCategoryBtn').addEventListener('click', function() {
             categoryEditorState.push({
@@ -4410,6 +4463,14 @@ if ('serviceWorker' in navigator) {
         });
 
         if (initFirebase()) {
+            // Observa estado de autenticação
+            if (fbAuth) {
+                fbAuth.onAuthStateChanged(function(user) {
+                    currentAuthUser = user || null;
+                    console.log('🔐 Auth:', user ? user.email : 'deslogado');
+                });
+            }
+
             fbDocRef.get().then(function(snap) {
                 if (snap.exists) {
                     var remote = snap.data() || {};
@@ -4450,7 +4511,7 @@ if ('serviceWorker' in navigator) {
             setSyncStatus('offline');
         }
 
-        console.log('✅ Respect Pharma PWA carregado.');
+        console.log('✅ Respect Pharma PWA carregado com Firebase Auth.');
     }
 
     init();
@@ -4459,9 +4520,10 @@ if ('serviceWorker' in navigator) {
         getConfig: function() { return config; },
         getCart: function() { return cart; },
         getImageCache: function() { return imageCache; },
+        getCurrentUser: function() { return currentAuthUser; },
+        logout: doLogout,
         saveConfig: saveConfig,
         saveAndApply: saveAndApply,
-        resetConfig: resetConfig,
         openConfigPanel: openConfigPanel,
         openPasswordModal: openPasswordModal,
         openPromoModal: openPromoModal,
