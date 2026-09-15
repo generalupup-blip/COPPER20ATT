@@ -1,5 +1,5 @@
-/* Service Worker — Respect Pharma PWA (v3) */
-const CACHE_NAME = 'respect-pharma-v3';
+/* Service Worker — Respect Pharma PWA (v4) */
+const CACHE_NAME = 'respect-pharma-v4';
 const CORE_ASSETS = [
   './',
   './index.html',
@@ -13,6 +13,8 @@ const BYPASS_PATTERNS = [
   /firebaseinstallations\.googleapis\.com/,
   /identitytoolkit\.googleapis\.com/,
   /securetoken\.googleapis\.com/,
+  /firebaseapp\.com/,
+  /firebasestorage\.googleapis\.com/,
   /google-analytics\.com/,
   /googletagmanager\.com/
 ];
@@ -55,7 +57,7 @@ self.addEventListener('fetch', (event) => {
 
   const url = req.url;
 
-  // Firebase / Analytics → sempre rede (dados sempre frescos, não interfere no offline)
+  // Firebase / Auth / Analytics → sempre rede (dados sempre frescos)
   if (BYPASS_PATTERNS.some((re) => re.test(url))) {
     return;
   }
