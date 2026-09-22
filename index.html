@@ -130,6 +130,8 @@
         .pdf-progress-track{width:100%;height:6px;border-radius:3px;background:rgba(255,255,255,.08);overflow:hidden;margin-bottom:12px}
         .pdf-progress-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--gold),var(--gold-light));border-radius:3px;transition:width .3s ease;box-shadow:0 0 10px rgba(212,175,55,.5)}
         .pdf-modal-hint{font-size:10.5px;color:var(--text-muted);letter-spacing:-.01em}
+        .pdf-cancel-btn{margin-top:14px;width:100%;padding:10px;border-radius:var(--radius-sm);background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.4);color:#f87171;font-family:var(--font);font-size:12px;font-weight:700;cursor:pointer;letter-spacing:-.01em}
+        .pdf-cancel-btn:hover{background:rgba(239,68,68,.28)}
 
         .promo-button{width:100%;margin-bottom:12px;position:relative;overflow:visible;display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:var(--radius);transition:all var(--transition);cursor:pointer;border:2px solid var(--border-color-strong);background:var(--bg-card);font-family:var(--font);text-align:left}
         .promo-button::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(239,68,68,.05),rgba(245,158,11,.05));pointer-events:none;border-radius:inherit}
@@ -208,73 +210,17 @@
         .store-footer-inner{width:100%;max-width:800px;margin:0 auto;padding:10px 16px;text-align:center}
         .store-footer-text{font-size:12px;color:var(--text-secondary);letter-spacing:-.01em;font-weight:500;cursor:default;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent}
 
-        .update-system-btn{
-            position:fixed;
-            bottom:80px;
-            left:16px;
-            z-index:101;
-            display:none;
-            align-items:center;
-            gap:8px;
-            padding:12px 18px;
-            border-radius:50px;
-            background:linear-gradient(135deg,#22c55e,#15803d);
-            color:#ffffff;
-            border:2px solid rgba(255,255,255,.25);
-            font-family:var(--font);
-            font-size:12px;
-            font-weight:900;
-            letter-spacing:.02em;
-            cursor:pointer;
-            box-shadow:0 10px 30px rgba(34,197,94,.55);
-            -webkit-tap-highlight-color:transparent;
-            transition:transform var(--transition);
-            animation:updateGlow 2s infinite;
-        }
+        .update-system-btn{position:fixed;bottom:80px;left:16px;z-index:101;display:none;align-items:center;gap:8px;padding:12px 18px;border-radius:50px;background:linear-gradient(135deg,#22c55e,#15803d);color:#ffffff;border:2px solid rgba(255,255,255,.25);font-family:var(--font);font-size:12px;font-weight:900;letter-spacing:.02em;cursor:pointer;box-shadow:0 10px 30px rgba(34,197,94,.55);-webkit-tap-highlight-color:transparent;transition:transform var(--transition);animation:updateGlow 2s infinite}
         .update-system-btn.visible{display:flex}
         .update-system-btn:active{transform:scale(.95)}
         .update-system-btn:disabled{opacity:.75;cursor:wait;animation:none}
         .update-system-btn svg{width:16px;height:16px;flex-shrink:0;animation:spinUpdate 2.4s linear infinite}
         @keyframes spinUpdate{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
-        @keyframes updateGlow{
-            0%,100%{box-shadow:0 10px 30px rgba(34,197,94,.55)}
-            50%{box-shadow:0 10px 42px rgba(34,197,94,.95)}
-        }
+        @keyframes updateGlow{0%,100%{box-shadow:0 10px 30px rgba(34,197,94,.55)}50%{box-shadow:0 10px 42px rgba(34,197,94,.95)}}
 
-        .update-notification-banner{
-            position:fixed;
-            top:calc(118px + 10px);
-            left:50%;
-            transform:translateX(-50%) translateY(-24px);
-            z-index:120;
-            display:none;
-            align-items:center;
-            gap:10px;
-            padding:12px 18px;
-            max-width:calc(100vw - 32px);
-            background:linear-gradient(135deg,rgba(34,197,94,.95),rgba(21,128,61,.95));
-            color:#ffffff;
-            border:1px solid rgba(255,255,255,.3);
-            border-radius:14px;
-            font-family:var(--font);
-            font-size:12.5px;
-            font-weight:800;
-            letter-spacing:-.01em;
-            box-shadow:0 12px 32px rgba(0,0,0,.55),0 0 22px rgba(34,197,94,.55);
-            opacity:0;
-            transition:opacity .3s ease, transform .3s ease;
-            text-align:center;
-        }
-        .update-notification-banner.visible{
-            display:flex;
-            opacity:1;
-            transform:translateX(-50%) translateY(0);
-        }
-        .update-notification-banner .unb-icon{
-            font-size:16px;
-            flex-shrink:0;
-            animation:bounce 2s infinite;
-        }
+        .update-notification-banner{position:fixed;top:calc(118px + 10px);left:50%;transform:translateX(-50%) translateY(-24px);z-index:120;display:none;align-items:center;gap:10px;padding:12px 18px;max-width:calc(100vw - 32px);background:linear-gradient(135deg,rgba(34,197,94,.95),rgba(21,128,61,.95));color:#ffffff;border:1px solid rgba(255,255,255,.3);border-radius:14px;font-family:var(--font);font-size:12.5px;font-weight:800;letter-spacing:-.01em;box-shadow:0 12px 32px rgba(0,0,0,.55),0 0 22px rgba(34,197,94,.55);opacity:0;transition:opacity .3s ease, transform .3s ease;text-align:center}
+        .update-notification-banner.visible{display:flex;opacity:1;transform:translateX(-50%) translateY(0)}
+        .update-notification-banner .unb-icon{font-size:16px;flex-shrink:0;animation:bounce 2s infinite}
 
         .config-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:99;opacity:0;pointer-events:none;transition:opacity .3s;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
         .config-overlay.active{opacity:1;pointer-events:auto}
@@ -319,7 +265,6 @@
         .cat-move-btn:hover{background:rgba(49,200,255,.28);border-color:var(--accent)}
         .cat-move-btn:active{transform:scale(.9)}
         .cat-move-btn:disabled{opacity:.25;cursor:not-allowed;background:rgba(255,255,255,.04);border-color:var(--border-color);color:var(--text-muted)}
-        .cat-move-btn:disabled:hover{background:rgba(255,255,255,.04);border-color:var(--border-color);transform:none}
         .add-category-btn{padding:8px 12px;border-radius:var(--radius-sm);border:1px dashed var(--border-color-strong);background:transparent;color:var(--accent);font-size:12px;font-weight:600;cursor:pointer;font-family:var(--font);transition:all var(--transition);display:flex;align-items:center;justify-content:center;gap:6px}
         .add-category-btn:hover{background:var(--accent-glow);border-color:var(--accent)}
 
@@ -339,9 +284,7 @@
         .pec-remove:hover{background:rgba(239,68,68,.3)}
         .pec-move-btn{background:rgba(49,200,255,.12);border:1px solid rgba(49,200,255,.3);color:var(--accent);width:26px;height:28px;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:10px;font-weight:800;transition:all var(--transition);font-family:var(--font);padding:0;line-height:1;-webkit-tap-highlight-color:transparent}
         .pec-move-btn:hover{background:rgba(49,200,255,.28);border-color:var(--accent)}
-        .pec-move-btn:active{transform:scale(.9)}
         .pec-move-btn:disabled{opacity:.25;cursor:not-allowed;background:rgba(255,255,255,.04);border-color:var(--border-color);color:var(--text-muted)}
-        .pec-move-btn:disabled:hover{background:rgba(255,255,255,.04);border-color:var(--border-color);transform:none}
         .pec-row{display:flex;gap:6px}
         .pec-row input{flex:1;min-width:0;padding:7px 9px;border-radius:6px;border:1px solid var(--border-color);background:var(--bg-input);color:var(--text-primary);font-size:11px;font-family:var(--font);outline:none;letter-spacing:-.01em}
         .pec-row input:focus{border-color:var(--accent)}
@@ -349,7 +292,6 @@
         .pec-row.pec-promo-row{align-items:center}
         .pec-promo-label{font-size:10px;font-weight:700;color:#fbbf24;letter-spacing:.03em;text-transform:uppercase;white-space:nowrap;flex-shrink:0;padding-left:2px}
         .pec-row input.pec-promo-input{border-color:rgba(245,158,11,.4);background:rgba(245,158,11,.05)}
-        .pec-row input.pec-promo-input:focus{border-color:#f59e0b;box-shadow:0 0 0 3px rgba(245,158,11,.15)}
         .pec-upload-btn{padding:7px 10px;border-radius:6px;border:1px solid var(--border-color);background:rgba(49,200,255,.1);color:var(--accent);font-size:11px;font-weight:700;cursor:pointer;font-family:var(--font);white-space:nowrap;transition:all var(--transition)}
         .pec-upload-btn:hover{background:rgba(49,200,255,.22);border-color:var(--accent)}
         .product-editor-empty{padding:18px 14px;text-align:center;font-size:12px;color:var(--text-muted);border:1px dashed var(--border-color);border-radius:var(--radius-sm);line-height:1.5}
@@ -368,10 +310,7 @@
         .password-actions{display:flex;gap:8px;margin-top:8px}
         .password-actions button{flex:1;padding:11px 12px;border-radius:var(--radius-sm);font-size:13px;font-weight:700;cursor:pointer;font-family:var(--font);transition:all var(--transition);letter-spacing:-.01em}
         .password-cancel{background:rgba(255,255,255,.07);color:var(--text-secondary);border:1px solid var(--border-color)}
-        .password-cancel:hover{background:rgba(255,255,255,.14);color:var(--text-primary)}
         .password-confirm{background:var(--accent);color:var(--bg-primary);border:none}
-        .password-confirm:hover{background:#5dd6ff;box-shadow:0 4px 15px rgba(49,200,255,.35)}
-        .password-confirm:disabled{opacity:.6;cursor:wait}
         @keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
         .shake{animation:shake .4s ease}
 
@@ -884,7 +823,7 @@
                 <div class="config-field"><label>Categoria</label><select id="productEditorCategorySelect"></select></div>
                 <div id="productEditorList" class="product-editor-list"></div>
                 <button class="add-category-btn" id="addProductBtn" type="button">+ Adicionar Produto</button>
-                <small style="font-size:10px;color:var(--text-muted)"><strong>💡 Formato brasileiro:</strong> use <strong>ponto</strong> para milhar e <strong>vírgula</strong> para decimal. Ex: <code style="background:rgba(49,200,255,.1);padding:1px 4px;border-radius:3px">1.930</code> = mil novecentos e trinta, <code style="background:rgba(49,200,255,.1);padding:1px 4px;border-radius:3px">1.930,50</code> = mil novecentos e trinta e cinquenta, <code style="background:rgba(49,200,255,.1);padding:1px 4px;border-radius:3px">1,93</code> = um e noventa e três.</small>
+                <small style="font-size:10px;color:var(--text-muted)"><strong>💡 Formato brasileiro:</strong> use <strong>ponto</strong> para milhar e <strong>vírgula</strong> para decimal. Ex: <code style="background:rgba(49,200,255,.1);padding:1px 4px;border-radius:3px">1.930</code> = mil novecentos e trinta.</small>
                 <small style="font-size:10px;color:var(--text-muted)">Preencha <strong>Preço Promo</strong> para colocar em promoção. Use os botões ▲▼ para mudar a ordem.</small>
             </div>
 
@@ -1163,6 +1102,7 @@
                 <div class="pdf-progress-fill" id="pdfProgress"></div>
             </div>
             <p class="pdf-modal-hint">Não feche esta janela</p>
+            <button class="pdf-cancel-btn" id="pdfCancelBtn" type="button">Cancelar</button>
         </div>
     </div>
 
@@ -1199,11 +1139,6 @@ function showToast(msg, type) {
     }, 2400);
 }
 
-/* ============================================================
-   📱 ABERTURA CONFIÁVEL DE LINKS EXTERNOS (WhatsApp / Telegram)
-   Usa <a target="_blank"> clicado via JS — evita bloqueio de popup
-   em navegadores móveis (iOS Safari / Android Chrome).
-   ============================================================ */
 function openExternalUrl(url) {
     if (!url) return;
     try {
@@ -1285,41 +1220,18 @@ if ('serviceWorker' in navigator) {
     'use strict';
 
     // ============================================================
-    // 🔐 AUTENTICAÇÃO VIA FIREBASE AUTH
-    //    Não há senha no código. Login validado pelo servidor Google.
-    //    Admins são criados no Console > Authentication > Users
+    // 🔐 AUTENTICAÇÃO VIA FIREBASE AUTH + WHATSAPP NORMALIZADO
     // ============================================================
 
-    // ✅ NÚMERO CORRETO DO WHATSAPP (DDI 55 + DDD 19 + 9 dígitos)
     var WHATSAPP_NUMBER = '5519997390834';
     var WHATSAPP_DEFAULT = 'https://wa.me/' + WHATSAPP_NUMBER;
 
-    // 🔒 Normalizador: garante que o link salvo esteja no formato correto
-    //    e sempre aponta para o número certo desta loja.
     function normalizeWhatsAppLink(link) {
         var num = String(link == null ? '' : link).replace(/\D/g, '');
-
-        // Se vazio ou se ficou só com placeholder antigo → usa padrão
-        if (!num || num === '5500000000000' || num.length < 10) {
-            return WHATSAPP_DEFAULT;
-        }
-
-        // Adiciona DDI 55 se necessário
-        if ((num.length === 10 || num.length === 11) && num.indexOf('55') !== 0) {
-            num = '55' + num;
-        }
-
-        // ⚠️ Se o número salvo termina com os dígitos corretos, força o padrão
-        if (num === WHATSAPP_NUMBER || num.slice(-13) === WHATSAPP_NUMBER) {
-            return WHATSAPP_DEFAULT;
-        }
-
-        // Se parece válido (12 a 15 dígitos), aceita — permite customização
-        if (num.length >= 12 && num.length <= 15) {
-            return 'https://wa.me/' + num;
-        }
-
-        // Qualquer outra coisa → padrão seguro
+        if (!num || num === '5500000000000' || num.length < 10) return WHATSAPP_DEFAULT;
+        if ((num.length === 10 || num.length === 11) && num.indexOf('55') !== 0) num = '55' + num;
+        if (num === WHATSAPP_NUMBER || num.slice(-13) === WHATSAPP_NUMBER) return WHATSAPP_DEFAULT;
+        if (num.length >= 12 && num.length <= 15) return 'https://wa.me/' + num;
         return WHATSAPP_DEFAULT;
     }
 
@@ -1328,7 +1240,6 @@ if ('serviceWorker' in navigator) {
     var SYS_VERSION_KEY = 'respectPharmaSysVersion';
     var IDB_NAME = 'respectPharmaImages';
     var IDB_STORE = 'images';
-
     var FB_COLLECTION = 'respectPharma';
     var FB_DOC_ID = 'store';
     var FB_IMG_COLLECTION = 'respectPharma_images';
@@ -1341,6 +1252,13 @@ if ('serviceWorker' in navigator) {
     var CLOUD_IMG_HARD_LIMIT = 750000;
 
     var PDF_COVER_LOGO = 'logo-catalogo.jpg';
+
+    // 🎯 PDF: dimensões pequenas = rápido e leve
+    var PDF_IMG_MAX_DIM = 150;
+    var PDF_IMG_QUALITY = 0.65;
+    var PDF_LOAD_TIMEOUT_MS = 2500;
+    var PDF_HARD_TIMEOUT_MS = 75000;
+    var PDF_CONCURRENCY = 6;
 
     var FREIGHT_TABLE = {
         'SP':55,'RJ':65,'MG':65,'SC':65,'RS':65,'PR':65,'ES':65,'DF':70,'GO':70,
@@ -1420,6 +1338,10 @@ if ('serviceWorker' in navigator) {
     var _svgCache = {};
     var _hexCache = {};
 
+    // 📄 PDF: controle de cancelamento
+    var pdfAbortRequested = false;
+    var pdfBuildInProgress = false;
+
     function esc(s) {
         return String(s == null ? '' : s).replace(/[&<>"']/g, function(c) {
             return { '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c];
@@ -1452,7 +1374,6 @@ if ('serviceWorker' in navigator) {
         if (!str) return 0;
         str = str.replace(/R\$\s*/gi, '').replace(/\s/g, '');
         if (!str) return 0;
-
         if (str.indexOf(',') !== -1) {
             str = str.replace(/\./g, '').replace(',', '.');
         } else if (str.indexOf('.') !== -1) {
@@ -1466,7 +1387,6 @@ if ('serviceWorker' in navigator) {
             }
             if (allThousands) str = parts.join('');
         }
-
         str = str.replace(/[^0-9.\-]/g, '');
         var n = parseFloat(str);
         if (isNaN(n) || !isFinite(n)) return 0;
@@ -1549,20 +1469,11 @@ if ('serviceWorker' in navigator) {
             });
         }).catch(function() { return false; });
     }
-    function idbClear() {
-        return openIDB().then(function(db) {
-            return new Promise(function(res) {
-                var tx = db.transaction(IDB_STORE, 'readwrite');
-                tx.objectStore(IDB_STORE).clear();
-                tx.oncomplete = function() { res(true); };
-                tx.onerror = function() { res(false); };
-            });
-        }).catch(function() { return false; });
-    }
     function isCloudRef(ref) { return typeof ref === 'string' && ref.indexOf('cloud:') === 0; }
     function isIdbRef(ref) { return typeof ref === 'string' && ref.indexOf('idb:') === 0; }
     function isDataUrl(ref) { return typeof ref === 'string' && ref.indexOf('data:') === 0; }
     function isHttpUrl(ref) { return typeof ref === 'string' && (ref.indexOf('http://') === 0 || ref.indexOf('https://') === 0); }
+    function isSvgPlaceholder(ref) { return typeof ref === 'string' && ref.indexOf('data:image/svg') === 0; }
     function getCloudId(ref) { return ref.slice(6); }
     function makeCloudRef(id) { return 'cloud:' + id; }
     function getRefKey(ref) { return ref.slice(4); }
@@ -1577,7 +1488,6 @@ if ('serviceWorker' in navigator) {
         if (!ref) { imgEl.src = svgPlaceholder(fallbackText); return; }
         var c = getRefSync(ref);
         if (c) { imgEl.src = c; return; }
-
         if (isCloudRef(ref)) {
             var imgId = getCloudId(ref);
             idbGetImage('cloud_' + imgId).then(function(d) {
@@ -1604,23 +1514,22 @@ if ('serviceWorker' in navigator) {
 
     function fetchImageFromFirestore(imageId) {
         if (!fbReady || !fbDb || !imageId) return Promise.resolve(null);
-        return fbDb.collection(FB_IMG_COLLECTION).doc(imageId).get().then(function(snap) {
-            if (snap.exists) {
-                var d = snap.data();
-                return d && d.d ? d.d : null;
-            }
-            return null;
-        }).catch(function(err) {
-            console.warn('Erro ao carregar imagem ' + imageId + ':', err);
-            return null;
-        });
+        return Promise.race([
+            fbDb.collection(FB_IMG_COLLECTION).doc(imageId).get().then(function(snap) {
+                if (snap.exists) {
+                    var d = snap.data();
+                    return d && d.d ? d.d : null;
+                }
+                return null;
+            }).catch(function() { return null; }),
+            new Promise(function(resolve) { setTimeout(function() { resolve(null); }, 4000); })
+        ]);
     }
 
     function resolveRef(ref, fallbackText) {
         if (!ref) return Promise.resolve(svgPlaceholder(fallbackText));
         var c = getRefSync(ref);
         if (c) return Promise.resolve(c);
-
         if (isCloudRef(ref)) {
             var imgId = getCloudId(ref);
             return idbGetImage('cloud_' + imgId).then(function(d) {
@@ -1807,7 +1716,6 @@ if ('serviceWorker' in navigator) {
     function pushConfigToFirestore() {
         if (!fbReady || !fbDocRef) return Promise.resolve(false);
         var data = deepClone(config);
-        // 🔒 Garante que o link do WhatsApp salvo esteja sempre correto
         data.whatsappLink = normalizeWhatsAppLink(data.whatsappLink);
         data.updatedAt = firebase.firestore.FieldValue.serverTimestamp();
         setSyncStatus('saving');
@@ -1830,7 +1738,6 @@ if ('serviceWorker' in navigator) {
             merged.categories = deepClone(DEFAULT_CONFIG.categories);
         if (!Array.isArray(merged.products)) merged.products = [];
         if (!Array.isArray(merged.notifProductIds)) merged.notifProductIds = [];
-        // 🔒 Normaliza o link do WhatsApp sempre (corrige valores antigos/errados)
         merged.whatsappLink = normalizeWhatsAppLink(merged.whatsappLink);
         if (!merged.systemVersion) merged.systemVersion = '1';
         return merged;
@@ -1881,7 +1788,6 @@ if ('serviceWorker' in navigator) {
             } else {
                 loaded = deepClone(DEFAULT_CONFIG);
             }
-            // 🔒 Corrige o WhatsApp em qualquer carga de config local
             loaded.whatsappLink = normalizeWhatsAppLink(loaded.whatsappLink);
         } catch (e) {
             loaded = deepClone(DEFAULT_CONFIG);
@@ -1922,11 +1828,8 @@ if ('serviceWorker' in navigator) {
             hideUpdateUI();
             return;
         }
-        if (remoteV !== localV) {
-            showUpdateUI(remoteV);
-        } else {
-            hideUpdateUI();
-        }
+        if (remoteV !== localV) showUpdateUI(remoteV);
+        else hideUpdateUI();
     }
 
     function showUpdateUI(remoteV) {
@@ -1936,7 +1839,6 @@ if ('serviceWorker' in navigator) {
         btn.classList.add('visible');
         btn.dataset.remoteVersion = remoteV;
         if (banner) banner.classList.add('visible');
-
         if (!btn.dataset.notified) {
             btn.dataset.notified = '1';
             showToast('🔔 Houve uma atualização no sistema! Toque em ATUALIZAR.', 'success');
@@ -1960,11 +1862,8 @@ if ('serviceWorker' in navigator) {
         var remoteV = (btn && btn.dataset.remoteVersion) || String((config && config.systemVersion) || '');
         if (btn) btn.disabled = true;
         if (labelEl) labelEl.textContent = 'ATUALIZANDO...';
-
         setLocalSysVersion(remoteV);
-
         try { saveConfigLocal(); } catch (e) {}
-
         var doReload = function() {
             try {
                 var url = location.href.split('#')[0];
@@ -1974,37 +1873,24 @@ if ('serviceWorker' in navigator) {
                 try { location.reload(); } catch (e2) { location.href = location.href; }
             }
         };
-
         var tasks = [];
-
         if ('serviceWorker' in navigator) {
-            tasks.push(
-                navigator.serviceWorker.getRegistrations().then(function(regs) {
-                    return Promise.all(regs.map(function(r) {
-                        return r.update().catch(function(){});
-                    }));
-                }).catch(function(){})
-            );
+            tasks.push(navigator.serviceWorker.getRegistrations().then(function(regs) {
+                return Promise.all(regs.map(function(r) { return r.update().catch(function(){}); }));
+            }).catch(function(){}));
             try {
                 if (navigator.serviceWorker.controller) {
                     navigator.serviceWorker.controller.postMessage({ type: 'SKIP_WAITING' });
                 }
             } catch (e) {}
         }
-
         if (window.caches && caches.keys) {
-            tasks.push(
-                caches.keys().then(function(names) {
-                    return Promise.all(names.map(function(n) { return caches.delete(n); }));
-                }).catch(function(){})
-            );
+            tasks.push(caches.keys().then(function(names) {
+                return Promise.all(names.map(function(n) { return caches.delete(n); }));
+            }).catch(function(){}));
         }
-
-        Promise.all(tasks).then(function() {
-            setTimeout(doReload, 350);
-        }).catch(function() {
-            setTimeout(doReload, 350);
-        });
+        Promise.all(tasks).then(function() { setTimeout(doReload, 350); })
+            .catch(function() { setTimeout(doReload, 350); });
     }
 
     function ensureData() {
@@ -2159,9 +2045,7 @@ if ('serviceWorker' in navigator) {
         if (count > 0) {
             badge.textContent = count > 99 ? '99+' : String(count);
             badge.classList.add('visible');
-        } else {
-            badge.classList.remove('visible');
-        }
+        } else badge.classList.remove('visible');
     }
 
     function getFirstCategoryImage(catId) {
@@ -2169,7 +2053,7 @@ if ('serviceWorker' in navigator) {
         for (var i = 0; i < config.products.length; i++) {
             var p = config.products[i];
             if (p.catId === catId && p.image && typeof p.image === 'string') {
-                if (p.image.indexOf('data:image/svg') === 0) continue;
+                if (isSvgPlaceholder(p.image)) continue;
                 return p.image;
             }
         }
@@ -2179,12 +2063,10 @@ if ('serviceWorker' in navigator) {
     function renderCategories() {
         var container = document.getElementById('categoriesList');
         var frag = document.createDocumentFragment();
-
         config.categories.forEach(function(cat) {
             var accent = cat.color || config.accentColor || '#31c8ff';
             var bgStyle = hexToRgba(accent, 0.18);
             var textColor = accent;
-
             var card = document.createElement('div');
             card.className = 'category-card';
             card.style.borderColor = hexToRgba(config.accentColor, 0.20);
@@ -2222,20 +2104,16 @@ if ('serviceWorker' in navigator) {
 
             var catText = document.createElement('div');
             catText.className = 'category-text';
-
             var nameH = document.createElement('h2');
             nameH.className = 'category-name';
             nameH.style.color = textColor;
             nameH.textContent = cat.name;
-
             var countP = document.createElement('p');
             countP.className = 'category-count';
             countP.style.color = 'var(--text-secondary)';
             countP.textContent = cat.count;
-
             catText.appendChild(nameH);
             catText.appendChild(countP);
-
             catLeft.appendChild(iconBox);
             catLeft.appendChild(catText);
 
@@ -2265,25 +2143,20 @@ if ('serviceWorker' in navigator) {
             card.appendChild(productsWrap);
             frag.appendChild(card);
         });
-
         container.innerHTML = '';
         container.appendChild(frag);
     }
 
     function renderProductList(inner, products) {
         var frag = document.createDocumentFragment();
-
         if (!products || !products.length) {
             var empty = document.createElement('div');
             empty.className = 'category-products-empty';
             empty.textContent = 'Nenhum produto cadastrado nesta categoria.';
             frag.appendChild(empty);
         } else {
-            products.forEach(function(product) {
-                frag.appendChild(buildProductItem(product));
-            });
+            products.forEach(function(product) { frag.appendChild(buildProductItem(product)); });
         }
-
         inner.innerHTML = '';
         inner.appendChild(frag);
     }
@@ -2345,28 +2218,21 @@ if ('serviceWorker' in navigator) {
             if (idx === -1) return safe;
             return safe.slice(0, idx) + '<span class="search-match-highlight">' +
                 safe.slice(idx, idx + query.length) + '</span>' + safe.slice(idx + query.length);
-        } catch (e) {
-            return safe;
-        }
+        } catch (e) { return safe; }
     }
 
     function performSearch(query) {
         var box = document.getElementById('searchResults');
         var list = document.getElementById('searchResultsList');
         var header = document.getElementById('searchResultsHeader');
-
         if (!query || !query.trim()) { box.classList.remove('active'); return; }
-
         var q = query.trim();
         var nQuery = norm(q);
         var matches = [];
-
         for (var i = 0; i < searchIndex.length; i++) {
             var e = searchIndex[i];
-            if (e.nameNorm.indexOf(nQuery) !== -1 || e.brandNorm.indexOf(nQuery) !== -1)
-                matches.push(e.p);
+            if (e.nameNorm.indexOf(nQuery) !== -1 || e.brandNorm.indexOf(nQuery) !== -1) matches.push(e.p);
         }
-
         matches.sort(function(a, b) {
             var aName = norm(a.name), bName = norm(b.name);
             var aS = aName.indexOf(nQuery) === 0 ? 0 : 1;
@@ -2374,19 +2240,15 @@ if ('serviceWorker' in navigator) {
             if (aS !== bS) return aS - bS;
             return aName.localeCompare(bName);
         });
-
         var total = matches.length;
         var limited = matches.slice(0, 30);
-
         if (!total) {
             header.textContent = 'Nenhum resultado';
             list.innerHTML = '<div class="search-results-empty"><strong>Nada encontrado para "' + esc(q) + '"</strong>Verifique a ortografia ou tente outra palavra-chave.</div>';
             box.classList.add('active');
             return;
         }
-
         header.textContent = total === 1 ? '1 resultado encontrado' : total + ' resultados encontrados';
-
         var frag = document.createDocumentFragment();
         limited.forEach(function(product) {
             var item = document.createElement('div');
@@ -2405,22 +2267,18 @@ if ('serviceWorker' in navigator) {
             if ((isCloudRef(product.image) || isIdbRef(product.image)) && !cached) {
                 loadRefIntoImg(product.image, img, product.name);
             }
-
             var info = document.createElement('div');
             info.className = 'search-result-info';
             info.innerHTML = '<span class="search-result-name">' + highlightMatch(product.name, q) + '</span>' +
                 '<span class="search-result-meta">' + highlightMatch(product.brand, q) + '</span>';
-
             var price = document.createElement('span');
             price.className = 'search-result-price';
             price.textContent = formatBRL(getEffectivePrice(product));
-
             item.appendChild(img);
             item.appendChild(info);
             item.appendChild(price);
             frag.appendChild(item);
         });
-
         list.innerHTML = '';
         list.appendChild(frag);
         box.classList.add('active');
@@ -2452,15 +2310,12 @@ if ('serviceWorker' in navigator) {
                 if (currentProduct === product) img.src = url;
             });
         }
-
         var onPromo = isOnPromo(product);
         var priceEl = document.getElementById('pmPrice');
         var oldEl = document.getElementById('pmOld');
         var discEl = document.getElementById('pmDiscount');
-
         document.getElementById('pmBrand').textContent = product.brand;
         document.getElementById('pmName').textContent = product.name;
-
         if (onPromo) {
             oldEl.textContent = formatBRL(product.price);
             priceEl.textContent = formatBRL(product.promoPrice);
@@ -2476,7 +2331,6 @@ if ('serviceWorker' in navigator) {
             discEl.textContent = '-' + d + '%';
             discEl.classList.remove('promo-badge');
         }
-
         document.getElementById('productOverlay').classList.add('active');
         document.body.style.overflow = 'hidden';
     }
@@ -2602,25 +2456,21 @@ if ('serviceWorker' in navigator) {
         var footer = document.getElementById('cartFooter');
         var subtitle = document.getElementById('cartModalSubtitle');
         var items = getCartItems();
-
         if (!items.length) {
             subtitle.textContent = 'Nenhum item adicionado';
             body.innerHTML = '<div class="cart-empty"><div class="cart-empty-icon">🛒</div><h4 class="cart-empty-title">Seu carrinho está vazio</h4><p class="cart-empty-desc">Adicione produtos do catálogo para começar a montar seu pedido.</p></div>';
             footer.style.display = 'none';
             return;
         }
-
         var totalQty = 0;
         items.forEach(function(i) { totalQty += i.qty; });
         subtitle.textContent = totalQty + (totalQty === 1 ? ' item' : ' itens') + ' no carrinho';
-
         var frag = document.createDocumentFragment();
         items.forEach(function(it) {
             var prod = it.product;
             var row = document.createElement('div');
             row.className = 'cart-item';
             row.dataset.productId = prod.id;
-
             var img = document.createElement('img');
             img.className = 'cart-item-thumb';
             img.alt = prod.name;
@@ -2630,7 +2480,6 @@ if ('serviceWorker' in navigator) {
             if ((isCloudRef(prod.image) || isIdbRef(prod.image)) && !cached) {
                 loadRefIntoImg(prod.image, img, prod.name);
             }
-
             var info = document.createElement('div');
             info.className = 'cart-item-info';
             var onPromo = isOnPromo(prod);
@@ -2638,7 +2487,6 @@ if ('serviceWorker' in navigator) {
                 '<span class="cart-item-name">' + esc(prod.name) + '</span>' +
                 '<span class="cart-item-price">' + (onPromo ? '🔥 ' : '') + formatBRL(it.unitPrice) +
                 ' <span style="color:var(--text-muted);font-weight:600;font-size:11px">x' + it.qty + ' = ' + formatBRL(it.subtotal) + '</span></span>';
-
             var controls = document.createElement('div');
             controls.className = 'cart-item-controls';
             controls.innerHTML =
@@ -2648,17 +2496,14 @@ if ('serviceWorker' in navigator) {
                     '<button class="cart-qty-btn" type="button" data-action="inc">+</button>' +
                 '</div>' +
                 '<button class="cart-item-remove" type="button" data-action="remove" title="Remover">🗑️</button>';
-
             row.appendChild(img);
             row.appendChild(info);
             row.appendChild(controls);
             frag.appendChild(row);
         });
-
         var itemsWrap = document.createElement('div');
         itemsWrap.className = 'cart-items';
         itemsWrap.appendChild(frag);
-
         var subtotal = getCartSubtotal();
         var summary = document.createElement('div');
         summary.className = 'cart-summary';
@@ -2666,7 +2511,6 @@ if ('serviceWorker' in navigator) {
             '<div class="cart-summary-row"><span class="cart-summary-label">Subtotal (' + totalQty + ' itens)</span><span class="cart-summary-value">' + formatBRL(subtotal) + '</span></div>' +
             '<div class="cart-summary-row"><span class="cart-summary-label">Frete</span><span class="cart-summary-value" style="color:var(--text-muted);font-size:12px">Calculado no checkout</span></div>' +
             '<div class="cart-summary-row total"><span class="cart-summary-label">Total parcial</span><span class="cart-summary-value">' + formatBRL(subtotal) + '</span></div>';
-
         body.innerHTML = '';
         body.appendChild(itemsWrap);
         body.appendChild(summary);
@@ -2691,7 +2535,6 @@ if ('serviceWorker' in navigator) {
         var subtotal = getCartSubtotal();
         var totalQty = 0;
         items.forEach(function(i) { totalQty += i.qty; });
-
         el.innerHTML = '<div>Você está finalizando <strong>' + totalQty + ' ' + (totalQty === 1 ? 'item' : 'itens') + '</strong> do seu pedido.</div>' +
             '<div class="mini-total"><span class="label">Subtotal</span><span class="value">' + formatBRL(subtotal) + '</span></div>' +
             '<div class="mini-total" id="coFreightRow" style="display:none"><span class="label">Frete</span><span class="value" id="coFreightValue">R$ 0,00</span></div>';
@@ -2704,9 +2547,7 @@ if ('serviceWorker' in navigator) {
         if (state && FREIGHT_TABLE[state] !== undefined) {
             val.textContent = formatBRL(FREIGHT_TABLE[state]);
             row.style.display = 'flex';
-        } else {
-            row.style.display = 'none';
-        }
+        } else row.style.display = 'none';
     }
     function maskCEP(v) {
         v = String(v || '').replace(/\D/g, '').slice(0, 8);
@@ -2760,12 +2601,10 @@ if ('serviceWorker' in navigator) {
     function submitOrder() {
         if (!cart.length) { showToast('Carrinho vazio.', 'error'); return; }
         if (!validateCheckoutForm()) return;
-
         var items = getCartItems();
         var state = document.getElementById('coEstado').value;
         var freight = FREIGHT_TABLE[state] !== undefined ? FREIGHT_TABLE[state] : 0;
         var total = getCartSubtotal() + freight;
-
         var nome = (document.getElementById('coNome').value || '').trim();
         var tel = (document.getElementById('coTel').value || '').trim();
         var cpf = (document.getElementById('coCpf').value || '').trim();
@@ -2789,14 +2628,12 @@ if ('serviceWorker' in navigator) {
         lines.push('*CEP:* ' + cep);
         lines.push('');
         lines.push('*--- PEDIDO ---*');
-
         items.forEach(function(it) {
             var prod = it.product;
             var brand = String(prod.brand || '').toUpperCase();
             var name = String(prod.name || '');
             lines.push('• ' + it.qty + 'x ' + name + ' (' + brand + ') - ' + formatBRL(it.unitPrice) + ' = ' + formatBRL(it.subtotal));
         });
-
         lines.push('');
         lines.push('*Frete:* ' + formatBRL(freight));
         lines.push('*TOTAL: ' + formatBRL(total) + '*');
@@ -2816,41 +2653,29 @@ if ('serviceWorker' in navigator) {
         }, 600);
     }
 
-    function openPromoModal() {
-        renderPromoModal();
-        document.getElementById('promoModalOverlay').classList.add('active');
-        document.body.style.overflow = 'hidden';
-    }
-    function closePromoModal() {
-        document.getElementById('promoModalOverlay').classList.remove('active');
-        if (!isAnyModalOpen()) document.body.style.overflow = '';
-    }
+    function openPromoModal() { renderPromoModal(); document.getElementById('promoModalOverlay').classList.add('active'); document.body.style.overflow = 'hidden'; }
+    function closePromoModal() { document.getElementById('promoModalOverlay').classList.remove('active'); if (!isAnyModalOpen()) document.body.style.overflow = ''; }
     function renderPromoModal() {
         var body = document.getElementById('promoModalBody');
         var prods = getPromoProducts();
-
         if (!prods.length) {
             body.innerHTML = '<div class="promo-empty"><div class="promo-empty-icon">🛍️</div><h4 class="promo-empty-title">Nenhuma promoção ativa</h4><p class="promo-empty-desc">Assim que novas ofertas forem publicadas, elas aparecerão aqui automaticamente.</p></div>';
             return;
         }
         prods.sort(function(a, b) { return getPromoDiscount(b) - getPromoDiscount(a); });
-
         var grid = document.createElement('div');
         grid.className = 'promo-grid';
         var frag = document.createDocumentFragment();
-
         prods.forEach(function(product) {
             var card = document.createElement('div');
             card.className = 'promo-card';
             card.setAttribute('role', 'button');
             card.setAttribute('tabindex', '0');
             card.dataset.productId = product.id;
-
             var badge = document.createElement('span');
             badge.className = 'promo-card-discount';
             badge.textContent = '-' + getPromoDiscount(product) + '%';
             card.appendChild(badge);
-
             var img = document.createElement('img');
             img.className = 'promo-card-thumb';
             img.alt = product.name;
@@ -2861,7 +2686,6 @@ if ('serviceWorker' in navigator) {
             if ((isCloudRef(product.image) || isIdbRef(product.image)) && !cached) {
                 loadRefIntoImg(product.image, img, product.name);
             }
-
             var info = document.createElement('div');
             info.className = 'promo-card-info';
             info.innerHTML = '<span class="promo-card-brand">' + esc(product.brand) + '</span>' +
@@ -2870,53 +2694,36 @@ if ('serviceWorker' in navigator) {
                     '<span class="promo-card-old">' + formatBRL(product.price) + '</span>' +
                     '<span class="promo-card-new">' + formatBRL(product.promoPrice) + '</span>' +
                 '</div>';
-
             card.appendChild(img);
             card.appendChild(info);
             frag.appendChild(card);
         });
-
         grid.appendChild(frag);
         body.innerHTML = '';
         body.appendChild(grid);
-
         var note = document.createElement('div');
         note.className = 'promo-footer-note';
         note.innerHTML = '<span style="flex-shrink:0">💡</span><span>Promoções por tempo limitado. Preços válidos enquanto durar o estoque.</span>';
         body.appendChild(note);
     }
 
-    function openNotifModal() {
-        renderNotifModal();
-        document.getElementById('notifModalOverlay').classList.add('active');
-        document.body.style.overflow = 'hidden';
-    }
-    function closeNotifModal() {
-        document.getElementById('notifModalOverlay').classList.remove('active');
-        if (!isAnyModalOpen()) document.body.style.overflow = '';
-    }
+    function openNotifModal() { renderNotifModal(); document.getElementById('notifModalOverlay').classList.add('active'); document.body.style.overflow = 'hidden'; }
+    function closeNotifModal() { document.getElementById('notifModalOverlay').classList.remove('active'); if (!isAnyModalOpen()) document.body.style.overflow = ''; }
     function renderNotifModal() {
         var body = document.getElementById('notifModalBody');
         var subtitle = document.getElementById('notifModalSubtitle');
         var ids = Array.isArray(config.notifProductIds) ? config.notifProductIds : [];
         var prods = [];
-        ids.forEach(function(id) {
-            var p = findProductById(id);
-            if (p) prods.push(p);
-        });
-
+        ids.forEach(function(id) { var p = findProductById(id); if (p) prods.push(p); });
         if (!prods.length) {
             subtitle.textContent = 'Nenhuma novidade no momento';
             body.innerHTML = '<div class="promo-empty"><div class="promo-empty-icon">🔔</div><h4 class="promo-empty-title">Sem novidades</h4><p class="promo-empty-desc">Assim que novos produtos forem adicionados, eles aparecerão aqui automaticamente.</p></div>';
             return;
         }
-
         subtitle.textContent = prods.length === 1 ? '1 produto novo adicionado' : prods.length + ' produtos novos adicionados';
-
         var grid = document.createElement('div');
         grid.className = 'promo-grid';
         var frag = document.createDocumentFragment();
-
         prods.forEach(function(product) {
             var onPromo = isOnPromo(product);
             var card = document.createElement('div');
@@ -2924,14 +2731,12 @@ if ('serviceWorker' in navigator) {
             card.setAttribute('role', 'button');
             card.setAttribute('tabindex', '0');
             card.dataset.productId = product.id;
-
             if (onPromo) {
                 var badge = document.createElement('span');
                 badge.className = 'promo-card-discount';
                 badge.textContent = '-' + getPromoDiscount(product) + '%';
                 card.appendChild(badge);
             }
-
             var img = document.createElement('img');
             img.className = 'promo-card-thumb';
             img.alt = product.name;
@@ -2942,10 +2747,8 @@ if ('serviceWorker' in navigator) {
             if ((isCloudRef(product.image) || isIdbRef(product.image)) && !cached) {
                 loadRefIntoImg(product.image, img, product.name);
             }
-
             var info = document.createElement('div');
             info.className = 'promo-card-info';
-
             var priceHtml;
             if (onPromo) {
                 priceHtml = '<div class="promo-card-prices">' +
@@ -2957,20 +2760,15 @@ if ('serviceWorker' in navigator) {
                     '<span class="promo-card-new" style="color:var(--accent);text-shadow:0 0 14px rgba(49,200,255,.35)">' + formatBRL(product.price) + '</span>' +
                 '</div>';
             }
-
             info.innerHTML = '<span class="promo-card-brand">' + esc(product.brand) + '</span>' +
-                '<span class="promo-card-name">' + esc(product.name) + '</span>' +
-                priceHtml;
-
+                '<span class="promo-card-name">' + esc(product.name) + '</span>' + priceHtml;
             card.appendChild(img);
             card.appendChild(info);
             frag.appendChild(card);
         });
-
         grid.appendChild(frag);
         body.innerHTML = '';
         body.appendChild(grid);
-
         var note = document.createElement('div');
         note.className = 'promo-footer-note';
         note.innerHTML = '<span style="flex-shrink:0">💡</span><span>Toque em um produto para ver os detalhes e adicionar ao carrinho.</span>';
@@ -3004,7 +2802,6 @@ if ('serviceWorker' in navigator) {
         var password = document.getElementById('authPassword').value;
         var err = document.getElementById('passwordError');
         var modal = document.getElementById('passwordModal');
-
         if (!email || !password) {
             err.textContent = 'Preencha e-mail e senha.';
             modal.classList.remove('shake');
@@ -3012,19 +2809,16 @@ if ('serviceWorker' in navigator) {
             modal.classList.add('shake');
             return;
         }
-
         var btn = document.getElementById('passwordConfirmBtn');
         btn.disabled = true;
         btn.textContent = 'Entrando...';
         err.textContent = '';
-
         if (!fbAuth) {
             err.textContent = 'Firebase Auth não carregado. Recarregue a página.';
             btn.disabled = false;
             btn.textContent = 'Entrar';
             return;
         }
-
         fbAuth.signInWithEmailAndPassword(email, password)
             .then(function(userCredential) {
                 var user = userCredential.user;
@@ -3037,19 +2831,12 @@ if ('serviceWorker' in navigator) {
             })
             .catch(function(error) {
                 var msg = 'Erro ao entrar.';
-                if (error.code === 'auth/wrong-password' || error.code === 'auth/invalid-credential' || error.code === 'auth/invalid-login-credentials') {
-                    msg = 'E-mail ou senha incorretos.';
-                } else if (error.code === 'auth/user-not-found') {
-                    msg = 'Usuário não encontrado.';
-                } else if (error.code === 'auth/invalid-email') {
-                    msg = 'E-mail inválido.';
-                } else if (error.code === 'auth/too-many-requests') {
-                    msg = 'Muitas tentativas. Aguarde alguns minutos.';
-                } else if (error.code === 'auth/network-request-failed') {
-                    msg = 'Sem conexão com a internet.';
-                } else if (error.code === 'auth/user-disabled') {
-                    msg = 'Conta desativada.';
-                }
+                if (error.code === 'auth/wrong-password' || error.code === 'auth/invalid-credential' || error.code === 'auth/invalid-login-credentials') msg = 'E-mail ou senha incorretos.';
+                else if (error.code === 'auth/user-not-found') msg = 'Usuário não encontrado.';
+                else if (error.code === 'auth/invalid-email') msg = 'E-mail inválido.';
+                else if (error.code === 'auth/too-many-requests') msg = 'Muitas tentativas. Aguarde alguns minutos.';
+                else if (error.code === 'auth/network-request-failed') msg = 'Sem conexão com a internet.';
+                else if (error.code === 'auth/user-disabled') msg = 'Conta desativada.';
                 err.textContent = msg;
                 modal.classList.remove('shake');
                 void modal.offsetWidth;
@@ -3061,14 +2848,8 @@ if ('serviceWorker' in navigator) {
             });
     }
 
-    function isUserAuthenticated() {
-        return !!(fbAuth && fbAuth.currentUser);
-    }
-
-    function doLogout() {
-        if (!fbAuth) return Promise.resolve();
-        return fbAuth.signOut().catch(function(){});
-    }
+    function isUserAuthenticated() { return !!(fbAuth && fbAuth.currentUser); }
+    function doLogout() { if (!fbAuth) return Promise.resolve(); return fbAuth.signOut().catch(function(){}); }
 
     function openConfigPanel() {
         if (!isUserAuthenticated()) {
@@ -3170,15 +2951,12 @@ if ('serviceWorker' in navigator) {
         var onPromo = (Number(product.promoPrice) > 0 && Number(product.promoPrice) < Number(product.price));
         card.className = 'product-editor-card' + (onPromo ? ' on-promo' : '');
         card.dataset.productId = product.id;
-
         var isFirst = index === 0;
         var isLast = index === totalInCat - 1;
-
         var isCloud = isCloudRef(product.image);
         var isData = isDataUrl(product.image);
         var isIdb = isIdbRef(product.image);
         var urlValue = (!isCloud && !isData && !isIdb) ? (product.image || '') : '';
-
         var placeholderText;
         if (isCloud) placeholderText = '📷 Foto na nuvem (referência)';
         else if (isData) placeholderText = '📷 Foto (base64 antiga - será migrada)';
@@ -3200,7 +2978,7 @@ if ('serviceWorker' in navigator) {
             '</div>' +
             '<div class="pec-row pec-promo-row">' +
                 '<span class="pec-promo-label">🔥 Promo:</span>' +
-                '<input type="text" inputmode="decimal" class="pec-promo-input" placeholder="Preço promocional (R$) - sem limite" value="' + esc(formatBRNumberForInput(product.promoPrice)) + '">' +
+                '<input type="text" inputmode="decimal" class="pec-promo-input" placeholder="Preço promocional (R$)" value="' + esc(formatBRNumberForInput(product.promoPrice)) + '">' +
             '</div>' +
             '<div class="pec-row pec-image-row">' +
                 '<input type="text" class="pec-image" placeholder="' + esc(placeholderText) + '" value="' + esc(urlValue) + '">' +
@@ -3217,17 +2995,9 @@ if ('serviceWorker' in navigator) {
             var t = e.target;
             if (t.classList.contains('pec-name')) product.name = t.value;
             else if (t.classList.contains('pec-brand')) product.brand = t.value;
-            else if (t.classList.contains('pec-price')) {
-                product.price = parseBRNumber(t.value);
-                refreshCardPromoState(card, product);
-            }
-            else if (t.classList.contains('pec-oldprice')) {
-                product.oldPrice = parseBRNumber(t.value);
-            }
-            else if (t.classList.contains('pec-promo-input')) {
-                product.promoPrice = parseBRNumber(t.value);
-                refreshCardPromoState(card, product);
-            }
+            else if (t.classList.contains('pec-price')) { product.price = parseBRNumber(t.value); refreshCardPromoState(card, product); }
+            else if (t.classList.contains('pec-oldprice')) { product.oldPrice = parseBRNumber(t.value); }
+            else if (t.classList.contains('pec-promo-input')) { product.promoPrice = parseBRNumber(t.value); refreshCardPromoState(card, product); }
             else if (t.classList.contains('pec-image')) {
                 var v4 = t.value.trim();
                 product.image = v4;
@@ -3238,13 +3008,9 @@ if ('serviceWorker' in navigator) {
         card.addEventListener('blur', function(e) {
             var t = e.target;
             if (!t || !t.classList) return;
-            if (t.classList.contains('pec-price')) {
-                t.value = formatBRNumberForInput(product.price);
-            } else if (t.classList.contains('pec-oldprice')) {
-                t.value = formatBRNumberForInput(product.oldPrice);
-            } else if (t.classList.contains('pec-promo-input')) {
-                t.value = formatBRNumberForInput(product.promoPrice);
-            }
+            if (t.classList.contains('pec-price')) t.value = formatBRNumberForInput(product.price);
+            else if (t.classList.contains('pec-oldprice')) t.value = formatBRNumberForInput(product.oldPrice);
+            else if (t.classList.contains('pec-promo-input')) t.value = formatBRNumberForInput(product.promoPrice);
         }, true);
 
         card.addEventListener('click', function(e) {
@@ -3261,11 +3027,8 @@ if ('serviceWorker' in navigator) {
                 renderProductEditorCategorySelect();
                 renderProductEditor();
                 showToast('Produto removido. Clique em Salvar para confirmar.', 'success');
-            } else if (t.classList.contains('pec-move-up')) {
-                moveProductInCategory(product.id, -1);
-            } else if (t.classList.contains('pec-move-down')) {
-                moveProductInCategory(product.id, 1);
-            }
+            } else if (t.classList.contains('pec-move-up')) moveProductInCategory(product.id, -1);
+            else if (t.classList.contains('pec-move-down')) moveProductInCategory(product.id, 1);
         });
 
         return card;
@@ -3277,10 +3040,8 @@ if ('serviceWorker' in navigator) {
             if (productEditorState[i].id === productId) { idx = i; break; }
         }
         if (idx === -1) return;
-
         var prod = productEditorState[idx];
         var targetIdx = -1;
-
         if (direction < 0) {
             for (var j = idx - 1; j >= 0; j--) {
                 if (productEditorState[j].catId === prod.catId) { targetIdx = j; break; }
@@ -3291,11 +3052,9 @@ if ('serviceWorker' in navigator) {
             }
         }
         if (targetIdx === -1) return;
-
         var tmp = productEditorState[targetIdx];
         productEditorState[targetIdx] = productEditorState[idx];
         productEditorState[idx] = tmp;
-
         var list = document.getElementById('productEditorList');
         var scrollTop = list ? list.scrollTop : 0;
         renderProductEditor();
@@ -3306,11 +3065,9 @@ if ('serviceWorker' in navigator) {
         if (typeof index !== 'number' || isNaN(index)) return;
         var target = index + direction;
         if (target < 0 || target >= categoryEditorState.length) return;
-
         var tmp = categoryEditorState[target];
         categoryEditorState[target] = categoryEditorState[index];
         categoryEditorState[index] = tmp;
-
         var container = document.getElementById('categoryEditorContainer');
         var scrollTop = container ? container.scrollTop : 0;
         renderCategoryEditor();
@@ -3359,10 +3116,8 @@ if ('serviceWorker' in navigator) {
         set('cfgNotifText', config.notifText);
         applyLogoToImg(document.getElementById('cfgLogoPreviewImg'), config.logoUrl, 'Logo');
         applyLogoToImg(document.getElementById('cfgHeroLogoPreviewImg'), config.heroLogoUrl, 'Banner');
-
         syncCategoryEditorState();
         renderCategoryEditor();
-
         syncProductEditorState();
         if (!selectedProductCategoryId ||
             !categoryEditorState.find(function(c) { return c.id === selectedProductCategoryId; })) {
@@ -3376,7 +3131,6 @@ if ('serviceWorker' in navigator) {
         var get = function(id) { var el = document.getElementById(id); return el ? el.value : ''; };
         var notifText = get('cfgNotifText').trim() || '1 novidade';
         var notifMatch = notifText.match(/\d+/);
-
         var newCategories = categoryEditorState.map(function(cat) {
             var color = cat.color || config.accentColor || '#31c8ff';
             return {
@@ -3400,7 +3154,6 @@ if ('serviceWorker' in navigator) {
                     image: p.image || ''
                 };
             });
-
         return {
             storeName: get('cfgStoreName').trim() || 'CENTRALPREMIUM',
             tagline: get('cfgTagline').trim() || DEFAULT_CONFIG.tagline,
@@ -3421,7 +3174,6 @@ if ('serviceWorker' in navigator) {
             trackingUrl: get('cfgTrackingUrl').trim() || DEFAULT_CONFIG.trackingUrl,
             trackingTitle: get('cfgTrackingTitle').trim() || 'Rastreie seu Pedido',
             trackingSubtitle: get('cfgTrackingSubtitle').trim() || 'Consulte pelo seu CPF',
-            // 🔒 Sempre normaliza o WhatsApp ao salvar
             whatsappLink: normalizeWhatsAppLink(get('cfgWhatsappLink').trim()),
             whatsappTitle: get('cfgWhatsappTitle').trim() || 'WhatsApp',
             whatsappSubtitle: get('cfgWhatsappSubtitle').trim() || 'Solicite um orçamento',
@@ -3448,7 +3200,6 @@ if ('serviceWorker' in navigator) {
         var legacy = newConfig.products.filter(function(p) {
             return isDataUrl(p.image) || isIdbRef(p.image);
         });
-
         if (legacy.length) {
             showToast('⏳ Migrando ' + legacy.length + ' foto(s) para a nuvem…', 'info');
             var jobs = legacy.map(function(p) {
@@ -3458,11 +3209,8 @@ if ('serviceWorker' in navigator) {
                         if (!dataUrl) return null;
                         return compressForCloud(dataUrl);
                     });
-                } else {
-                    return compressForCloud(src);
-                }
+                } else return compressForCloud(src);
             });
-
             Promise.all(jobs).then(function(compressedList) {
                 var uploadJobs = [];
                 legacy.forEach(function(p, idx) {
@@ -3475,24 +3223,19 @@ if ('serviceWorker' in navigator) {
                     uploadJobs.push(uploadImageDoc(imgId, small));
                 });
                 return Promise.all(uploadJobs);
-            }).then(function() {
-                finalizeSave(newConfig);
-            });
+            }).then(function() { finalizeSave(newConfig); });
             return;
         }
-
         finalizeSave(newConfig);
     }
 
     function finalizeSave(newConfig) {
         var prev = config;
-
         var prevIds = {};
         (prev.products || []).forEach(function(p) { prevIds[p.id] = true; });
         var addedIds = (newConfig.products || [])
             .filter(function(p) { return !prevIds[p.id]; })
             .map(function(p) { return p.id; });
-
         if (addedIds.length > 0) {
             newConfig.notifText = addedIds.length + ' novidade' + (addedIds.length > 1 ? 's' : '');
             newConfig.notifCount = String(addedIds.length);
@@ -3500,17 +3243,14 @@ if ('serviceWorker' in navigator) {
         } else {
             newConfig.notifProductIds = Array.isArray(prev.notifProductIds) ? prev.notifProductIds.slice() : [];
         }
-
         if (!newConfig.notifText) newConfig.notifText = prev.notifText || '1 novidade';
         if (!newConfig.notifCount) newConfig.notifCount = prev.notifCount || '1';
-
         var usedImageIds = {};
         (newConfig.products || []).forEach(function(p) {
             if (isCloudRef(p.image)) usedImageIds[getCloudId(p.image)] = true;
         });
         if (isCloudRef(newConfig.logoUrl)) usedImageIds[getCloudId(newConfig.logoUrl)] = true;
         if (isCloudRef(newConfig.heroLogoUrl)) usedImageIds[getCloudId(newConfig.heroLogoUrl)] = true;
-
         var toDelete = [];
         (prev.products || []).forEach(function(p) {
             if (isCloudRef(p.image)) {
@@ -3518,29 +3258,19 @@ if ('serviceWorker' in navigator) {
                 if (!usedImageIds[id]) toDelete.push(id);
             }
         });
-        if (isCloudRef(prev.logoUrl) && !usedImageIds[getCloudId(prev.logoUrl)]) {
-            toDelete.push(getCloudId(prev.logoUrl));
-        }
-        if (isCloudRef(prev.heroLogoUrl) && !usedImageIds[getCloudId(prev.heroLogoUrl)]) {
-            toDelete.push(getCloudId(prev.heroLogoUrl));
-        }
-
+        if (isCloudRef(prev.logoUrl) && !usedImageIds[getCloudId(prev.logoUrl)]) toDelete.push(getCloudId(prev.logoUrl));
+        if (isCloudRef(prev.heroLogoUrl) && !usedImageIds[getCloudId(prev.heroLogoUrl)]) toDelete.push(getCloudId(prev.heroLogoUrl));
         newConfig.systemVersion = String(Date.now());
-        // 🔒 Reforça normalização do WhatsApp antes de gravar
         newConfig.whatsappLink = normalizeWhatsAppLink(newConfig.whatsappLink);
-
         config = newConfig;
         if (!saveConfigLocal()) { config = prev; return; }
-
         setLocalSysVersion(newConfig.systemVersion);
-
         rebuildSearchIndex();
         applyConfigToUI();
         renderCategories();
         updatePromoBadge();
         syncConfigPanel();
         setSyncStatus('saving');
-
         pushConfigToFirestore().then(function(ok) {
             if (ok && toDelete.length) {
                 Promise.all(toDelete.map(function(id) {
@@ -3557,18 +3287,15 @@ if ('serviceWorker' in navigator) {
     function handleFileUpload(file) {
         if (!file) return;
         showToast('⏳ Processando imagem…', 'info');
-        compressImage(file).then(function(dataUrl) {
-            return compressForCloud(dataUrl);
-        }).then(function(base64) {
+        compressImage(file).then(function(dataUrl) { return compressForCloud(dataUrl); })
+        .then(function(base64) {
             var imgId = uid('img');
             var ref = makeCloudRef(imgId);
             imageCache[ref] = base64;
             idbPutImage('cloud_' + imgId, base64).catch(function(){});
-
             uploadImageDoc(imgId, base64).then(function(ok) {
-                if (!ok) console.warn('Imagem ficou pendente (reenviada no próximo save):', imgId);
+                if (!ok) console.warn('Imagem ficou pendente:', imgId);
             });
-
             if (uploadingProductId) {
                 var prod = productEditorState.find(function(p) { return p.id === uploadingProductId; });
                 uploadingProductId = null;
@@ -3595,20 +3322,35 @@ if ('serviceWorker' in navigator) {
         });
     }
 
-    function loadImageAsDataURL(src) {
+    // ============================================================
+    // 📄 GERAÇÃO DO PDF — REESCRITA PARA NÃO TRAVAR
+    // ============================================================
+    function loadImageAsDataURL(src, maxDim) {
+        maxDim = maxDim || PDF_IMG_MAX_DIM;
         return new Promise(function(resolve, reject) {
-            if (!src) return reject(new Error('sem src'));
-            if (typeof src !== 'string') return reject(new Error('src inválido'));
-            if (src.indexOf('data:') === 0) return resolve(src);
+            if (!src || typeof src !== 'string') return reject(new Error('src inválido'));
+            if (isSvgPlaceholder(src)) return reject(new Error('svg placeholder'));
 
+            var isData = (src.indexOf('data:') === 0);
             var img = new Image();
-            img.crossOrigin = 'anonymous';
-            var timer = setTimeout(function() { reject(new Error('timeout')); }, 3500);
+            var settled = false;
+
+            var timer = setTimeout(function() {
+                if (settled) return;
+                settled = true;
+                img.onload = img.onerror = null;
+                try { img.src = ''; } catch (e) {}
+                reject(new Error('timeout'));
+            }, PDF_LOAD_TIMEOUT_MS);
+
             img.onload = function() {
+                if (settled) return;
+                settled = true;
                 clearTimeout(timer);
                 try {
-                    var w = img.naturalWidth || 200, h = img.naturalHeight || 200;
-                    var maxDim = 500;
+                    var w = img.naturalWidth || img.width || 200;
+                    var h = img.naturalHeight || img.height || 200;
+                    if (!w || !h) { reject(new Error('dimensões')); return; }
                     if (w > maxDim || h > maxDim) {
                         if (w >= h) { h = Math.round(h * maxDim / w); w = maxDim; }
                         else { w = Math.round(w * maxDim / h); h = maxDim; }
@@ -3619,39 +3361,62 @@ if ('serviceWorker' in navigator) {
                     ctx.fillStyle = '#ffffff';
                     ctx.fillRect(0, 0, w, h);
                     ctx.drawImage(img, 0, 0, w, h);
-                    resolve(cv.toDataURL('image/jpeg', 0.85));
-                } catch (e) { reject(e); }
+                    var out;
+                    try { out = cv.toDataURL('image/jpeg', PDF_IMG_QUALITY); }
+                    catch (e) { reject(new Error('canvas taint')); return; }
+                    cv.width = 1; cv.height = 1;
+                    img.src = '';
+                    resolve(out);
+                } catch (e) {
+                    reject(e);
+                }
             };
-            img.onerror = function() { clearTimeout(timer); reject(new Error('load error')); };
-            img.src = src;
+            img.onerror = function() {
+                if (settled) return;
+                settled = true;
+                clearTimeout(timer);
+                reject(new Error('load error'));
+            };
+
+            if (isData) {
+                img.src = src;
+            } else if (src.indexOf('http://') === 0 || src.indexOf('https://') === 0) {
+                img.crossOrigin = 'anonymous';
+                img.src = src;
+            } else {
+                img.src = src;
+            }
         });
     }
 
     function resolveImageForPDF(ref) {
-        return new Promise(function(resolve) {
-            if (!ref) return resolve(null);
-            if (typeof ref !== 'string') return resolve(null);
-            if (ref.indexOf('cloud:') === 0) {
-                var imgId = getCloudId(ref);
-                if (imageCache[ref]) return resolve(imageCache[ref]);
-                return idbGetImage('cloud_' + imgId).then(function(d) {
-                    if (d) { imageCache[ref] = d; return d; }
-                    return fetchImageFromFirestore(imgId).then(function(data) {
-                        if (data) {
-                            imageCache[ref] = data;
-                            idbPutImage('cloud_' + imgId, data).catch(function(){});
-                            return data;
-                        }
-                        return null;
-                    });
-                }).catch(function() { return null; });
-            }
-            if (ref.indexOf('idb:') === 0) {
-                idbGetImage(ref.slice(4)).then(function(d) { resolve(d || null); }).catch(function() { resolve(null); });
-                return;
-            }
-            resolve(ref);
-        });
+        return Promise.race([
+            new Promise(function(resolve) {
+                if (!ref || typeof ref !== 'string') return resolve(null);
+                if (isSvgPlaceholder(ref)) return resolve(null);
+                if (ref.indexOf('cloud:') === 0) {
+                    var imgId = getCloudId(ref);
+                    if (imageCache[ref]) return resolve(imageCache[ref]);
+                    return idbGetImage('cloud_' + imgId).then(function(d) {
+                        if (d) { imageCache[ref] = d; return d; }
+                        return fetchImageFromFirestore(imgId).then(function(data) {
+                            if (data) {
+                                imageCache[ref] = data;
+                                idbPutImage('cloud_' + imgId, data).catch(function(){});
+                                return data;
+                            }
+                            return null;
+                        });
+                    }).catch(function() { return null; });
+                }
+                if (ref.indexOf('idb:') === 0) {
+                    idbGetImage(ref.slice(4)).then(function(d) { resolve(d || null); }).catch(function() { resolve(null); });
+                    return;
+                }
+                resolve(ref);
+            }),
+            new Promise(function(resolve) { setTimeout(function() { resolve(null); }, 3000); })
+        ]);
     }
 
     function batchLoadProductImages(products, onProgress) {
@@ -3659,28 +3424,44 @@ if ('serviceWorker' in navigator) {
             var cache = {};
             var total = products.length;
             if (total === 0) return resolve(cache);
-            var index = 0, loaded = 0;
-            var CONCURRENCY = 10;
 
-            function worker() {
+            var index = 0, loaded = 0, aborted = false;
+            var startTime = Date.now();
+
+            function next() {
+                if (aborted) return Promise.resolve();
+                if (pdfAbortRequested) { aborted = true; return Promise.resolve(); }
                 if (index >= total) return Promise.resolve();
+                if (Date.now() - startTime > PDF_HARD_TIMEOUT_MS) {
+                    console.warn('PDF: timeout global atingido, seguindo com as imagens já carregadas');
+                    aborted = true;
+                    return Promise.resolve();
+                }
                 var i = index++;
                 var prod = products[i];
-                return resolveImageForPDF(prod.image).then(function(src) {
-                    if (!src) throw new Error('sem src');
-                    return loadImageAsDataURL(src);
-                }).then(function(data) {
-                    if (data) cache[prod.id] = data;
-                }).catch(function() {
-                }).then(function() {
+                if (!prod.image) {
                     loaded++;
-                    if (onProgress) onProgress(loaded, total);
-                    return worker();
-                });
+                    if (onProgress) try { onProgress(loaded, total); } catch(e) {}
+                    return next();
+                }
+                return resolveImageForPDF(prod.image)
+                    .then(function(src) {
+                        if (!src) throw new Error('sem src');
+                        if (isSvgPlaceholder(src)) throw new Error('svg');
+                        return loadImageAsDataURL(src, PDF_IMG_MAX_DIM);
+                    })
+                    .then(function(data) { if (data) cache[prod.id] = data; })
+                    .catch(function() {})
+                    .then(function() {
+                        loaded++;
+                        if (onProgress) try { onProgress(loaded, total); } catch(e) {}
+                        return next();
+                    });
             }
 
             var workers = [];
-            for (var w = 0; w < Math.min(CONCURRENCY, total); w++) workers.push(worker());
+            var concurrency = Math.min(PDF_CONCURRENCY, total);
+            for (var w = 0; w < concurrency; w++) workers.push(next());
             Promise.all(workers).then(function() { resolve(cache); });
         });
     }
@@ -3724,7 +3505,24 @@ if ('serviceWorker' in navigator) {
         doc.text('BRATVA LABS  •  DAVID OFICIAL', W / 2, H - 7, { align: 'center' });
     }
 
+    function resetPdfOverlay() {
+        var btn = document.getElementById('pdfCatalogBtn');
+        var overlay = document.getElementById('pdfOverlay');
+        var progressEl = document.getElementById('pdfProgress');
+        var statusEl = document.getElementById('pdfStatus');
+        overlay.classList.remove('active');
+        if (btn) btn.disabled = false;
+        if (progressEl) progressEl.style.width = '0%';
+        if (statusEl) statusEl.textContent = 'Preparando...';
+        pdfBuildInProgress = false;
+        pdfAbortRequested = false;
+    }
+
     function gerarCatalogoPDF() {
+        if (pdfBuildInProgress) return;
+        pdfBuildInProgress = true;
+        pdfAbortRequested = false;
+
         var btn = document.getElementById('pdfCatalogBtn');
         var overlay = document.getElementById('pdfOverlay');
         var statusEl = document.getElementById('pdfStatus');
@@ -3732,18 +3530,29 @@ if ('serviceWorker' in navigator) {
 
         if (typeof window.jspdf === 'undefined') {
             showToast('Biblioteca PDF não carregada. Verifique a conexão.', 'error');
+            resetPdfOverlay();
             return;
         }
 
         btn.disabled = true;
         overlay.classList.add('active');
         statusEl.textContent = 'Preparando dados...';
-        progressEl.style.width = '5%';
+        progressEl.style.width = '3%';
+
+        // Timeout global — se passar de 2 min, aborta
+        var globalWatchdog = setTimeout(function() {
+            if (pdfBuildInProgress) {
+                console.warn('PDF: watchdog disparado');
+                pdfAbortRequested = true;
+                resetPdfOverlay();
+                showToast('PDF cancelado por demorar demais. Tente novamente.', 'error');
+            }
+        }, 120000);
 
         setTimeout(function() {
             try {
                 var jsPDF = window.jspdf.jsPDF;
-                var doc = new jsPDF({ orientation: 'p', unit: 'mm', format: 'a4' });
+                var doc = new jsPDF({ orientation: 'p', unit: 'mm', format: 'a4', compress: true });
                 var W = 210, H = 297;
                 var GOLD = [212, 175, 55];
                 var GOLD_LIGHT = [245, 215, 110];
@@ -3756,46 +3565,38 @@ if ('serviceWorker' in navigator) {
                 var categories = config.categories || [];
 
                 drawPageBackground(doc, W, H);
-
                 doc.setDrawColor(GOLD[0], GOLD[1], GOLD[2]);
                 doc.setLineWidth(1.5);
                 doc.rect(10, 10, W - 20, H - 20);
                 doc.setLineWidth(0.3);
                 doc.rect(14, 14, W - 28, H - 28);
-
                 doc.setLineWidth(0.8);
                 doc.line(14, 22, 22, 14);
                 doc.line(W - 14, 22, W - 22, 14);
                 doc.line(14, H - 22, 22, H - 14);
                 doc.line(W - 14, H - 22, W - 22, H - 14);
-
                 doc.setFillColor(GOLD[0], GOLD[1], GOLD[2]);
                 doc.rect(20, 20, W - 40, 0.5, 'F');
                 doc.rect(20, H - 20.5, W - 40, 0.5, 'F');
 
                 statusEl.textContent = 'Carregando imagem da capa...';
-                progressEl.style.width = '10%';
+                progressEl.style.width = '8%';
 
                 var continueCover = function(coverData) {
+                    if (pdfAbortRequested) { clearTimeout(globalWatchdog); return; }
                     if (coverData) {
                         var coverSize = 110;
                         var coverX = (W - coverSize) / 2;
                         var coverY = 40;
-
                         doc.setFillColor(30, 25, 15);
                         doc.roundedRect(coverX - 3, coverY - 3, coverSize + 6, coverSize + 6, 4, 4, 'F');
-
                         try {
                             doc.addImage(coverData, 'JPEG', coverX, coverY, coverSize, coverSize, undefined, 'FAST');
-                        } catch (e) {
-                            console.warn('Erro ao adicionar capa:', e);
-                        }
-
+                        } catch (e) {}
                         doc.setDrawColor(GOLD[0], GOLD[1], GOLD[2]);
                         doc.setLineWidth(0.8);
                         doc.roundedRect(coverX - 3, coverY - 3, coverSize + 6, coverSize + 6, 4, 4, 'S');
                     }
-
                     var titleY = coverData ? 175 : 90;
                     doc.setTextColor(GOLD[0], GOLD[1], GOLD[2]);
                     doc.setFont('helvetica', 'bold');
@@ -3804,41 +3605,35 @@ if ('serviceWorker' in navigator) {
                     doc.setTextColor(GOLD_LIGHT[0], GOLD_LIGHT[1], GOLD_LIGHT[2]);
                     doc.setFontSize(22);
                     doc.text('DE PRODUTOS', W / 2, titleY + 11, { align: 'center' });
-
                     doc.setDrawColor(GOLD[0], GOLD[1], GOLD[2]);
                     doc.setLineWidth(0.6);
                     doc.line(60, titleY + 17, 90, titleY + 17);
                     doc.line(120, titleY + 17, 150, titleY + 17);
                     doc.setFillColor(GOLD[0], GOLD[1], GOLD[2]);
                     doc.circle(W / 2, titleY + 17, 1.2, 'F');
-
                     doc.setTextColor(WHITE[0], WHITE[1], WHITE[2]);
                     doc.setFont('helvetica', 'bold');
                     doc.setFontSize(24);
                     doc.text(String(config.storeName || 'CENTRALPREMIUM').toUpperCase(), W / 2, titleY + 32, { align: 'center' });
-
                     doc.setTextColor(GRAY[0], GRAY[1], GRAY[2]);
                     doc.setFont('helvetica', 'italic');
                     doc.setFontSize(11);
                     doc.text(String(config.tagline || ''), W / 2, titleY + 42, { align: 'center', maxWidth: 160 });
-
                     var today = new Date().toLocaleDateString('pt-BR');
                     doc.setTextColor(GOLD_LIGHT[0], GOLD_LIGHT[1], GOLD_LIGHT[2]);
                     doc.setFont('helvetica', 'bold');
                     doc.setFontSize(11);
                     doc.text(products.length + ' PRODUTOS NO CATÁLOGO', W / 2, H - 55, { align: 'center' });
-
                     doc.setTextColor(GRAY_DARK[0], GRAY_DARK[1], GRAY_DARK[2]);
                     doc.setFont('helvetica', 'normal');
                     doc.setFontSize(10);
                     doc.text('Atualizado em ' + today, W / 2, H - 45, { align: 'center' });
-
                     doc.setTextColor(GOLD[0], GOLD[1], GOLD[2]);
                     doc.setFont('helvetica', 'bold');
                     doc.setFontSize(9);
                     doc.text('BRATVA LABS  •  DAVID OFICIAL', W / 2, H - 30, { align: 'center' });
 
-                    progressEl.style.width = '20%';
+                    progressEl.style.width = '15%';
                     statusEl.textContent = 'Criando índice...';
 
                     doc.addPage();
@@ -3851,253 +3646,310 @@ if ('serviceWorker' in navigator) {
                         var count = products.filter(function(p) { return p.catId === cat.id; }).length;
                         if (count === 0) return;
                         catCount++;
-
                         if (yIdx > H - 30) {
                             doc.addPage();
                             drawPageBackground(doc, W, H);
                             drawPageHeader(doc, W, 'Índice (continuação)', '', null);
                             yIdx = 40;
                         }
-
                         doc.setFillColor(DARK2[0], DARK2[1], DARK2[2]);
                         doc.roundedRect(15, yIdx, W - 30, 13, 2, 2, 'F');
-
                         doc.setFillColor(GOLD[0], GOLD[1], GOLD[2]);
                         doc.rect(15, yIdx, 1.5, 13, 'F');
-
                         doc.setTextColor(GOLD[0], GOLD[1], GOLD[2]);
                         doc.setFont('helvetica', 'bold');
                         doc.setFontSize(11);
                         doc.text(String(catCount).padStart(2, '0'), 20, yIdx + 8.5);
-
                         doc.setTextColor(WHITE[0], WHITE[1], WHITE[2]);
                         doc.setFont('helvetica', 'bold');
                         doc.setFontSize(11);
                         doc.text(String(cat.name || ''), 30, yIdx + 8.5);
-
                         doc.setTextColor(GOLD_LIGHT[0], GOLD_LIGHT[1], GOLD_LIGHT[2]);
                         doc.setFont('helvetica', 'normal');
                         doc.setFontSize(10);
                         doc.text(count + ' produto' + (count !== 1 ? 's' : ''), W - 20, yIdx + 8.5, { align: 'right' });
-
                         yIdx += 16;
                     });
-
                     drawPageFooter(doc, W, H);
 
-                    statusEl.textContent = 'Carregando fotos dos produtos...';
-                    progressEl.style.width = '25%';
+                    statusEl.textContent = 'Carregando fotos (0/' + products.length + ')...';
+                    progressEl.style.width = '20%';
 
+                    var lastProgressUpdate = 0;
                     batchLoadProductImages(products, function(loaded, total) {
-                        var pct = 25 + Math.round((loaded / total) * 50);
+                        var now = Date.now();
+                        if (now - lastProgressUpdate < 150 && loaded < total) return;
+                        lastProgressUpdate = now;
+                        var pct = 20 + Math.round((loaded / total) * 55);
                         progressEl.style.width = pct + '%';
                         statusEl.textContent = 'Carregando fotos (' + loaded + '/' + total + ')...';
                     }).then(function(imgCache) {
-
+                        if (pdfAbortRequested) { clearTimeout(globalWatchdog); return; }
                         statusEl.textContent = 'Montando páginas...';
-                        progressEl.style.width = '80%';
+                        progressEl.style.width = '78%';
 
                         var PER_PAGE = 8;
                         var pageNum = 3;
 
+                        // Filtrar categorias com produtos
+                        var categoriesToRender = [];
                         categories.forEach(function(cat) {
                             var catProducts = products.filter(function(p) { return p.catId === cat.id; });
                             if (catProducts.length === 0) return;
-
-                            var totalPagesForCat = Math.ceil(catProducts.length / PER_PAGE);
-
-                            for (var p = 0; p < totalPagesForCat; p++) {
-                                doc.addPage();
-                                drawPageBackground(doc, W, H);
-                                var sub = (totalPagesForCat > 1 ? 'Parte ' + (p + 1) + ' de ' + totalPagesForCat : '') +
-                                          (catProducts.length + ' produto' + (catProducts.length !== 1 ? 's' : ''));
-                                drawPageHeader(doc, W, cat.name, sub, pageNum);
-
-                                var start = p * PER_PAGE;
-                                var slice = catProducts.slice(start, start + PER_PAGE);
-
-                                var gridX = 15;
-                                var gridY = 36;
-                                var cardW = (W - 30 - 5) / 2;
-                                var cardH = 55;
-                                var rowGap = 4;
-
-                                slice.forEach(function(prod, i) {
-                                    var col = i % 2;
-                                    var row = Math.floor(i / 2);
-                                    var x = gridX + col * (cardW + 5);
-                                    var y = gridY + row * (cardH + rowGap);
-
-                                    doc.setFillColor(DARK2[0], DARK2[1], DARK2[2]);
-                                    doc.roundedRect(x, y, cardW, cardH, 2, 2, 'F');
-
-                                    doc.setDrawColor(70, 60, 35);
-                                    doc.setLineWidth(0.2);
-                                    doc.roundedRect(x, y, cardW, cardH, 2, 2, 'S');
-
-                                    var imgSize = 38;
-                                    var imgX = x + 4;
-                                    var imgY = y + (cardH - imgSize) / 2;
-                                    var imgData = imgCache[prod.id];
-
-                                    doc.setFillColor(20, 25, 32);
-                                    doc.roundedRect(imgX, imgY, imgSize, imgSize, 1.5, 1.5, 'F');
-
-                                    if (imgData) {
-                                        try {
-                                            doc.addImage(imgData, 'JPEG', imgX + 1, imgY + 1, imgSize - 2, imgSize - 2, undefined, 'FAST');
-                                        } catch (e) {}
-                                    } else {
-                                        doc.setTextColor(GRAY_DARK[0], GRAY_DARK[1], GRAY_DARK[2]);
-                                        doc.setFont('helvetica', 'bold');
-                                        doc.setFontSize(7);
-                                        doc.text('SEM FOTO', imgX + imgSize / 2, imgY + imgSize / 2 + 1, { align: 'center' });
-                                    }
-
-                                    doc.setDrawColor(GOLD[0], GOLD[1], GOLD[2]);
-                                    doc.setLineWidth(0.15);
-                                    doc.roundedRect(imgX, imgY, imgSize, imgSize, 1.5, 1.5, 'S');
-
-                                    var textX = imgX + imgSize + 3;
-                                    var textW = cardW - (imgSize + 10);
-
-                                    doc.setTextColor(GOLD[0], GOLD[1], GOLD[2]);
-                                    doc.setFont('helvetica', 'bold');
-                                    doc.setFontSize(6.5);
-                                    var brand = String(prod.brand || '').toUpperCase().slice(0, 28);
-                                    doc.text(brand, textX, y + 8);
-
-                                    doc.setTextColor(WHITE[0], WHITE[1], WHITE[2]);
-                                    doc.setFont('helvetica', 'bold');
-                                    doc.setFontSize(8.5);
-                                    var nameLines = doc.splitTextToSize(String(prod.name || ''), textW);
-                                    var shownLines = nameLines.slice(0, 3);
-                                    doc.text(shownLines, textX, y + 14);
-
-                                    var onPromo = isOnPromo(prod);
-                                    var priceY = y + cardH - 8;
-
-                                    if (onPromo) {
-                                        doc.setTextColor(GRAY[0], GRAY[1], GRAY[2]);
-                                        doc.setFont('helvetica', 'normal');
-                                        doc.setFontSize(7.5);
-                                        var oldTxt = formatBRL(prod.price);
-                                        doc.text(oldTxt, textX, priceY - 6);
-                                        var oldW = doc.getTextWidth(oldTxt);
-                                        doc.setDrawColor(GRAY[0], GRAY[1], GRAY[2]);
-                                        doc.setLineWidth(0.25);
-                                        doc.line(textX, priceY - 6.8, textX + oldW, priceY - 6.8);
-
-                                        doc.setTextColor(GOLD_LIGHT[0], GOLD_LIGHT[1], GOLD_LIGHT[2]);
-                                        doc.setFont('helvetica', 'bold');
-                                        doc.setFontSize(12);
-                                        doc.text(formatBRL(prod.promoPrice), textX, priceY);
-
-                                        doc.setFillColor(212, 175, 55);
-                                        doc.roundedRect(x + cardW - 20, y + 2, 18, 6, 1.5, 1.5, 'F');
-                                        doc.setTextColor(20, 15, 5);
-                                        doc.setFont('helvetica', 'bold');
-                                        doc.setFontSize(6);
-                                        doc.text('- ' + getPromoDiscount(prod) + '%', x + cardW - 11, y + 6.2, { align: 'center' });
-                                    } else {
-                                        doc.setTextColor(GOLD_LIGHT[0], GOLD_LIGHT[1], GOLD_LIGHT[2]);
-                                        doc.setFont('helvetica', 'bold');
-                                        doc.setFontSize(12);
-                                        doc.text(formatBRL(prod.price), textX, priceY);
-                                    }
-                                });
-
-                                drawPageFooter(doc, W, H);
-                                pageNum++;
-                            }
+                            categoriesToRender.push({ cat: cat, products: catProducts });
                         });
 
-                        doc.addPage();
-                        drawPageBackground(doc, W, H);
+                        var totalPages = 0;
+                        categoriesToRender.forEach(function(item) {
+                            totalPages += Math.ceil(item.products.length / PER_PAGE);
+                        });
 
-                        doc.setDrawColor(GOLD[0], GOLD[1], GOLD[2]);
-                        doc.setLineWidth(1.2);
-                        doc.rect(12, 12, W - 24, H - 24);
+                        var catIdx = 0;
+                        var pageInCat = 0;
+                        var pageBuilt = 0;
 
-                        doc.setTextColor(GOLD[0], GOLD[1], GOLD[2]);
-                        doc.setFont('helvetica', 'bold');
-                        doc.setFontSize(30);
-                        doc.text('FAÇA SEU PEDIDO', W / 2, 70, { align: 'center' });
+                        function buildPageSlice(slice, cat, pageInCat_, totalPagesForCat) {
+                            doc.addPage();
+                            drawPageBackground(doc, W, H);
+                            var sub = (totalPagesForCat > 1 ? 'Parte ' + (pageInCat_ + 1) + ' de ' + totalPagesForCat + ' • ' : '') +
+                                      (cat.products.length + ' produto' + (cat.products.length !== 1 ? 's' : ''));
+                            drawPageHeader(doc, W, cat.cat.name, sub, pageNum);
 
-                        doc.setTextColor(GOLD_LIGHT[0], GOLD_LIGHT[1], GOLD_LIGHT[2]);
-                        doc.setFontSize(14);
-                        doc.text('ENTRE EM CONTATO', W / 2, 82, { align: 'center' });
+                            var gridX = 15;
+                            var gridY = 36;
+                            var cardW = (W - 30 - 5) / 2;
+                            var cardH = 55;
+                            var rowGap = 4;
 
-                        doc.setDrawColor(GOLD[0], GOLD[1], GOLD[2]);
-                        doc.setLineWidth(0.5);
-                        doc.line(75, 90, 135, 90);
+                            slice.forEach(function(prod, i) {
+                                var col = i % 2;
+                                var row = Math.floor(i / 2);
+                                var x = gridX + col * (cardW + 5);
+                                var y = gridY + row * (cardH + rowGap);
 
-                        doc.setFillColor(DARK2[0], DARK2[1], DARK2[2]);
-                        doc.roundedRect(30, 110, W - 60, 30, 3, 3, 'F');
-                        doc.setDrawColor(GOLD[0], GOLD[1], GOLD[2]);
-                        doc.setLineWidth(0.3);
-                        doc.roundedRect(30, 110, W - 60, 30, 3, 3, 'S');
+                                doc.setFillColor(DARK2[0], DARK2[1], DARK2[2]);
+                                doc.roundedRect(x, y, cardW, cardH, 2, 2, 'F');
+                                doc.setDrawColor(70, 60, 35);
+                                doc.setLineWidth(0.2);
+                                doc.roundedRect(x, y, cardW, cardH, 2, 2, 'S');
 
-                        doc.setTextColor(GOLD[0], GOLD[1], GOLD[2]);
-                        doc.setFont('helvetica', 'bold');
-                        doc.setFontSize(11);
-                        doc.text('WHATSAPP', 40, 122);
+                                var imgSize = 38;
+                                var imgX = x + 4;
+                                var imgY = y + (cardH - imgSize) / 2;
+                                var imgData = imgCache[prod.id];
 
-                        doc.setTextColor(WHITE[0], WHITE[1], WHITE[2]);
-                        doc.setFont('helvetica', 'normal');
-                        doc.setFontSize(11);
-                        var waLink = String(config.whatsappLink || '');
-                        var waNum = waLink.replace(/[^\d]/g, '');
-                        if (waNum) waNum = '+' + waNum;
-                        doc.text(waNum || waLink, 40, 130);
+                                doc.setFillColor(20, 25, 32);
+                                doc.roundedRect(imgX, imgY, imgSize, imgSize, 1.5, 1.5, 'F');
 
-                        doc.setFillColor(DARK2[0], DARK2[1], DARK2[2]);
-                        doc.roundedRect(30, 150, W - 60, 30, 3, 3, 'F');
-                        doc.setDrawColor(GOLD[0], GOLD[1], GOLD[2]);
-                        doc.roundedRect(30, 150, W - 60, 30, 3, 3, 'S');
+                                if (imgData) {
+                                    try {
+                                        doc.addImage(imgData, 'JPEG', imgX + 1, imgY + 1, imgSize - 2, imgSize - 2, undefined, 'FAST');
+                                    } catch (e) {}
+                                } else {
+                                    doc.setTextColor(GRAY_DARK[0], GRAY_DARK[1], GRAY_DARK[2]);
+                                    doc.setFont('helvetica', 'bold');
+                                    doc.setFontSize(7);
+                                    doc.text('SEM FOTO', imgX + imgSize / 2, imgY + imgSize / 2 + 1, { align: 'center' });
+                                }
 
-                        doc.setTextColor(GOLD[0], GOLD[1], GOLD[2]);
-                        doc.setFont('helvetica', 'bold');
-                        doc.setFontSize(11);
-                        doc.text('TELEGRAM', 40, 162);
+                                doc.setDrawColor(GOLD[0], GOLD[1], GOLD[2]);
+                                doc.setLineWidth(0.15);
+                                doc.roundedRect(imgX, imgY, imgSize, imgSize, 1.5, 1.5, 'S');
 
-                        doc.setTextColor(WHITE[0], WHITE[1], WHITE[2]);
-                        doc.setFont('helvetica', 'normal');
-                        doc.setFontSize(11);
-                        doc.text(String(config.telegramSubtitle || '@David10151'), 40, 170);
+                                var textX = imgX + imgSize + 3;
+                                var textW = cardW - (imgSize + 10);
 
-                        doc.setTextColor(GRAY[0], GRAY[1], GRAY[2]);
-                        doc.setFont('helvetica', 'italic');
-                        doc.setFontSize(11);
-                        doc.text('Obrigado por escolher a nossa loja!', W / 2, H - 80, { align: 'center' });
+                                doc.setTextColor(GOLD[0], GOLD[1], GOLD[2]);
+                                doc.setFont('helvetica', 'bold');
+                                doc.setFontSize(6.5);
+                                var brand = String(prod.brand || '').toUpperCase().slice(0, 28);
+                                doc.text(brand, textX, y + 8);
 
-                        doc.setTextColor(GOLD[0], GOLD[1], GOLD[2]);
-                        doc.setFont('helvetica', 'bold');
-                        doc.setFontSize(13);
-                        doc.text('BRATVA LABS  •  DAVID OFICIAL', W / 2, H - 50, { align: 'center' });
+                                doc.setTextColor(WHITE[0], WHITE[1], WHITE[2]);
+                                doc.setFont('helvetica', 'bold');
+                                doc.setFontSize(8.5);
+                                var nameLines = doc.splitTextToSize(String(prod.name || ''), textW);
+                                var shownLines = nameLines.slice(0, 3);
+                                doc.text(shownLines, textX, y + 14);
 
-                        statusEl.textContent = 'Salvando PDF...';
-                        progressEl.style.width = '100%';
+                                var onPromo = isOnPromo(prod);
+                                var priceY = y + cardH - 8;
 
-                        var filename = 'catalogo-' + String(config.storeName || 'loja').toLowerCase()
-                            .replace(/[^a-z0-9]+/gi, '-').replace(/^-|-$/g, '') +
-                            '-' + new Date().toISOString().slice(0, 10) + '.pdf';
+                                if (onPromo) {
+                                    doc.setTextColor(GRAY[0], GRAY[1], GRAY[2]);
+                                    doc.setFont('helvetica', 'normal');
+                                    doc.setFontSize(7.5);
+                                    var oldTxt = formatBRL(prod.price);
+                                    doc.text(oldTxt, textX, priceY - 6);
+                                    var oldW = doc.getTextWidth(oldTxt);
+                                    doc.setDrawColor(GRAY[0], GRAY[1], GRAY[2]);
+                                    doc.setLineWidth(0.25);
+                                    doc.line(textX, priceY - 6.8, textX + oldW, priceY - 6.8);
 
-                        doc.save(filename);
+                                    doc.setTextColor(GOLD_LIGHT[0], GOLD_LIGHT[1], GOLD_LIGHT[2]);
+                                    doc.setFont('helvetica', 'bold');
+                                    doc.setFontSize(12);
+                                    doc.text(formatBRL(prod.promoPrice), textX, priceY);
 
-                        setTimeout(function() {
-                            overlay.classList.remove('active');
-                            btn.disabled = false;
-                            progressEl.style.width = '0%';
-                            showToast('📄 Catálogo PDF gerado com sucesso!', 'success');
-                        }, 500);
+                                    doc.setFillColor(212, 175, 55);
+                                    doc.roundedRect(x + cardW - 20, y + 2, 18, 6, 1.5, 1.5, 'F');
+                                    doc.setTextColor(20, 15, 5);
+                                    doc.setFont('helvetica', 'bold');
+                                    doc.setFontSize(6);
+                                    doc.text('- ' + getPromoDiscount(prod) + '%', x + cardW - 11, y + 6.2, { align: 'center' });
+                                } else {
+                                    doc.setTextColor(GOLD_LIGHT[0], GOLD_LIGHT[1], GOLD_LIGHT[2]);
+                                    doc.setFont('helvetica', 'bold');
+                                    doc.setFontSize(12);
+                                    doc.text(formatBRL(prod.price), textX, priceY);
+                                }
+                            });
+
+                            drawPageFooter(doc, W, H);
+                            pageNum++;
+                        }
+
+                        function buildNext() {
+                            if (pdfAbortRequested) {
+                                clearTimeout(globalWatchdog);
+                                resetPdfOverlay();
+                                showToast('Geração de PDF cancelada.', 'error');
+                                return;
+                            }
+                            if (catIdx >= categoriesToRender.length) {
+                                finishPdf();
+                                return;
+                            }
+                            var item = categoriesToRender[catIdx];
+                            var totalPagesForCat = Math.ceil(item.products.length / PER_PAGE);
+
+                            if (pageInCat >= totalPagesForCat) {
+                                catIdx++;
+                                pageInCat = 0;
+                                buildNext();
+                                return;
+                            }
+
+                            var start = pageInCat * PER_PAGE;
+                            var slice = item.products.slice(start, start + PER_PAGE);
+
+                            try {
+                                buildPageSlice(slice, item, pageInCat, totalPagesForCat);
+                            } catch (e) {
+                                console.warn('Erro ao construir página:', e);
+                            }
+
+                            pageInCat++;
+                            pageBuilt++;
+
+                            var pct = 78 + Math.round((pageBuilt / totalPages) * 17);
+                            progressEl.style.width = pct + '%';
+                            statusEl.textContent = 'Montando páginas (' + pageBuilt + '/' + totalPages + ')...';
+
+                            // Yield para o browser não congelar
+                            setTimeout(buildNext, 0);
+                        }
+
+                        function finishPdf() {
+                            if (pdfAbortRequested) {
+                                clearTimeout(globalWatchdog);
+                                resetPdfOverlay();
+                                return;
+                            }
+                            progressEl.style.width = '97%';
+                            statusEl.textContent = 'Gerando arquivo...';
+
+                            try {
+                                doc.addPage();
+                                drawPageBackground(doc, W, H);
+                                doc.setDrawColor(GOLD[0], GOLD[1], GOLD[2]);
+                                doc.setLineWidth(1.2);
+                                doc.rect(12, 12, W - 24, H - 24);
+                                doc.setTextColor(GOLD[0], GOLD[1], GOLD[2]);
+                                doc.setFont('helvetica', 'bold');
+                                doc.setFontSize(30);
+                                doc.text('FAÇA SEU PEDIDO', W / 2, 70, { align: 'center' });
+                                doc.setTextColor(GOLD_LIGHT[0], GOLD_LIGHT[1], GOLD_LIGHT[2]);
+                                doc.setFontSize(14);
+                                doc.text('ENTRE EM CONTATO', W / 2, 82, { align: 'center' });
+                                doc.setDrawColor(GOLD[0], GOLD[1], GOLD[2]);
+                                doc.setLineWidth(0.5);
+                                doc.line(75, 90, 135, 90);
+
+                                doc.setFillColor(DARK2[0], DARK2[1], DARK2[2]);
+                                doc.roundedRect(30, 110, W - 60, 30, 3, 3, 'F');
+                                doc.setDrawColor(GOLD[0], GOLD[1], GOLD[2]);
+                                doc.setLineWidth(0.3);
+                                doc.roundedRect(30, 110, W - 60, 30, 3, 3, 'S');
+                                doc.setTextColor(GOLD[0], GOLD[1], GOLD[2]);
+                                doc.setFont('helvetica', 'bold');
+                                doc.setFontSize(11);
+                                doc.text('WHATSAPP', 40, 122);
+                                doc.setTextColor(WHITE[0], WHITE[1], WHITE[2]);
+                                doc.setFont('helvetica', 'normal');
+                                doc.setFontSize(11);
+                                var waLink = String(config.whatsappLink || '');
+                                var waNum = waLink.replace(/[^\d]/g, '');
+                                if (waNum) waNum = '+' + waNum;
+                                doc.text(waNum || waLink, 40, 130);
+
+                                doc.setFillColor(DARK2[0], DARK2[1], DARK2[2]);
+                                doc.roundedRect(30, 150, W - 60, 30, 3, 3, 'F');
+                                doc.setDrawColor(GOLD[0], GOLD[1], GOLD[2]);
+                                doc.roundedRect(30, 150, W - 60, 30, 3, 3, 'S');
+                                doc.setTextColor(GOLD[0], GOLD[1], GOLD[2]);
+                                doc.setFont('helvetica', 'bold');
+                                doc.setFontSize(11);
+                                doc.text('TELEGRAM', 40, 162);
+                                doc.setTextColor(WHITE[0], WHITE[1], WHITE[2]);
+                                doc.setFont('helvetica', 'normal');
+                                doc.setFontSize(11);
+                                doc.text(String(config.telegramSubtitle || '@David10151'), 40, 170);
+
+                                doc.setTextColor(GRAY[0], GRAY[1], GRAY[2]);
+                                doc.setFont('helvetica', 'italic');
+                                doc.setFontSize(11);
+                                doc.text('Obrigado por escolher a nossa loja!', W / 2, H - 80, { align: 'center' });
+                                doc.setTextColor(GOLD[0], GOLD[1], GOLD[2]);
+                                doc.setFont('helvetica', 'bold');
+                                doc.setFontSize(13);
+                                doc.text('BRATVA LABS  •  DAVID OFICIAL', W / 2, H - 50, { align: 'center' });
+
+                                progressEl.style.width = '100%';
+                                statusEl.textContent = 'Salvando PDF...';
+
+                                var filename = 'catalogo-' + String(config.storeName || 'loja').toLowerCase()
+                                    .replace(/[^a-z0-9]+/gi, '-').replace(/^-|-$/g, '') +
+                                    '-' + new Date().toISOString().slice(0, 10) + '.pdf';
+
+                                clearTimeout(globalWatchdog);
+                                doc.save(filename);
+
+                                setTimeout(function() {
+                                    resetPdfOverlay();
+                                    showToast('📄 Catálogo PDF gerado com sucesso!', 'success');
+                                }, 500);
+                            } catch (err) {
+                                console.error('Erro final PDF:', err);
+                                clearTimeout(globalWatchdog);
+                                resetPdfOverlay();
+                                showToast('Erro ao salvar PDF: ' + err.message, 'error');
+                            }
+                        }
+
+                        buildNext();
+                    }).catch(function(err) {
+                        console.error('Erro no batch de imagens:', err);
+                        clearTimeout(globalWatchdog);
+                        resetPdfOverlay();
+                        showToast('Erro ao carregar imagens do PDF.', 'error');
                     });
                 };
 
-                loadImageAsDataURL(PDF_COVER_LOGO).then(function(data) {
+                loadImageAsDataURL(PDF_COVER_LOGO, 250).then(function(data) {
                     continueCover(data);
                 }).catch(function() {
-                    loadImageAsDataURL(config.heroLogoUrl).then(function(data) {
+                    loadImageAsDataURL(config.heroLogoUrl, 250).then(function(data) {
                         continueCover(data);
                     }).catch(function() {
                         continueCover(null);
@@ -4106,9 +3958,8 @@ if ('serviceWorker' in navigator) {
 
             } catch (err) {
                 console.error('Erro PDF:', err);
-                overlay.classList.remove('active');
-                btn.disabled = false;
-                progressEl.style.width = '0%';
+                clearTimeout(globalWatchdog);
+                resetPdfOverlay();
                 showToast('Erro ao gerar PDF: ' + err.message, 'error');
             }
         }, 100);
@@ -4118,10 +3969,19 @@ if ('serviceWorker' in navigator) {
         var pdfBtn = document.getElementById('pdfCatalogBtn');
         if (pdfBtn) pdfBtn.addEventListener('click', gerarCatalogoPDF);
 
-        var updateBtn = document.getElementById('updateSystemBtn');
-        if (updateBtn) {
-            updateBtn.addEventListener('click', applySystemUpdate);
+        var pdfCancelBtn = document.getElementById('pdfCancelBtn');
+        if (pdfCancelBtn) {
+            pdfCancelBtn.addEventListener('click', function() {
+                pdfAbortRequested = true;
+                setTimeout(function() {
+                    resetPdfOverlay();
+                    showToast('Geração de PDF cancelada.', 'success');
+                }, 200);
+            });
         }
+
+        var updateBtn = document.getElementById('updateSystemBtn');
+        if (updateBtn) updateBtn.addEventListener('click', applySystemUpdate);
 
         var tapCount = 0;
         var tapTimer = null;
@@ -4138,10 +3998,7 @@ if ('serviceWorker' in navigator) {
                     else openPasswordModal();
                     return;
                 }
-                tapTimer = setTimeout(function() {
-                    tapCount = 0;
-                    tapTimer = null;
-                }, 900);
+                tapTimer = setTimeout(function() { tapCount = 0; tapTimer = null; }, 900);
             });
         }
 
@@ -4310,18 +4167,9 @@ if ('serviceWorker' in navigator) {
         document.getElementById('checkoutOverlay').addEventListener('click', function(e) { if (e.target === this) closeCheckoutModal(); });
         document.getElementById('checkoutSubmitBtn').addEventListener('click', submitOrder);
 
-        document.getElementById('coCep').addEventListener('input', function(e) {
-            e.target.value = maskCEP(e.target.value);
-            e.target.classList.remove('invalid');
-        });
-        document.getElementById('coTel').addEventListener('input', function(e) {
-            e.target.value = maskTel(e.target.value);
-            e.target.classList.remove('invalid');
-        });
-        document.getElementById('coCpf').addEventListener('input', function(e) {
-            e.target.value = maskCPF(e.target.value);
-            e.target.classList.remove('invalid');
-        });
+        document.getElementById('coCep').addEventListener('input', function(e) { e.target.value = maskCEP(e.target.value); e.target.classList.remove('invalid'); });
+        document.getElementById('coTel').addEventListener('input', function(e) { e.target.value = maskTel(e.target.value); e.target.classList.remove('invalid'); });
+        document.getElementById('coCpf').addEventListener('input', function(e) { e.target.value = maskCPF(e.target.value); e.target.classList.remove('invalid'); });
         ['coNome','coLogradouro','coNumero','coBairro','coCidade'].forEach(function(id) {
             document.getElementById(id).addEventListener('input', function(e) { e.target.classList.remove('invalid'); });
         });
@@ -4350,7 +4198,7 @@ if ('serviceWorker' in navigator) {
 
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
-                if (document.getElementById('pdfOverlay').classList.contains('active')) return;
+                if (document.getElementById('pdfOverlay').classList.contains('active')) { pdfAbortRequested = true; setTimeout(resetPdfOverlay, 200); return; }
                 if (document.getElementById('checkoutOverlay').classList.contains('active')) { closeCheckoutModal(); return; }
                 if (document.getElementById('cartOverlay').classList.contains('active')) { closeCartModal(); return; }
                 if (document.getElementById('notifModalOverlay').classList.contains('active')) { closeNotifModal(); return; }
@@ -4370,11 +4218,8 @@ if ('serviceWorker' in navigator) {
             }
         });
 
-        document.getElementById('notifBtn').addEventListener('click', function() {
-            openNotifModal();
-        });
+        document.getElementById('notifBtn').addEventListener('click', function() { openNotifModal(); });
         document.getElementById('whatsappBtn').addEventListener('click', function() {
-            // 🔒 Usa o número correto e o helper confiável
             openExternalUrl(normalizeWhatsAppLink(config.whatsappLink));
         });
         document.getElementById('cfgLogoPreview').addEventListener('click', function() {
@@ -4383,37 +4228,26 @@ if ('serviceWorker' in navigator) {
         });
         document.getElementById('cfgLogoUrl').addEventListener('input', function(e) {
             var v = e.target.value.trim();
-            if (isCloudRef(v) || isIdbRef(v)) {
-                loadRefIntoImg(v, document.getElementById('cfgLogoPreviewImg'), 'Logo');
-            } else {
-                document.getElementById('cfgLogoPreviewImg').src = v;
-            }
+            if (isCloudRef(v) || isIdbRef(v)) loadRefIntoImg(v, document.getElementById('cfgLogoPreviewImg'), 'Logo');
+            else document.getElementById('cfgLogoPreviewImg').src = v;
         });
-
         document.getElementById('cfgLogoUploadBtn').addEventListener('click', function() {
-            uploadingProductId = null;
-            uploadingBannerLogo = false;
+            uploadingProductId = null; uploadingBannerLogo = false;
             document.getElementById('hiddenFileInput').click();
         });
-
         document.getElementById('cfgHeroLogoUploadBtn').addEventListener('click', function() {
-            uploadingProductId = null;
-            uploadingBannerLogo = true;
+            uploadingProductId = null; uploadingBannerLogo = true;
             document.getElementById('hiddenFileInput').click();
         });
         document.getElementById('cfgHeroLogoUrl').addEventListener('input', function(e) {
             var v = e.target.value.trim();
-            if (isCloudRef(v) || isIdbRef(v)) {
-                loadRefIntoImg(v, document.getElementById('cfgHeroLogoPreviewImg'), 'Banner');
-            } else {
-                document.getElementById('cfgHeroLogoPreviewImg').src = v;
-            }
+            if (isCloudRef(v) || isIdbRef(v)) loadRefIntoImg(v, document.getElementById('cfgHeroLogoPreviewImg'), 'Banner');
+            else document.getElementById('cfgHeroLogoPreviewImg').src = v;
         });
         document.getElementById('cfgHeroLogoPreview').addEventListener('click', function() {
             var url = document.getElementById('cfgHeroLogoUrl').value.trim();
             if (url && isHttpUrl(url)) window.open(url, '_blank');
         });
-
         document.getElementById('hiddenFileInput').addEventListener('change', function(e) {
             var file = e.target.files && e.target.files[0];
             if (file) handleFileUpload(file);
@@ -4449,12 +4283,10 @@ if ('serviceWorker' in navigator) {
         if (!config || !Array.isArray(config.products)) return Promise.resolve(false);
         var tasks = [];
         var migrated = false;
-
         config.products.forEach(function(p) {
             var img = p.image;
             if (!img || typeof img !== 'string') return;
-            if (img.indexOf('data:image/svg') === 0) return;
-
+            if (isSvgPlaceholder(img)) return;
             if (isDataUrl(img)) {
                 tasks.push((function(prod) {
                     return compressForCloud(prod.image).then(function(small) {
@@ -4485,7 +4317,6 @@ if ('serviceWorker' in navigator) {
                 }).catch(function(){}));
             }
         });
-
         if (!tasks.length) return Promise.resolve(false);
         return Promise.all(tasks).then(function() {
             if (migrated) {
@@ -4526,7 +4357,6 @@ if ('serviceWorker' in navigator) {
                     console.log('🔐 Auth:', user ? user.email : 'deslogado');
                 });
             }
-
             fbDocRef.get().then(function(snap) {
                 if (snap.exists) {
                     var remote = snap.data() || {};
@@ -4543,9 +4373,7 @@ if ('serviceWorker' in navigator) {
                     syncConfigPanel();
                     suppressPush = false;
                     setSyncStatus('online');
-
                     checkForUpdate();
-
                     migrateLegacyImages().then(function(migrated) {
                         if (migrated) {
                             pushConfigToFirestore();
@@ -4567,7 +4395,7 @@ if ('serviceWorker' in navigator) {
             setSyncStatus('offline');
         }
 
-        console.log('✅ CENTRALPREMIUM PWA carregado com Firebase Auth.');
+        console.log('✅ CENTRALPREMIUM PWA carregado.');
     }
 
     init();
