@@ -1199,6 +1199,29 @@ function showToast(msg, type) {
     }, 2400);
 }
 
+/* ============================================================
+   📱 ABERTURA CONFIÁVEL DE LINKS EXTERNOS (WhatsApp / Telegram)
+   Usa <a target="_blank"> clicado via JS — evita bloqueio de popup
+   em navegadores móveis (iOS Safari / Android Chrome).
+   ============================================================ */
+function openExternalUrl(url) {
+    if (!url) return;
+    try {
+        var a = document.createElement('a');
+        a.href = url;
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer';
+        a.style.display = 'none';
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(function() {
+            if (a.parentNode) a.parentNode.removeChild(a);
+        }, 500);
+    } catch (e) {
+        try { window.open(url, '_blank'); } catch (e2) { location.href = url; }
+    }
+}
+
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', function() {
         navigator.serviceWorker.register('sw.js').then(function(reg) {
@@ -1267,7 +1290,39 @@ if ('serviceWorker' in navigator) {
     //    Admins são criados no Console > Authentication > Users
     // ============================================================
 
-    var WHATSAPP_DEFAULT = 'https://wa.me/5519997390834';
+    // ✅ NÚMERO CORRETO DO WHATSAPP (DDI 55 + DDD 19 + 9 dígitos)
+    var WHATSAPP_NUMBER = '5519997390834';
+    var WHATSAPP_DEFAULT = 'https://wa.me/' + WHATSAPP_NUMBER;
+
+    // 🔒 Normalizador: garante que o link salvo esteja no formato correto
+    //    e sempre aponta para o número certo desta loja.
+    function normalizeWhatsAppLink(link) {
+        var num = String(link == null ? '' : link).replace(/\D/g, '');
+
+        // Se vazio ou se ficou só com placeholder antigo → usa padrão
+        if (!num || num === '5500000000000' || num.length < 10) {
+            return WHATSAPP_DEFAULT;
+        }
+
+        // Adiciona DDI 55 se necessário
+        if ((num.length === 10 || num.length === 11) && num.indexOf('55') !== 0) {
+            num = '55' + num;
+        }
+
+        // ⚠️ Se o número salvo termina com os dígitos corretos, força o padrão
+        if (num === WHATSAPP_NUMBER || num.slice(-13) === WHATSAPP_NUMBER) {
+            return WHATSAPP_DEFAULT;
+        }
+
+        // Se parece válido (12 a 15 dígitos), aceita — permite customização
+        if (num.length >= 12 && num.length <= 15) {
+            return 'https://wa.me/' + num;
+        }
+
+        // Qualquer outra coisa → padrão seguro
+        return WHATSAPP_DEFAULT;
+    }
+
     var CART_KEY = 'respectPharmaCart';
     var LOCAL_CONFIG_KEY = 'respectPharmaConfig';
     var SYS_VERSION_KEY = 'respectPharmaSysVersion';
@@ -1752,6 +1807,8 @@ if ('serviceWorker' in navigator) {
     function pushConfigToFirestore() {
         if (!fbReady || !fbDocRef) return Promise.resolve(false);
         var data = deepClone(config);
+        // 🔒 Garante que o link do WhatsApp salvo esteja sempre correto
+        data.whatsappLink = normalizeWhatsAppLink(data.whatsappLink);
         data.updatedAt = firebase.firestore.FieldValue.serverTimestamp();
         setSyncStatus('saving');
         return fbDocRef.set(data, { merge: false }).then(function() {
@@ -1773,8 +1830,8 @@ if ('serviceWorker' in navigator) {
             merged.categories = deepClone(DEFAULT_CONFIG.categories);
         if (!Array.isArray(merged.products)) merged.products = [];
         if (!Array.isArray(merged.notifProductIds)) merged.notifProductIds = [];
-        if (!merged.whatsappLink || String(merged.whatsappLink).indexOf('5500000000000') !== -1)
-            merged.whatsappLink = WHATSAPP_DEFAULT;
+        // 🔒 Normaliza o link do WhatsApp sempre (corrige valores antigos/errados)
+        merged.whatsappLink = normalizeWhatsAppLink(merged.whatsappLink);
         if (!merged.systemVersion) merged.systemVersion = '1';
         return merged;
     }
@@ -1820,12 +1877,12 @@ if ('serviceWorker' in navigator) {
                     loaded.categories = deepClone(DEFAULT_CONFIG.categories);
                 if (!Array.isArray(parsed.products)) loaded.products = [];
                 if (!Array.isArray(loaded.notifProductIds)) loaded.notifProductIds = [];
-                if (!loaded.whatsappLink || String(loaded.whatsappLink).indexOf('5500000000000') !== -1)
-                    loaded.whatsappLink = WHATSAPP_DEFAULT;
                 if (!loaded.systemVersion) loaded.systemVersion = '1';
             } else {
                 loaded = deepClone(DEFAULT_CONFIG);
             }
+            // 🔒 Corrige o WhatsApp em qualquer carga de config local
+            loaded.whatsappLink = normalizeWhatsAppLink(loaded.whatsappLink);
         } catch (e) {
             loaded = deepClone(DEFAULT_CONFIG);
         }
@@ -2447,9 +2504,9 @@ if ('serviceWorker' in navigator) {
         var price = getEffectivePrice(p);
         var promoTag = isOnPromo(p) ? ' [PROMOÇÃO]' : '';
         var msg = 'Olá! Tenho interesse no produto' + promoTag + ': ' + p.name + ' (' + p.brand + ') - ' + formatBRL(price);
-        var base = config.whatsappLink || WHATSAPP_DEFAULT;
+        var base = normalizeWhatsAppLink(config.whatsappLink);
         var sep = base.indexOf('?') !== -1 ? '&' : '?';
-        window.open(base + sep + 'text=' + encodeURIComponent(msg), '_blank');
+        openExternalUrl(base + sep + 'text=' + encodeURIComponent(msg));
     }
 
     function loadCart() {
@@ -2720,39 +2777,35 @@ if ('serviceWorker' in navigator) {
         var cidade = (document.getElementById('coCidade').value || '').trim();
 
         var lines = [];
-        lines.push('🛒 *NOVO PEDIDO ');
+        lines.push('🛒 *NOVO PEDIDO*');
         lines.push('');
-        lines.push('Nome: ' + nome);
-        lines.push('Tel: ' + tel);
-        lines.push('CPF: ' + cpf);
-        lines.push('Endereço: ' + logradouro);
-        lines.push('N*: ' + numero);
-        lines.push('REF - ' + (complemento || ''));
-        lines.push('Bairro: ' + bairro);
-        lines.push('Cidade: ' + cidade);
-        lines.push('Estado: ' + state);
-        lines.push('CEP: ' + cep);
+        lines.push('*Nome:* ' + nome);
+        lines.push('*Tel:* ' + tel);
+        lines.push('*CPF:* ' + cpf);
+        lines.push('*Endereço:* ' + logradouro + ', ' + numero + (complemento ? ' - ' + complemento : ''));
+        lines.push('*Bairro:* ' + bairro);
+        lines.push('*Cidade:* ' + cidade);
+        lines.push('*Estado:* ' + state);
+        lines.push('*CEP:* ' + cep);
         lines.push('');
-        lines.push('');
-        lines.push('PEDIDO');
+        lines.push('*--- PEDIDO ---*');
 
         items.forEach(function(it) {
             var prod = it.product;
             var brand = String(prod.brand || '').toUpperCase();
             var name = String(prod.name || '');
-            lines.push(it.qty + 'x ' + name + '  ' + brand + ' ' + formatBRL(it.unitPrice) + ' ');
+            lines.push('• ' + it.qty + 'x ' + name + ' (' + brand + ') - ' + formatBRL(it.unitPrice) + ' = ' + formatBRL(it.subtotal));
         });
 
         lines.push('');
-        lines.push('Frete: ' + formatBRL(freight));
-        lines.push('TOTAL:* ' + formatBRL(total));
-        lines.push('');
+        lines.push('*Frete:* ' + formatBRL(freight));
+        lines.push('*TOTAL: ' + formatBRL(total) + '*');
         lines.push('');
         lines.push('⏳ Aguardando confirmação do pedido!');
 
-        var base = config.whatsappLink || WHATSAPP_DEFAULT;
+        var base = normalizeWhatsAppLink(config.whatsappLink);
         var sep = base.indexOf('?') !== -1 ? '&' : '?';
-        window.open(base + sep + 'text=' + encodeURIComponent(lines.join('\n')), '_blank');
+        openExternalUrl(base + sep + 'text=' + encodeURIComponent(lines.join('\n')));
 
         setTimeout(function() {
             cart = [];
@@ -3368,7 +3421,8 @@ if ('serviceWorker' in navigator) {
             trackingUrl: get('cfgTrackingUrl').trim() || DEFAULT_CONFIG.trackingUrl,
             trackingTitle: get('cfgTrackingTitle').trim() || 'Rastreie seu Pedido',
             trackingSubtitle: get('cfgTrackingSubtitle').trim() || 'Consulte pelo seu CPF',
-            whatsappLink: get('cfgWhatsappLink').trim() || WHATSAPP_DEFAULT,
+            // 🔒 Sempre normaliza o WhatsApp ao salvar
+            whatsappLink: normalizeWhatsAppLink(get('cfgWhatsappLink').trim()),
             whatsappTitle: get('cfgWhatsappTitle').trim() || 'WhatsApp',
             whatsappSubtitle: get('cfgWhatsappSubtitle').trim() || 'Solicite um orçamento',
             telegramLink: get('cfgTelegramLink').trim() || DEFAULT_CONFIG.telegramLink,
@@ -3472,6 +3526,8 @@ if ('serviceWorker' in navigator) {
         }
 
         newConfig.systemVersion = String(Date.now());
+        // 🔒 Reforça normalização do WhatsApp antes de gravar
+        newConfig.whatsappLink = normalizeWhatsAppLink(newConfig.whatsappLink);
 
         config = newConfig;
         if (!saveConfigLocal()) { config = prev; return; }
@@ -4318,7 +4374,8 @@ if ('serviceWorker' in navigator) {
             openNotifModal();
         });
         document.getElementById('whatsappBtn').addEventListener('click', function() {
-            window.open(config.whatsappLink || WHATSAPP_DEFAULT, '_blank');
+            // 🔒 Usa o número correto e o helper confiável
+            openExternalUrl(normalizeWhatsAppLink(config.whatsappLink));
         });
         document.getElementById('cfgLogoPreview').addEventListener('click', function() {
             var url = document.getElementById('cfgLogoUrl').value.trim();
@@ -4463,7 +4520,6 @@ if ('serviceWorker' in navigator) {
         });
 
         if (initFirebase()) {
-            // Observa estado de autenticação
             if (fbAuth) {
                 fbAuth.onAuthStateChanged(function(user) {
                     currentAuthUser = user || null;
@@ -4544,7 +4600,9 @@ if ('serviceWorker' in navigator) {
         moveProductInCategory: moveProductInCategory,
         moveCategory: moveCategory,
         parseBRNumber: parseBRNumber,
-        formatBRNumberForInput: formatBRNumberForInput
+        formatBRNumberForInput: formatBRNumberForInput,
+        normalizeWhatsAppLink: normalizeWhatsAppLink,
+        openExternalUrl: openExternalUrl
     };
 })();
 </script>
