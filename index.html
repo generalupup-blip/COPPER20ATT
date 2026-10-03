@@ -204,6 +204,12 @@
         .category-products-inner{padding:8px 12px 14px;display:flex;flex-direction:column;gap:6px}
         .category-products-empty{padding:14px;text-align:center;font-size:12px;color:var(--text-muted);font-style:italic}
 
+        /* 🔀 SORT BAR */
+        .category-sort-bar{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 12px;border-bottom:1px solid var(--border-color);background:rgba(49,200,255,.04)}
+        .category-sort-label{font-size:10.5px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;display:flex;align-items:center;gap:4px;white-space:nowrap}
+        .category-sort-select{padding:6px 10px;border-radius:6px;border:1px solid var(--border-color);background:var(--bg-input);color:var(--text-primary);font-size:11.5px;font-family:var(--font);outline:none;cursor:pointer;font-weight:600;flex:1;max-width:220px}
+        .category-sort-select:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(49,200,255,.12)}
+
         .product-item{display:flex;align-items:center;gap:10px;padding:8px;border-radius:var(--radius-sm);background:rgba(255,255,255,.03);border:1px solid transparent;cursor:pointer;transition:all var(--transition);-webkit-tap-highlight-color:transparent;position:relative}
         .product-item:hover{background:rgba(49,200,255,.08);border-color:var(--border-color-strong);transform:translateX(2px)}
         .product-item.has-promo{border-color:rgba(245,158,11,.35);background:linear-gradient(90deg,rgba(245,158,11,.06),rgba(255,255,255,.03))}
@@ -280,6 +286,17 @@
         .cat-move-btn:disabled{opacity:.25;cursor:not-allowed;background:rgba(255,255,255,.04);border-color:var(--border-color);color:var(--text-muted)}
         .add-category-btn{padding:8px 12px;border-radius:var(--radius-sm);border:1px dashed var(--border-color-strong);background:transparent;color:var(--accent);font-size:12px;font-weight:600;cursor:pointer;font-family:var(--font);transition:all var(--transition);display:flex;align-items:center;justify-content:center;gap:6px}
         .add-category-btn:hover{background:var(--accent-glow);border-color:var(--accent)}
+
+        /* 🎟️ COUPON EDITOR */
+        .coupon-editor-item{display:flex;flex-wrap:wrap;gap:6px;padding:8px;border-radius:var(--radius-sm);background:rgba(251,191,36,.05);border:1px solid rgba(251,191,36,.25);align-items:center;transition:all var(--transition)}
+        .coupon-editor-item:hover{border-color:rgba(251,191,36,.5)}
+        .coupon-editor-item input[type="text"],.coupon-editor-item input[type="datetime-local"]{padding:7px 9px;border-radius:6px;border:1px solid var(--border-color);background:var(--bg-input);color:var(--text-primary);font-size:11px;font-family:var(--font);outline:none;transition:all var(--transition)}
+        .coupon-editor-item input[type="text"]:focus,.coupon-editor-item input[type="datetime-local"]:focus{border-color:#fbbf24;box-shadow:0 0 0 2px rgba(251,191,36,.12)}
+        .cpn-code{flex:0 0 90px !important;text-transform:uppercase;font-weight:800;letter-spacing:.05em;text-align:center}
+        .cpn-percent{flex:0 0 56px !important;text-align:center;font-weight:800;color:#fbbf24}
+        .cpn-expires{flex:1 1 150px !important;min-width:130px}
+        .cpn-active-wrap{display:flex;align-items:center;gap:5px;font-size:10.5px;font-weight:800;color:var(--text-secondary);cursor:pointer;white-space:nowrap;user-select:none;-webkit-user-select:none;text-transform:uppercase;letter-spacing:.04em}
+        .cpn-active{width:16px;height:16px;accent-color:#22c55e;cursor:pointer}
 
         .product-editor-list{display:flex;flex-direction:column;gap:8px;max-height:520px;overflow-y:auto;padding:2px 4px 2px 2px}
         .product-editor-card{background:rgba(255,255,255,.04);border:1px solid var(--border-color);border-radius:var(--radius-sm);padding:8px;display:flex;flex-direction:column;gap:6px;transition:all var(--transition);position:relative}
@@ -508,6 +525,20 @@
         .checkout-submit-btn{margin-top:16px;width:100%;padding:15px;border-radius:var(--radius-sm);border:none;background:linear-gradient(135deg,#25d366,#1da851);color:#04120a;font-size:14px;font-weight:900;font-family:var(--font);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 8px 24px rgba(37,211,102,.4)}
         .checkout-submit-btn:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(37,211,102,.55)}
 
+        /* 🎟️ COUPON CHECKOUT SECTION */
+        .coupon-section{margin-top:16px;padding:12px;border-radius:var(--radius-sm);background:rgba(251,191,36,.06);border:1px dashed rgba(251,191,36,.4)}
+        .coupon-label{display:block;font-size:11px;font-weight:800;color:#fbbf24;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px}
+        .coupon-input-row{display:flex;gap:8px}
+        .coupon-input-row input{flex:1;min-width:0;padding:10px 12px;border-radius:var(--radius-sm);border:1px solid rgba(251,191,36,.4);background:var(--bg-input);color:var(--text-primary);font-size:13px;font-family:var(--font);outline:none;text-transform:uppercase;font-weight:700;letter-spacing:.04em}
+        .coupon-input-row input:focus{border-color:#fbbf24;box-shadow:0 0 0 3px rgba(251,191,36,.15)}
+        .coupon-apply-btn{padding:10px 16px;border-radius:var(--radius-sm);background:linear-gradient(135deg,#fbbf24,#f59e0b);color:#1a1a1a;border:none;font-size:12px;font-weight:800;font-family:var(--font);cursor:pointer;transition:all var(--transition);white-space:nowrap}
+        .coupon-apply-btn:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(251,191,36,.4)}
+        .coupon-apply-btn:active{transform:scale(.96)}
+        .coupon-feedback{font-size:11.5px;font-weight:700;margin-top:8px;min-height:14px;letter-spacing:-.01em;line-height:1.4}
+        .coupon-feedback.success{color:#22c55e}
+        .coupon-feedback.error{color:#ef4444}
+        .checkout-mini-summary .mini-total.coupon-line{padding-top:8px;margin-top:8px;border-top:1px dashed rgba(251,191,36,.35)}
+
         .hidden-input{display:none}
 
         /* ===================================================
@@ -551,6 +582,7 @@
         html[data-theme="light"] .cart-item,
         html[data-theme="light"] .product-editor-card,
         html[data-theme="light"] .category-editor-item,
+        html[data-theme="light"] .coupon-editor-item,
         html[data-theme="light"] .search-result-item{
             background:rgba(15,23,42,.03);
         }
@@ -575,6 +607,9 @@
         html[data-theme="light"] .checkout-modal-close,
         html[data-theme="light"] .promo-modal-close,
         html[data-theme="light"] .product-modal-close{background:rgba(15,23,42,.06);color:#475569}
+        html[data-theme="light"] .age-gate-modal{background:#ffffff;border-color:rgba(220,38,38,.5)}
+        html[data-theme="light"] .age-gate-title{color:#dc2626}
+        html[data-theme="light"] .category-sort-bar{background:rgba(49,200,255,.06)}
 
         /* ===================================================
            AVALIAÇÕES COM ESTRELAS
@@ -634,6 +669,30 @@
         .promo-card-countdown{display:inline-flex;align-items:center;gap:4px;margin-top:4px;padding:3px 8px;border-radius:6px;background:rgba(239,68,68,.9);color:#fff;font-size:10px;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:.02em;align-self:flex-start}
         .promo-card-countdown.expired{background:rgba(120,120,120,.85)}
 
+        /* ===================================================
+           VERIFICAÇÃO 18+
+           =================================================== */
+        .age-gate-overlay{position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.96);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);display:none;align-items:center;justify-content:center;padding:20px;opacity:0;transition:opacity .35s}
+        .age-gate-overlay.active{display:flex;opacity:1}
+        .age-gate-modal{width:100%;max-width:400px;background:linear-gradient(160deg,#0a1322 0%,#100508 100%);border:2px solid rgba(239,68,68,.5);border-radius:var(--radius-lg);padding:32px 24px 24px;text-align:center;position:relative;overflow:hidden;box-shadow:0 30px 90px rgba(0,0,0,.95);animation:agePop .45s cubic-bezier(.32,.72,0,1)}
+        @keyframes agePop{from{transform:scale(.88) translateY(24px);opacity:0}to{transform:scale(1) translateY(0);opacity:1}}
+        .age-gate-modal::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(to right,#ef4444,#f59e0b,#ef4444)}
+        .age-gate-icon{font-size:56px;margin-bottom:14px;line-height:1;animation:agePulse 2s infinite}
+        @keyframes agePulse{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
+        .age-gate-title{font-size:20px;font-weight:900;color:#f87171;margin-bottom:10px;letter-spacing:-.02em;line-height:1.2}
+        .age-gate-desc{font-size:13px;color:var(--text-secondary);line-height:1.6;margin-bottom:22px;letter-spacing:-.01em}
+        .age-gate-actions{display:flex;gap:10px;margin-bottom:14px}
+        .age-gate-btn{flex:1;padding:13px 14px;border-radius:var(--radius-sm);font-size:13px;font-weight:800;font-family:var(--font);cursor:pointer;border:none;letter-spacing:-.01em;transition:all var(--transition);-webkit-tap-highlight-color:transparent}
+        .age-gate-no{background:rgba(239,68,68,.15);color:#f87171;border:1px solid rgba(239,68,68,.4)}
+        .age-gate-no:hover{background:rgba(239,68,68,.28)}
+        .age-gate-yes{background:linear-gradient(135deg,#22c55e,#15803d);color:#fff;box-shadow:0 6px 20px rgba(34,197,94,.4)}
+        .age-gate-yes:hover{transform:translateY(-1px);box-shadow:0 10px 28px rgba(34,197,94,.55)}
+        .age-gate-yes:active{transform:scale(.96)}
+        .age-gate-note{font-size:10.5px;color:var(--text-muted);line-height:1.5}
+        .age-gate-blocked{background:linear-gradient(135deg,#7f1d1d,#450a0a);border-color:rgba(239,68,68,.85)}
+        .age-gate-blocked .age-gate-title{color:#fca5a5}
+        .age-gate-blocked .age-gate-icon{animation:none}
+
         @media (max-width:480px){
             .store-logo{height:32px;max-width:120px}
             .hero-logo{height:48px}
@@ -658,10 +717,27 @@
             .theme-toggle-btn{width:34px;height:34px}
             .theme-toggle-btn svg{width:16px;height:16px}
             .notification-badge-btn #notifText{display:none}
+            .age-gate-icon{font-size:48px}
+            .age-gate-title{font-size:18px}
+            .age-gate-actions{flex-direction:column}
         }
     </style>
 </head>
 <body>
+
+    <!-- 🔞 VERIFICAÇÃO 18+ -->
+    <div class="age-gate-overlay" id="ageGateOverlay">
+        <div class="age-gate-modal">
+            <div class="age-gate-icon">🔞</div>
+            <h3 class="age-gate-title">Verificação de Idade</h3>
+            <p class="age-gate-desc">Este site contém produtos destinados exclusivamente a maiores de <strong>18 anos</strong>. Você confirma que tem 18 anos ou mais?</p>
+            <div class="age-gate-actions">
+                <button class="age-gate-btn age-gate-no" id="ageGateNo" type="button">Não, sair</button>
+                <button class="age-gate-btn age-gate-yes" id="ageGateYes" type="button">Sim, tenho 18+</button>
+            </div>
+            <p class="age-gate-note">Ao confirmar, você declara ter idade legal e concorda com nossos termos.</p>
+        </div>
+    </div>
 
     <header class="store-header" id="storeHeader">
         <div class="store-header-inner">
@@ -973,6 +1049,15 @@
             <hr class="config-divider">
 
             <div class="config-section">
+                <p class="config-section-label">🎟️ Cupons de Desconto</p>
+                <div id="couponEditorContainer" style="display:flex;flex-direction:column;gap:6px"></div>
+                <button class="add-category-btn" id="addCouponBtn" type="button">+ Adicionar Cupom</button>
+                <small style="font-size:10px;color:var(--text-muted)">Códigos em <strong>MAIÚSCULAS</strong> sem espaços. Deixe <strong>Expira em</strong> em branco para cupom sem prazo. Desmarque <strong>Ativo</strong> para desativar temporariamente.</small>
+            </div>
+
+            <hr class="config-divider">
+
+            <div class="config-section">
                 <p class="config-section-label">🛒 Gerenciar Produtos</p>
                 <div class="config-field"><label>Categoria</label><select id="productEditorCategorySelect"></select></div>
                 <div id="productEditorList" class="product-editor-list"></div>
@@ -1179,6 +1264,16 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="coupon-section">
+                    <label class="coupon-label">🎟️ Cupom de desconto</label>
+                    <div class="coupon-input-row">
+                        <input type="text" id="coCouponInput" placeholder="Digite o código" maxlength="20" autocomplete="off">
+                        <button type="button" class="coupon-apply-btn" id="coCouponApply">Aplicar</button>
+                    </div>
+                    <div class="coupon-feedback" id="coCouponFeedback"></div>
+                </div>
+
                 <button class="checkout-submit-btn" id="checkoutSubmitBtn" type="button">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
@@ -1424,6 +1519,7 @@ if ('serviceWorker' in navigator) {
     var LOCAL_CONFIG_KEY = 'respectPharmaConfig';
     var SYS_VERSION_KEY = 'respectPharmaSysVersion';
     var THEME_KEY = 'respectPharmaTheme';
+    var AGE_KEY = 'respectPharmaAgeOk';
     var IDB_NAME = 'respectPharmaImages';
     var IDB_STORE = 'images';
     var FB_COLLECTION = 'respectPharma';
@@ -1479,7 +1575,8 @@ if ('serviceWorker' in navigator) {
             {name:'PRODUTOS VENCIDOS',abbr:'PR',count:'4 marcas • 6 produtos',color:'#31c8ff'},
             {name:'QUEIMA DE ESTOQUE',abbr:'QU',count:'2 marcas • 4 produtos',color:'#31c8ff'}
         ],
-        products:[]
+        products:[],
+        coupons:[]
     };
 
     var BRANDS = ['Muscle Labs','Alpha Pharma','BioTech','Dragon Pharma','Landerlan','Magnus','Neo Química','Roche','Sanofi','Zambon','Gold Labs','Eurofarma','Medley','Bayer','Aspen'];
@@ -1499,6 +1596,7 @@ if ('serviceWorker' in navigator) {
     var configPanelOpen = false;
     var categoryEditorState = [];
     var productEditorState = [];
+    var couponEditorState = [];
     var selectedProductCategoryId = null;
     var uploadingProductId = null;
     var uploadingBannerLogo = false;
@@ -1530,8 +1628,12 @@ if ('serviceWorker' in navigator) {
     // 🔥 AVALIAÇÕES: cache local por produto
     var reviewsCache = {};
     var currentReviewRating = 0;
-    var reviewsUnsubProductId = null;
-    var reviewsUnsub = null;
+
+    // 🎟️ CUPOM aplicado no checkout
+    var appliedCoupon = null;
+
+    // 🔀 ORDENAÇÃO por categoria
+    var categorySortState = {};
 
     function esc(s) {
         return String(s == null ? '' : s).replace(/[&<>"']/g, function(c) {
@@ -1929,6 +2031,7 @@ if ('serviceWorker' in navigator) {
             merged.categories = deepClone(DEFAULT_CONFIG.categories);
         if (!Array.isArray(merged.products)) merged.products = [];
         if (!Array.isArray(merged.notifProductIds)) merged.notifProductIds = [];
+        if (!Array.isArray(merged.coupons)) merged.coupons = [];
         merged.whatsappLink = normalizeWhatsAppLink(merged.whatsappLink);
         if (!merged.systemVersion) merged.systemVersion = '1';
         return merged;
@@ -1975,6 +2078,7 @@ if ('serviceWorker' in navigator) {
                     loaded.categories = deepClone(DEFAULT_CONFIG.categories);
                 if (!Array.isArray(parsed.products)) loaded.products = [];
                 if (!Array.isArray(loaded.notifProductIds)) loaded.notifProductIds = [];
+                if (!Array.isArray(loaded.coupons)) loaded.coupons = [];
                 if (!loaded.systemVersion) loaded.systemVersion = '1';
             } else {
                 loaded = deepClone(DEFAULT_CONFIG);
@@ -2092,6 +2196,14 @@ if ('serviceWorker' in navigator) {
         });
         if (!Array.isArray(config.products)) config.products = [];
         if (!Array.isArray(config.notifProductIds)) config.notifProductIds = [];
+        if (!Array.isArray(config.coupons)) config.coupons = [];
+        config.coupons.forEach(function(cp) {
+            if (!cp.id) cp.id = uid('cpn');
+            cp.code = String(cp.code || '').toUpperCase().trim();
+            cp.percent = Number(cp.percent) || 0;
+            cp.expiresAt = Number(cp.expiresAt) || 0;
+            cp.active = cp.active !== false;
+        });
         var needsGen = !config.products.length, migrated = false;
         config.products.forEach(function(p) {
             if (p.catIndex !== undefined && p.catId === undefined) {
@@ -2231,6 +2343,35 @@ if ('serviceWorker' in navigator) {
         return Math.max(0, Math.round((1 - promo / price) * 100));
     }
     function getPromoProducts() { return (config.products || []).filter(isOnPromo); }
+
+    // ============================================================
+    // 🔀 ORDENAÇÃO DE PRODUTOS
+    // ============================================================
+    function applySortToProducts(products, mode) {
+        var arr = (products || []).slice();
+        switch (mode) {
+            case 'price-asc':
+                arr.sort(function(a, b) { return getEffectivePrice(a) - getEffectivePrice(b); });
+                break;
+            case 'price-desc':
+                arr.sort(function(a, b) { return getEffectivePrice(b) - getEffectivePrice(a); });
+                break;
+            case 'name-asc':
+                arr.sort(function(a, b) { return norm(a.name).localeCompare(norm(b.name)); });
+                break;
+            case 'promo-first':
+                arr.sort(function(a, b) {
+                    var pa = isOnPromo(a) ? 1 : 0;
+                    var pb = isOnPromo(b) ? 1 : 0;
+                    if (pa !== pb) return pb - pa;
+                    return getEffectivePrice(a) - getEffectivePrice(b);
+                });
+                break;
+            default:
+                break;
+        }
+        return arr;
+    }
 
     // ============================================================
     // ⏱️ TEMPORIZADOR DE PROMOÇÃO
@@ -2412,6 +2553,97 @@ if ('serviceWorker' in navigator) {
         });
     }
 
+    // ============================================================
+    // 🔞 VERIFICAÇÃO 18+
+    // ============================================================
+    function initAgeGate() {
+        var ok = false;
+        try { ok = localStorage.getItem(AGE_KEY) === '1'; } catch (e) {}
+        if (ok) return;
+        var overlay = document.getElementById('ageGateOverlay');
+        if (!overlay) return;
+        overlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+    function confirmAge() {
+        try { localStorage.setItem(AGE_KEY, '1'); } catch (e) {}
+        var overlay = document.getElementById('ageGateOverlay');
+        if (overlay) {
+            overlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    }
+    function denyAge() {
+        var modal = document.querySelector('.age-gate-modal');
+        if (!modal) return;
+        modal.classList.add('age-gate-blocked');
+        var icon = modal.querySelector('.age-gate-icon');
+        var title = modal.querySelector('.age-gate-title');
+        var desc = modal.querySelector('.age-gate-desc');
+        var actions = modal.querySelector('.age-gate-actions');
+        var note = modal.querySelector('.age-gate-note');
+        if (icon) icon.textContent = '🚫';
+        if (title) title.textContent = 'Acesso Bloqueado';
+        if (desc) desc.textContent = 'Este site é destinado exclusivamente a maiores de 18 anos. Não é possível continuar a navegação.';
+        if (actions) actions.style.display = 'none';
+        if (note) note.textContent = 'Feche esta janela para sair.';
+    }
+
+    // ============================================================
+    // 🎟️ CUPONS DE DESCONTO
+    // ============================================================
+    function findCoupon(code) {
+        if (!code || !Array.isArray(config.coupons)) return null;
+        var c = String(code).trim().toUpperCase();
+        for (var i = 0; i < config.coupons.length; i++) {
+            var cp = config.coupons[i];
+            if (cp && cp.code && String(cp.code).toUpperCase() === c) return cp;
+        }
+        return null;
+    }
+    function validateCoupon(cp) {
+        if (!cp) return { ok: false, msg: 'Cupom não encontrado.' };
+        if (cp.active === false) return { ok: false, msg: 'Este cupom está inativo.' };
+        if (cp.expiresAt && Number(cp.expiresAt) > 0 && Date.now() > Number(cp.expiresAt)) {
+            return { ok: false, msg: 'Este cupom expirou.' };
+        }
+        var p = Number(cp.percent) || 0;
+        if (p <= 0 || p > 100) return { ok: false, msg: 'Cupom com desconto inválido.' };
+        return { ok: true, percent: p };
+    }
+    function applyCouponFromInput() {
+        var input = document.getElementById('coCouponInput');
+        var fb = document.getElementById('coCouponFeedback');
+        if (!input || !fb) return;
+        var code = (input.value || '').trim().toUpperCase();
+        if (!code) {
+            fb.textContent = 'Digite um código de cupom.';
+            fb.className = 'coupon-feedback error';
+            return;
+        }
+        var cp = findCoupon(code);
+        var res = validateCoupon(cp);
+        if (!res.ok) {
+            appliedCoupon = null;
+            fb.textContent = '❌ ' + res.msg;
+            fb.className = 'coupon-feedback error';
+            updateCheckoutTotals();
+            return;
+        }
+        appliedCoupon = { code: String(cp.code).toUpperCase(), percent: res.percent };
+        fb.textContent = '✅ Cupom aplicado: -' + res.percent + '%';
+        fb.className = 'coupon-feedback success';
+        updateCheckoutTotals();
+    }
+    function clearCoupon() {
+        appliedCoupon = null;
+        var input = document.getElementById('coCouponInput');
+        var fb = document.getElementById('coCouponFeedback');
+        if (input) input.value = '';
+        if (fb) { fb.textContent = ''; fb.className = 'coupon-feedback'; }
+        updateCheckoutTotals();
+    }
+
     function updatePromoBadge() {
         var badge = document.getElementById('promoCountBadge');
         var count = getPromoProducts().length;
@@ -2508,9 +2740,27 @@ if ('serviceWorker' in navigator) {
             header.appendChild(catLeft);
             header.appendChild(chevron);
 
+            var catProductsCount = (config.products || []).filter(function(p) { return p.catId === cat.id; }).length;
+            var sortBarHtml = '';
+            if (catProductsCount > 1) {
+                var currentMode = categorySortState[cat.id] || 'default';
+                var opts = [
+                    ['default','Padrão'],
+                    ['price-asc','Menor preço'],
+                    ['price-desc','Maior preço'],
+                    ['name-asc','A-Z'],
+                    ['promo-first','Promoções primeiro']
+                ];
+                var optsHtml = '';
+                opts.forEach(function(o) {
+                    optsHtml += '<option value="' + o[0] + '"' + (currentMode === o[0] ? ' selected' : '') + '>' + o[1] + '</option>';
+                });
+                sortBarHtml = '<div class="category-sort-bar"><span class="category-sort-label">🔀 Ordenar:</span><select class="category-sort-select" data-cat-id="' + cat.id + '">' + optsHtml + '</select></div>';
+            }
+
             var productsWrap = document.createElement('div');
             productsWrap.className = 'category-products';
-            productsWrap.innerHTML = '<div class="category-products-clip"><div class="category-products-inner"></div></div>';
+            productsWrap.innerHTML = '<div class="category-products-clip">' + sortBarHtml + '<div class="category-products-inner"></div></div>';
 
             card.appendChild(header);
             card.appendChild(productsWrap);
@@ -2579,7 +2829,6 @@ if ('serviceWorker' in navigator) {
         item.appendChild(info);
         item.appendChild(priceBox);
 
-        // ⏱️ Countdown no card
         if (onPromo && hasActivePromoTimer(product)) {
             var cd = document.createElement('span');
             cd.className = 'promo-countdown';
@@ -2716,7 +2965,6 @@ if ('serviceWorker' in navigator) {
             discEl.classList.remove('promo-badge');
         }
 
-        // ⏱️ Countdown no modal
         var cdWrap = document.getElementById('pmCountdownWrap');
         cdWrap.innerHTML = '';
         if (onPromo && hasActivePromoTimer(product)) {
@@ -2728,7 +2976,6 @@ if ('serviceWorker' in navigator) {
             cdWrap.appendChild(cd);
         }
 
-        // ⭐ Reviews
         document.getElementById('pmReviewsToggle').textContent = 'Ver avaliações';
         document.getElementById('pmReviewsBody').classList.remove('open');
         document.getElementById('pmReviewsForm').classList.remove('open');
@@ -2928,8 +3175,7 @@ if ('serviceWorker' in navigator) {
     function openCheckoutModal() {
         if (!cart.length) { showToast('Adicione produtos ao carrinho primeiro.', 'error'); return; }
         document.getElementById('cartOverlay').classList.remove('active');
-        updateCheckoutSummary();
-        updateCheckoutFreight();
+        updateCheckoutTotals();
         document.getElementById('checkoutOverlay').classList.add('active');
         document.body.style.overflow = 'hidden';
     }
@@ -2937,26 +3183,42 @@ if ('serviceWorker' in navigator) {
         document.getElementById('checkoutOverlay').classList.remove('active');
         if (!isAnyModalOpen()) document.body.style.overflow = '';
     }
-    function updateCheckoutSummary() {
+
+    // 🎟️ Recalcula e atualiza o resumo do checkout (subtotal + frete + cupom)
+    function updateCheckoutTotals() {
         var el = document.getElementById('checkoutMiniSummary');
+        if (!el) return;
         var items = getCartItems();
         var subtotal = getCartSubtotal();
         var totalQty = 0;
         items.forEach(function(i) { totalQty += i.qty; });
-        el.innerHTML = '<div>Você está finalizando <strong>' + totalQty + ' ' + (totalQty === 1 ? 'item' : 'itens') + '</strong> do seu pedido.</div>' +
-            '<div class="mini-total"><span class="label">Subtotal</span><span class="value">' + formatBRL(subtotal) + '</span></div>' +
-            '<div class="mini-total" id="coFreightRow" style="display:none"><span class="label">Frete</span><span class="value" id="coFreightValue">R$ 0,00</span></div>';
+
+        var stateEl = document.getElementById('coEstado');
+        var state = stateEl ? stateEl.value : '';
+        var hasFreight = !!(state && FREIGHT_TABLE[state] !== undefined);
+        var freight = hasFreight ? FREIGHT_TABLE[state] : 0;
+
+        var couponDiscount = 0;
+        if (appliedCoupon && appliedCoupon.percent > 0) {
+            couponDiscount = subtotal * appliedCoupon.percent / 100;
+        }
+        var total = subtotal + freight - couponDiscount;
+        if (total < 0) total = 0;
+
+        var html = '';
+        html += '<div>Você está finalizando <strong>' + totalQty + ' ' + (totalQty === 1 ? 'item' : 'itens') + '</strong> do seu pedido.</div>';
+        html += '<div class="mini-total"><span class="label">Subtotal</span><span class="value">' + formatBRL(subtotal) + '</span></div>';
+        if (hasFreight) {
+            html += '<div class="mini-total"><span class="label">Frete</span><span class="value">' + formatBRL(freight) + '</span></div>';
+        }
+        if (couponDiscount > 0) {
+            html += '<div class="mini-total coupon-line"><span class="label">🎟️ Cupom (' + esc(appliedCoupon.code) + ' -' + appliedCoupon.percent + '%)</span><span class="value" style="color:#fbbf24">- ' + formatBRL(couponDiscount) + '</span></div>';
+        }
+        html += '<div class="mini-total" style="border-top:1px solid rgba(37,211,102,.35);margin-top:8px;padding-top:8px"><span class="label">Total</span><span class="value" style="font-size:19px">' + formatBRL(total) + '</span></div>';
+
+        el.innerHTML = html;
     }
-    function updateCheckoutFreight() {
-        var state = document.getElementById('coEstado').value;
-        var row = document.getElementById('coFreightRow');
-        var val = document.getElementById('coFreightValue');
-        if (!row || !val) return;
-        if (state && FREIGHT_TABLE[state] !== undefined) {
-            val.textContent = formatBRL(FREIGHT_TABLE[state]);
-            row.style.display = 'flex';
-        } else row.style.display = 'none';
-    }
+
     function maskCEP(v) {
         v = String(v || '').replace(/\D/g, '').slice(0, 8);
         return v.length > 5 ? v.slice(0, 5) + '-' + v.slice(5) : v;
@@ -3012,7 +3274,14 @@ if ('serviceWorker' in navigator) {
         var items = getCartItems();
         var state = document.getElementById('coEstado').value;
         var freight = FREIGHT_TABLE[state] !== undefined ? FREIGHT_TABLE[state] : 0;
-        var total = getCartSubtotal() + freight;
+        var subtotal = getCartSubtotal();
+        var couponDiscount = 0;
+        if (appliedCoupon && appliedCoupon.percent > 0) {
+            couponDiscount = subtotal * appliedCoupon.percent / 100;
+        }
+        var total = subtotal + freight - couponDiscount;
+        if (total < 0) total = 0;
+
         var nome = (document.getElementById('coNome').value || '').trim();
         var tel = (document.getElementById('coTel').value || '').trim();
         var cpf = (document.getElementById('coCpf').value || '').trim();
@@ -3043,6 +3312,10 @@ if ('serviceWorker' in navigator) {
             lines.push('• ' + it.qty + 'x ' + name + ' (' + brand + ') - ' + formatBRL(it.unitPrice) + ' = ' + formatBRL(it.subtotal));
         });
         lines.push('');
+        lines.push('*Subtotal:* ' + formatBRL(subtotal));
+        if (appliedCoupon && couponDiscount > 0) {
+            lines.push('*Cupom:* ' + appliedCoupon.code + ' (-' + appliedCoupon.percent + '%) = -' + formatBRL(couponDiscount));
+        }
         lines.push('*Frete:* ' + formatBRL(freight));
         lines.push('*TOTAL: ' + formatBRL(total) + '*');
         lines.push('');
@@ -3056,6 +3329,11 @@ if ('serviceWorker' in navigator) {
             cart = [];
             saveCart();
             updateCartBadge();
+            appliedCoupon = null;
+            var ci = document.getElementById('coCouponInput');
+            var cf = document.getElementById('coCouponFeedback');
+            if (ci) ci.value = '';
+            if (cf) { cf.textContent = ''; cf.className = 'coupon-feedback'; }
             closeCheckoutModal();
             showToast('Pedido enviado! Obrigado 💙', 'success');
         }, 600);
@@ -3348,6 +3626,43 @@ if ('serviceWorker' in navigator) {
         container.appendChild(frag);
     }
 
+    // 🎟️ COUPON EDITOR
+    function syncCouponEditorState() {
+        couponEditorState = (config.coupons || []).map(function(c) {
+            return {
+                id: c.id || uid('cpn'),
+                code: String(c.code || '').toUpperCase(),
+                percent: Number(c.percent) || 0,
+                expiresAt: Number(c.expiresAt) || 0,
+                active: c.active !== false
+            };
+        });
+    }
+    function renderCouponEditor() {
+        var container = document.getElementById('couponEditorContainer');
+        if (!container) return;
+        if (!couponEditorState.length) {
+            container.innerHTML = '<div class="product-editor-empty" style="padding:12px">Nenhum cupom cadastrado ainda.</div>';
+            return;
+        }
+        var frag = document.createDocumentFragment();
+        couponEditorState.forEach(function(cp, i) {
+            var div = document.createElement('div');
+            div.className = 'coupon-editor-item';
+            div.dataset.index = i;
+            var expiresVal = msToDatetimeLocal(cp.expiresAt);
+            div.innerHTML =
+                '<input type="text" class="cpn-code" placeholder="CODIGO" value="' + esc(cp.code) + '" maxlength="20" data-index="' + i + '">' +
+                '<input type="text" inputmode="numeric" class="cpn-percent" placeholder="%" value="' + esc(String(cp.percent || '')) + '" maxlength="3" data-index="' + i + '">' +
+                '<input type="datetime-local" class="cpn-expires" value="' + esc(expiresVal) + '" data-index="' + i + '" title="Deixe em branco para sem validade">' +
+                '<label class="cpn-active-wrap"><input type="checkbox" class="cpn-active" data-index="' + i + '"' + (cp.active ? ' checked' : '') + '> Ativo</label>' +
+                '<button class="category-editor-remove cpn-remove" type="button" data-index="' + i + '" title="Remover">×</button>';
+            frag.appendChild(div);
+        });
+        container.innerHTML = '';
+        container.appendChild(frag);
+    }
+
     function syncProductEditorState() {
         productEditorState = config.products.map(function(p) {
             return {
@@ -3591,6 +3906,8 @@ if ('serviceWorker' in navigator) {
         applyLogoToImg(document.getElementById('cfgHeroLogoPreviewImg'), config.heroLogoUrl, 'Banner');
         syncCategoryEditorState();
         renderCategoryEditor();
+        syncCouponEditorState();
+        renderCouponEditor();
         syncProductEditorState();
         if (!selectedProductCategoryId ||
             !categoryEditorState.find(function(c) { return c.id === selectedProductCategoryId; })) {
@@ -3628,6 +3945,15 @@ if ('serviceWorker' in navigator) {
                     image: p.image || ''
                 };
             });
+        var newCoupons = couponEditorState.map(function(cp) {
+            return {
+                id: cp.id || uid('cpn'),
+                code: String(cp.code || '').toUpperCase().trim(),
+                percent: Math.max(0, Math.min(100, Number(cp.percent) || 0)),
+                expiresAt: Number(cp.expiresAt) || 0,
+                active: cp.active !== false
+            };
+        }).filter(function(cp) { return cp.code && cp.percent > 0; });
         return {
             storeName: get('cfgStoreName').trim() || 'CENTRALPREMIUM',
             tagline: get('cfgTagline').trim() || DEFAULT_CONFIG.tagline,
@@ -3660,7 +3986,8 @@ if ('serviceWorker' in navigator) {
             notifText: notifText,
             notifCount: notifMatch ? notifMatch[0] : '1',
             categories: newCategories,
-            products: newProducts
+            products: newProducts,
+            coupons: newCoupons
         };
     }
 
@@ -4437,6 +4764,12 @@ if ('serviceWorker' in navigator) {
     }
 
     function setupEventListeners() {
+        // 🔞 AGE GATE
+        var ageYes = document.getElementById('ageGateYes');
+        var ageNo = document.getElementById('ageGateNo');
+        if (ageYes) ageYes.addEventListener('click', confirmAge);
+        if (ageNo) ageNo.addEventListener('click', denyAge);
+
         var themeBtn = document.getElementById('themeToggleBtn');
         if (themeBtn) themeBtn.addEventListener('click', toggleTheme);
 
@@ -4553,6 +4886,82 @@ if ('serviceWorker' in navigator) {
             renderProductEditor();
         });
 
+        // 🎟️ COUPON EDITOR EVENTS
+        var addCouponBtn = document.getElementById('addCouponBtn');
+        if (addCouponBtn) {
+            addCouponBtn.addEventListener('click', function() {
+                couponEditorState.push({
+                    id: uid('cpn'),
+                    code: 'NOVO10',
+                    percent: 10,
+                    expiresAt: 0,
+                    active: true
+                });
+                renderCouponEditor();
+            });
+        }
+        var couponEditorContainer = document.getElementById('couponEditorContainer');
+        if (couponEditorContainer) {
+            couponEditorContainer.addEventListener('input', function(e) {
+                var t = e.target;
+                var idx = parseInt(t.dataset.index, 10);
+                if (isNaN(idx) || !couponEditorState[idx]) return;
+                if (t.classList.contains('cpn-code')) {
+                    couponEditorState[idx].code = String(t.value || '').toUpperCase().replace(/\s+/g, '');
+                    t.value = couponEditorState[idx].code;
+                }
+                else if (t.classList.contains('cpn-percent')) {
+                    var v = String(t.value || '').replace(/\D/g, '').slice(0, 3);
+                    t.value = v;
+                    var num = parseInt(v, 10);
+                    couponEditorState[idx].percent = isNaN(num) ? 0 : Math.max(0, Math.min(100, num));
+                }
+                else if (t.classList.contains('cpn-expires')) {
+                    couponEditorState[idx].expiresAt = datetimeLocalToMs(t.value);
+                }
+                else if (t.classList.contains('cpn-active')) {
+                    couponEditorState[idx].active = !!t.checked;
+                }
+            });
+            couponEditorContainer.addEventListener('change', function(e) {
+                var t = e.target;
+                var idx = parseInt(t.dataset.index, 10);
+                if (isNaN(idx) || !couponEditorState[idx]) return;
+                if (t.classList.contains('cpn-active')) {
+                    couponEditorState[idx].active = !!t.checked;
+                } else if (t.classList.contains('cpn-expires')) {
+                    couponEditorState[idx].expiresAt = datetimeLocalToMs(t.value);
+                }
+            });
+            couponEditorContainer.addEventListener('click', function(e) {
+                var btn = e.target.closest ? e.target.closest('.cpn-remove') : null;
+                if (!btn) return;
+                var idx = parseInt(btn.dataset.index, 10);
+                if (isNaN(idx) || !couponEditorState[idx]) return;
+                if (!confirm('Remover o cupom "' + (couponEditorState[idx].code || '') + '"?')) return;
+                couponEditorState.splice(idx, 1);
+                renderCouponEditor();
+            });
+        }
+
+        // 🔀 SORT BAR EVENTS
+        document.getElementById('categoriesList').addEventListener('change', function(e) {
+            if (e.target.classList && e.target.classList.contains('category-sort-select')) {
+                var catId = e.target.getAttribute('data-cat-id');
+                var mode = e.target.value;
+                if (!catId) return;
+                categorySortState[catId] = mode;
+                var card = document.querySelector('.category-card[data-cat-id="' + catId + '"]');
+                if (card) {
+                    var inner = card.querySelector('.category-products-inner');
+                    if (inner) {
+                        var prods = (config.products || []).filter(function(p) { return p.catId === catId; });
+                        renderProductList(inner, applySortToProducts(prods, mode));
+                    }
+                }
+            }
+        });
+
         document.getElementById('categoriesList').addEventListener('click', function(e) {
             var h = e.target.closest('.category-card-header');
             if (h) {
@@ -4561,8 +4970,10 @@ if ('serviceWorker' in navigator) {
                 var wasOpen = card.classList.contains('open');
                 if (wasOpen) { card.classList.remove('open'); return; }
                 var inner = card.querySelector('.category-products-inner');
-                if (!inner.dataset.rendered) {
-                    renderProductList(inner, config.products.filter(function(p) { return p.catId === catId; }));
+                if (inner && !inner.dataset.rendered) {
+                    var mode = categorySortState[catId] || 'default';
+                    var prods = (config.products || []).filter(function(p) { return p.catId === catId; });
+                    renderProductList(inner, applySortToProducts(prods, mode));
                     inner.dataset.rendered = '1';
                 }
                 card.classList.add('open');
@@ -4620,7 +5031,7 @@ if ('serviceWorker' in navigator) {
             closeProductModal();
         });
 
-        // ⭐ Eventos das avaliações
+        // ⭐ REVIEWS
         document.getElementById('pmReviewsToggle').addEventListener('click', function() {
             var body = document.getElementById('pmReviewsBody');
             var opened = body.classList.toggle('open');
@@ -4697,8 +5108,21 @@ if ('serviceWorker' in navigator) {
         });
         document.getElementById('coEstado').addEventListener('change', function(e) {
             e.target.classList.remove('invalid');
-            updateCheckoutFreight();
+            updateCheckoutTotals();
         });
+
+        // 🎟️ COUPON INPUT EVENTS
+        var couponApplyBtn = document.getElementById('coCouponApply');
+        var couponInput = document.getElementById('coCouponInput');
+        if (couponApplyBtn) couponApplyBtn.addEventListener('click', applyCouponFromInput);
+        if (couponInput) {
+            couponInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') { e.preventDefault(); applyCouponFromInput(); }
+            });
+            couponInput.addEventListener('input', function(e) {
+                e.target.value = String(e.target.value || '').toUpperCase().replace(/[^A-Z0-9\-_]/g, '');
+            });
+        }
 
         var searchInput = document.getElementById('searchInput');
         var searchClearBtn = document.getElementById('searchClearBtn');
@@ -4720,6 +5144,7 @@ if ('serviceWorker' in navigator) {
 
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
+                if (document.getElementById('ageGateOverlay').classList.contains('active')) return;
                 if (document.getElementById('pdfOverlay').classList.contains('active')) { pdfAbortRequested = true; setTimeout(resetPdfOverlay, 200); return; }
                 if (document.getElementById('checkoutOverlay').classList.contains('active')) { closeCheckoutModal(); return; }
                 if (document.getElementById('cartOverlay').classList.contains('active')) { closeCartModal(); return; }
@@ -4852,6 +5277,7 @@ if ('serviceWorker' in navigator) {
 
     function init() {
         initTheme();
+        initAgeGate();
         config = loadConfigLocal();
         ensureData();
         saveConfigLocal();
@@ -4958,7 +5384,16 @@ if ('serviceWorker' in navigator) {
         applyTheme: applyTheme,
         getCurrentTheme: getCurrentTheme,
         loadProductReviews: loadAndRenderReviews,
-        getReviewsCache: function() { return reviewsCache; }
+        getReviewsCache: function() { return reviewsCache; },
+        applyCoupon: function(code) {
+            var input = document.getElementById('coCouponInput');
+            if (input) input.value = String(code || '').toUpperCase();
+            applyCouponFromInput();
+        },
+        clearCoupon: clearCoupon,
+        getAppliedCoupon: function() { return appliedCoupon; },
+        applySortToProducts: applySortToProducts,
+        confirmAge: confirmAge
     };
 })();
 </script>
