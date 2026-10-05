@@ -76,6 +76,15 @@
         .feedback-btn:active{transform:scale(.95)}
         .feedback-btn svg{width:16px;height:16px;flex-shrink:0}
 
+        /* ⭐ BOTÃO DE FAVORITOS (HEADER) */
+        .favorites-btn{position:relative;width:38px;height:38px;border-radius:var(--radius-sm);background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.45);color:#ef4444;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all var(--transition);flex-shrink:0;-webkit-tap-highlight-color:transparent;padding:0}
+        .favorites-btn:hover{background:rgba(239,68,68,.22);transform:scale(1.05);box-shadow:0 0 20px rgba(239,68,68,.3)}
+        .favorites-btn:active{transform:scale(.95)}
+        .favorites-btn svg{width:20px;height:20px}
+        .favorites-badge{position:absolute;top:-6px;right:-6px;min-width:20px;height:20px;padding:0 5px;border-radius:10px;background:#ef4444;color:#fff;font-size:10px;font-weight:800;display:none;align-items:center;justify-content:center;border:2px solid var(--bg-header);letter-spacing:-.01em;box-shadow:0 2px 8px rgba(239,68,68,.5)}
+        .favorites-badge.visible{display:flex}
+        .favorites-badge.pulse{animation:pulseBadge 1.5s infinite}
+
         .search-wrapper{position:relative}
         .search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:var(--text-muted);pointer-events:none;z-index:10}
         .search-input{width:100%;padding:12px 42px;border-radius:var(--radius-sm);border:1px solid var(--border-color);background:var(--bg-input);color:var(--text-primary);font-size:14px;font-family:var(--font);outline:none;transition:all var(--transition);letter-spacing:-.01em}
@@ -375,6 +384,17 @@
         .product-buy-now-btn{width:100%;padding:11px;border-radius:var(--radius-sm);background:transparent;border:1px solid var(--border-color-strong);color:var(--accent);font-size:12px;font-weight:700;font-family:var(--font);letter-spacing:-.01em;cursor:pointer;transition:all var(--transition);display:flex;align-items:center;justify-content:center;gap:6px}
         .product-buy-now-btn:hover{background:var(--accent-glow);border-color:var(--accent)}
 
+        /* ⭐ BOTÕES SECUNDÁRIOS DO MODAL DE PRODUTO (COMPARTILHAR + FAVORITAR) */
+        .product-secondary-actions{display:flex;gap:8px;margin-top:2px}
+        .product-fav-btn,.product-share-btn{flex:1;padding:11px;border-radius:var(--radius-sm);background:transparent;border:1px solid var(--border-color-strong);color:var(--text-primary);font-size:12px;font-weight:700;font-family:var(--font);letter-spacing:-.01em;cursor:pointer;transition:all var(--transition);display:flex;align-items:center;justify-content:center;gap:6px}
+        .product-fav-btn svg,.product-share-btn svg{width:16px;height:16px;flex-shrink:0}
+        .product-fav-btn svg path{fill:transparent;transition:fill .2s ease}
+        .product-fav-btn:hover{background:rgba(239,68,68,.12);border-color:rgba(239,68,68,.55);color:#ef4444}
+        .product-fav-btn.active{background:rgba(239,68,68,.16);border-color:#ef4444;color:#ef4444}
+        .product-fav-btn.active svg path{fill:#ef4444}
+        .product-share-btn:hover{background:var(--accent-glow);border-color:var(--accent);color:var(--accent)}
+        .product-share-btn:active,.product-fav-btn:active{transform:scale(.97)}
+
         .info-modal-overlay{position:fixed;inset:0;z-index:260;background:rgba(0,0,0,.85);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:16px;overflow-y:auto;opacity:0;pointer-events:none;transition:opacity .25s}
         .info-modal-overlay.active{opacity:1;pointer-events:auto}
         .info-modal{width:100%;max-width:520px;background:linear-gradient(160deg,var(--bg-card) 0%,#060d18 100%);border:1px solid var(--border-color-strong);border-radius:var(--radius-lg);position:relative;overflow:hidden;transform:scale(.94) translateY(12px);transition:transform .3s cubic-bezier(.32,.72,0,1);box-shadow:0 28px 90px rgba(0,0,0,.85);max-height:calc(100vh - 32px);display:flex;flex-direction:column}
@@ -545,6 +565,34 @@
         .cart-clear-btn{width:100%;padding:10px;border-radius:var(--radius-sm);background:transparent;border:1px solid rgba(239,68,68,.3);color:#f87171;font-size:12px;font-weight:700;font-family:var(--font);cursor:pointer}
         .cart-clear-btn:hover{background:rgba(239,68,68,.12);border-color:rgba(239,68,68,.5)}
 
+        /* ⭐ FAVORITES MODAL */
+        .favorites-overlay{position:fixed;inset:0;z-index:270;background:rgba(0,0,0,.85);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:16px;overflow-y:auto;opacity:0;pointer-events:none;transition:opacity .25s}
+        .favorites-overlay.active{opacity:1;pointer-events:auto}
+        .favorites-modal{width:100%;max-width:500px;background:linear-gradient(160deg,#0a1322 0%,#051018 100%);border:1px solid rgba(239,68,68,.35);border-radius:var(--radius-lg);position:relative;overflow:hidden;transform:scale(.94) translateY(12px);transition:transform .3s cubic-bezier(.32,.72,0,1);box-shadow:0 28px 90px rgba(0,0,0,.9);max-height:calc(100vh - 32px);display:flex;flex-direction:column}
+        .favorites-overlay.active .favorites-modal{transform:scale(1) translateY(0)}
+        .favorites-modal::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,#ef4444,#f59e0b,#ef4444);opacity:.9}
+        .favorites-modal-header{display:flex;align-items:center;gap:12px;padding:18px 20px 14px;border-bottom:1px solid rgba(239,68,68,.2);position:relative;z-index:2;flex-shrink:0}
+        .favorites-modal-header-icon{width:46px;height:46px;border-radius:var(--radius-sm);background:linear-gradient(135deg,rgba(239,68,68,.25),rgba(239,68,68,.1));border:1px solid rgba(239,68,68,.5);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+        .favorites-modal-header-text{flex:1;min-width:0}
+        .favorites-modal-title{font-size:17px;font-weight:900;color:#ef4444;line-height:1.2}
+        .favorites-modal-subtitle{font-size:11px;color:var(--text-secondary);margin-top:3px;font-weight:500}
+        .favorites-modal-close{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.05);border:1px solid var(--border-color);color:var(--text-secondary);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all var(--transition);font-size:15px;line-height:1;flex-shrink:0}
+        .favorites-modal-close:hover{background:rgba(239,68,68,.25);color:#ef4444;border-color:rgba(239,68,68,.5);transform:rotate(90deg)}
+        .favorites-modal-body{flex:1;overflow-y:auto;padding:14px 16px 16px;position:relative;z-index:2}
+        .favorites-items{display:flex;flex-direction:column;gap:10px}
+        .favorites-item{display:flex;align-items:center;gap:10px;padding:10px;border-radius:var(--radius-sm);background:rgba(255,255,255,.04);border:1px solid var(--border-color);transition:all var(--transition);cursor:pointer}
+        .favorites-item:hover{background:rgba(239,68,68,.08);border-color:rgba(239,68,68,.35)}
+        .favorites-item-thumb{width:60px;height:60px;border-radius:8px;object-fit:cover;flex-shrink:0;background:rgba(0,0,0,.35);border:1px solid var(--border-color)}
+        .favorites-item-info{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px}
+        .favorites-item-name{font-size:12.5px;font-weight:800;color:var(--text-primary);line-height:1.25;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+        .favorites-item-brand{font-size:9.5px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.08em}
+        .favorites-item-price{font-size:13px;font-weight:800;color:#25d366}
+        .favorites-item-remove{background:rgba(239,68,68,.12);border:none;color:#ef4444;width:30px;height:30px;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;font-family:var(--font);flex-shrink:0;transition:all var(--transition)}
+        .favorites-item-remove:hover{background:rgba(239,68,68,.3);transform:scale(1.05)}
+        .favorites-footer{padding:12px 16px 16px;border-top:1px solid rgba(239,68,68,.2);display:flex;flex-direction:column;gap:8px;flex-shrink:0;background:rgba(0,0,0,.15);position:relative;z-index:2}
+        .favorites-clear-btn{width:100%;padding:11px;border-radius:var(--radius-sm);background:transparent;border:1px solid rgba(239,68,68,.3);color:#f87171;font-size:12px;font-weight:700;font-family:var(--font);cursor:pointer;transition:all var(--transition)}
+        .favorites-clear-btn:hover{background:rgba(239,68,68,.12);border-color:rgba(239,68,68,.5)}
+
         .checkout-overlay{position:fixed;inset:0;z-index:280;background:rgba(0,0,0,.88);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:16px;overflow-y:auto;opacity:0;pointer-events:none;transition:opacity .25s}
         .checkout-overlay.active{opacity:1;pointer-events:auto}
         .checkout-modal{width:100%;max-width:500px;background:linear-gradient(160deg,#0a1322 0%,#051018 100%);border:1px solid rgba(37,211,102,.4);border-radius:var(--radius-lg);position:relative;overflow:hidden;transform:scale(.94) translateY(12px);transition:transform .3s cubic-bezier(.32,.72,0,1);box-shadow:0 28px 90px rgba(0,0,0,.9);max-height:calc(100vh - 32px);display:flex;flex-direction:column}
@@ -622,6 +670,7 @@
         html[data-theme="light"] .promo-modal,
         html[data-theme="light"] .feedback-modal,
         html[data-theme="light"] .info-modal,
+        html[data-theme="light"] .favorites-modal,
         html[data-theme="light"] .pdf-modal-card{
             background:#ffffff !important;
             color:#0f172a;
@@ -630,6 +679,7 @@
             background:radial-gradient(circle at 50% 40%,rgba(49,200,255,.18),rgba(238,242,247,.95) 70%) !important;
         }
         html[data-theme="light"] .cart-item,
+        html[data-theme="light"] .favorites-item,
         html[data-theme="light"] .product-editor-card,
         html[data-theme="light"] .category-editor-item,
         html[data-theme="light"] .coupon-editor-item,
@@ -657,6 +707,7 @@
         html[data-theme="light"] .checkout-modal-close,
         html[data-theme="light"] .promo-modal-close,
         html[data-theme="light"] .feedback-modal-close,
+        html[data-theme="light"] .favorites-modal-close,
         html[data-theme="light"] .product-modal-close{background:rgba(15,23,42,.06);color:#475569}
         html[data-theme="light"] .age-gate-modal{background:#ffffff;border-color:rgba(220,38,38,.5)}
         html[data-theme="light"] .age-gate-title{color:#dc2626}
@@ -751,6 +802,7 @@
             .promo-card-thumb{width:58px;height:58px}
             .promo-card-new{font-size:16px}
             .cart-item-thumb{width:50px;height:50px}
+            .favorites-item-thumb{width:50px;height:50px}
             .rep-photo{width:46px;height:46px}
             .rep-name{font-size:13.5px}
             .download-app-btn{padding:8px 10px;font-size:10.5px}
@@ -763,6 +815,8 @@
             .update-system-btn svg{width:14px;height:14px}
             .theme-toggle-btn{width:34px;height:34px}
             .theme-toggle-btn svg{width:16px;height:16px}
+            .favorites-btn{width:34px;height:34px}
+            .favorites-btn svg{width:18px;height:18px}
             .notification-badge-btn #notifText{display:none}
             .age-gate-icon{font-size:48px}
             .age-gate-title{font-size:18px}
@@ -770,6 +824,7 @@
             .feedback-card-thumb{width:48px;height:48px}
             .feedback-card-head{gap:8px}
             .feedback-card-price{display:none}
+            .product-fav-btn,.product-share-btn{font-size:11px;padding:10px 8px}
         }
     </style>
 </head>
@@ -812,6 +867,12 @@
                         <path d="M2 12h2"/><path d="M20 12h2"/>
                         <path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>
                     </svg>
+                </button>
+                <button class="favorites-btn" id="favoritesBtn" type="button" aria-label="Lista de desejos">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+                    </svg>
+                    <span class="favorites-badge" id="favoritesBadge">0</span>
                 </button>
                 <button class="cart-btn" id="cartBtn" type="button" aria-label="Carrinho de compras">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
@@ -1209,6 +1270,24 @@
                         Adicionar ao Carrinho
                     </button>
                     <button class="product-buy-now-btn" id="pmBuyBtn" type="button">⚡ Comprar agora (WhatsApp)</button>
+                    <div class="product-secondary-actions">
+                        <button class="product-fav-btn" id="pmFavBtn" type="button" aria-label="Favoritar produto">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+                            </svg>
+                            <span id="pmFavLabel">Favoritar</span>
+                        </button>
+                        <button class="product-share-btn" id="pmShareBtn" type="button" aria-label="Compartilhar produto">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="18" cy="5" r="3"/>
+                                <circle cx="6" cy="12" r="3"/>
+                                <circle cx="18" cy="19" r="3"/>
+                                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+                                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+                            </svg>
+                            Compartilhar
+                        </button>
+                    </div>
                 </div>
                 <p class="product-modal-note">Imagem ilustrativa. Algumas marcas fabricam o mesmo produto em ampola ou bujão. Consulte disponibilidade e valores atualizados pelo WhatsApp.</p>
             </div>
@@ -1272,6 +1351,24 @@
             <div class="cart-footer" id="cartFooter" style="display:none">
                 <button class="cart-checkout-btn" id="cartCheckoutBtn" type="button">📍 Finalizar Pedido</button>
                 <button class="cart-clear-btn" id="cartClearBtn" type="button">🗑️ Limpar carrinho</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ⭐ MODAL DE FAVORITOS -->
+    <div class="favorites-overlay" id="favoritesOverlay">
+        <div class="favorites-modal" role="dialog" aria-modal="true">
+            <div class="favorites-modal-header">
+                <div class="favorites-modal-header-icon">❤️</div>
+                <div class="favorites-modal-header-text">
+                    <h3 class="favorites-modal-title">Lista de Desejos</h3>
+                    <p class="favorites-modal-subtitle" id="favoritesModalSubtitle">Nenhum favorito ainda</p>
+                </div>
+                <button class="favorites-modal-close" id="favoritesModalClose" type="button" aria-label="Fechar">✕</button>
+            </div>
+            <div class="favorites-modal-body" id="favoritesModalBody"></div>
+            <div class="favorites-footer" id="favoritesFooter" style="display:none">
+                <button class="favorites-clear-btn" id="favoritesClearBtn" type="button">🗑️ Limpar lista de desejos</button>
             </div>
         </div>
     </div>
@@ -1583,6 +1680,7 @@ if ('serviceWorker' in navigator) {
     }
 
     var CART_KEY = 'respectPharmaCart';
+    var FAVORITES_KEY = 'respectPharmaFavorites'; // ⭐ NOVO
     var LOCAL_CONFIG_KEY = 'respectPharmaConfig';
     var SYS_VERSION_KEY = 'respectPharmaSysVersion';
     var THEME_KEY = 'respectPharmaTheme';
@@ -1674,8 +1772,10 @@ if ('serviceWorker' in navigator) {
     var idbPromise = null;
     var searchDebounceTimer = null;
     var cart = [];
+    var favorites = []; // ⭐ NOVO
     var searchIndex = [];
     var cartSaveTimer = null;
+    var favoritesSaveTimer = null; // ⭐ NOVO
     var suppressPush = false;
 
     var pendingImageUploads = {};
@@ -2122,6 +2222,7 @@ if ('serviceWorker' in navigator) {
             renderCategories();
             updatePromoBadge();
             updateCartBadge();
+            updateFavoritesBadge();
             suppressPush = false;
             setSyncStatus('online');
             checkForUpdate();
@@ -2608,7 +2709,7 @@ if ('serviceWorker' in navigator) {
         });
     }
 
-    // ⭐ MODAL DE FEEDBACKS (NOVO)
+    // ⭐ MODAL DE FEEDBACKS
     function openFeedbackModal() {
         renderFeedbackModal();
         document.getElementById('feedbackModalOverlay').classList.add('active');
@@ -3148,6 +3249,21 @@ if ('serviceWorker' in navigator) {
         return null;
     }
 
+    // ⭐ ATUALIZA O BOTÃO DE FAVORITAR NO MODAL
+    function updateProductFavBtn() {
+        var btn = document.getElementById('pmFavBtn');
+        var label = document.getElementById('pmFavLabel');
+        if (!btn || !currentProduct) return;
+        var isFav = isFavorite(currentProduct.id);
+        if (isFav) {
+            btn.classList.add('active');
+            if (label) label.textContent = 'Favoritado';
+        } else {
+            btn.classList.remove('active');
+            if (label) label.textContent = 'Favoritar';
+        }
+    }
+
     function openProductModal(product) {
         if (!product) return;
         currentProduct = product;
@@ -3202,6 +3318,9 @@ if ('serviceWorker' in navigator) {
         updateReviewStarsInput(0);
         loadAndRenderReviews(product.id);
 
+        // ⭐ Atualiza botão de favorito
+        updateProductFavBtn();
+
         document.getElementById('productOverlay').classList.add('active');
         document.body.style.overflow = 'hidden';
     }
@@ -3221,6 +3340,7 @@ if ('serviceWorker' in navigator) {
             document.getElementById('rulesModalOverlay').classList.contains('active') ||
             document.getElementById('passwordOverlay').classList.contains('active') ||
             document.getElementById('notifModalOverlay').classList.contains('active') ||
+            document.getElementById('favoritesOverlay').classList.contains('active') ||
             configPanelOpen;
     }
 
@@ -3233,6 +3353,190 @@ if ('serviceWorker' in navigator) {
         var base = normalizeWhatsAppLink(config.whatsappLink);
         var sep = base.indexOf('?') !== -1 ? '&' : '?';
         openExternalUrl(base + sep + 'text=' + encodeURIComponent(msg));
+    }
+
+    // ⭐ COMPARTILHAR PRODUTO
+    function shareCurrentProduct() {
+        if (!currentProduct) return;
+        var p = currentProduct;
+        var price = getEffectivePrice(p);
+        var promoTag = isOnPromo(p) ? ' 🔥 PROMOÇÃO' : '';
+        var shareUrl = location.href.split('#')[0].split('?')[0] + '?p=' + encodeURIComponent(p.id);
+        var shareText = 'Confira este produto: ' + p.name + ' (' + p.brand + ') - ' + formatBRL(price) + promoTag;
+        var shareTitle = p.name + ' - ' + (config.storeName || 'Loja');
+
+        if (navigator.share && typeof navigator.share === 'function') {
+            navigator.share({ title: shareTitle, text: shareText, url: shareUrl })
+                .catch(function(err) {
+                    if (err && err.name !== 'AbortError') {
+                        copyToClipboard(shareText + '\n' + shareUrl);
+                    }
+                });
+        } else {
+            copyToClipboard(shareText + '\n' + shareUrl);
+        }
+    }
+
+    function copyToClipboard(text) {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(function() {
+                showToast('📋 Link copiado! Cole e envie.', 'success');
+            }).catch(function() {
+                fallbackCopy(text);
+            });
+        } else {
+            fallbackCopy(text);
+        }
+    }
+
+    function fallbackCopy(text) {
+        try {
+            var ta = document.createElement('textarea');
+            ta.value = text;
+            ta.style.position = 'fixed';
+            ta.style.top = '0';
+            ta.style.left = '0';
+            ta.style.opacity = '0';
+            ta.setAttribute('readonly', '');
+            document.body.appendChild(ta);
+            ta.select();
+            ta.setSelectionRange(0, text.length);
+            var ok = document.execCommand('copy');
+            document.body.removeChild(ta);
+            if (ok) showToast('📋 Link copiado! Cole e envie.', 'success');
+            else showToast('Não foi possível copiar.', 'error');
+        } catch (e) {
+            showToast('Não foi possível copiar.', 'error');
+        }
+    }
+
+    // ⭐ FAVORITOS
+    function loadFavorites() {
+        try {
+            var saved = localStorage.getItem(FAVORITES_KEY);
+            if (saved) {
+                var p = JSON.parse(saved);
+                if (Array.isArray(p)) {
+                    favorites = p.filter(function(id) { return typeof id === 'string' && id; });
+                }
+            }
+        } catch (e) { favorites = []; }
+    }
+    function saveFavorites() {
+        if (favoritesSaveTimer) clearTimeout(favoritesSaveTimer);
+        favoritesSaveTimer = setTimeout(function() {
+            try { localStorage.setItem(FAVORITES_KEY, JSON.stringify(favorites)); } catch (e) {}
+        }, 200);
+    }
+    function isFavorite(productId) {
+        return favorites.indexOf(productId) !== -1;
+    }
+    function toggleFavorite(productId) {
+        if (!productId) return false;
+        var idx = favorites.indexOf(productId);
+        if (idx === -1) {
+            favorites.push(productId);
+            saveFavorites();
+            updateFavoritesBadge();
+            return true;
+        } else {
+            favorites.splice(idx, 1);
+            saveFavorites();
+            updateFavoritesBadge();
+            return false;
+        }
+    }
+    function updateFavoritesBadge() {
+        var badge = document.getElementById('favoritesBadge');
+        if (!badge) return;
+        var count = favorites.length;
+        if (count > 0) {
+            badge.textContent = count > 99 ? '99+' : count;
+            badge.classList.add('visible');
+        } else {
+            badge.classList.remove('visible');
+        }
+    }
+    function getFavoriteProducts() {
+        var out = [];
+        favorites.forEach(function(id) {
+            var p = findProductById(id);
+            if (p) out.push(p);
+        });
+        return out;
+    }
+    function openFavoritesModal() {
+        renderFavoritesModal();
+        document.getElementById('favoritesOverlay').classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+    function closeFavoritesModal() {
+        document.getElementById('favoritesOverlay').classList.remove('active');
+        if (!isAnyModalOpen()) document.body.style.overflow = '';
+    }
+    function renderFavoritesModal() {
+        var body = document.getElementById('favoritesModalBody');
+        var subtitle = document.getElementById('favoritesModalSubtitle');
+        var footer = document.getElementById('favoritesFooter');
+        var products = getFavoriteProducts();
+        if (!products.length) {
+            subtitle.textContent = 'Nenhum favorito ainda';
+            body.innerHTML = '<div class="cart-empty"><div class="cart-empty-icon">❤️</div><h4 class="cart-empty-title">Sua lista está vazia</h4><p class="cart-empty-desc">Toque no coração dos produtos para salvá-los aqui e encontrar depois.</p></div>';
+            if (footer) footer.style.display = 'none';
+            return;
+        }
+        subtitle.textContent = products.length === 1 ? '1 produto salvo' : products.length + ' produtos salvos';
+        var frag = document.createDocumentFragment();
+        products.forEach(function(product) {
+            var row = document.createElement('div');
+            row.className = 'favorites-item';
+            row.dataset.productId = product.id;
+
+            var img = document.createElement('img');
+            img.className = 'favorites-item-thumb';
+            img.alt = product.name;
+            img.setAttribute('data-name', product.name);
+            var cached = getRefSync(product.image);
+            img.src = cached || svgPlaceholder(product.name);
+            if ((isCloudRef(product.image) || isIdbRef(product.image)) && !cached) {
+                loadRefIntoImg(product.image, img, product.name);
+            }
+
+            var info = document.createElement('div');
+            info.className = 'favorites-item-info';
+            var onPromo = isOnPromo(product);
+            info.innerHTML =
+                '<span class="favorites-item-brand">' + esc(product.brand) + '</span>' +
+                '<span class="favorites-item-name">' + esc(product.name) + '</span>' +
+                '<span class="favorites-item-price">' + (onPromo ? '🔥 ' : '') + formatBRL(getEffectivePrice(product)) + '</span>';
+
+            var removeBtn = document.createElement('button');
+            removeBtn.className = 'favorites-item-remove';
+            removeBtn.type = 'button';
+            removeBtn.setAttribute('data-action', 'remove');
+            removeBtn.setAttribute('aria-label', 'Remover dos favoritos');
+            removeBtn.textContent = '✕';
+
+            row.appendChild(img);
+            row.appendChild(info);
+            row.appendChild(removeBtn);
+            frag.appendChild(row);
+        });
+        var itemsWrap = document.createElement('div');
+        itemsWrap.className = 'favorites-items';
+        itemsWrap.appendChild(frag);
+        body.innerHTML = '';
+        body.appendChild(itemsWrap);
+        if (footer) footer.style.display = 'flex';
+    }
+    function clearFavorites() {
+        if (!favorites.length) return;
+        if (!confirm('Deseja limpar toda a sua lista de desejos?')) return;
+        favorites = [];
+        saveFavorites();
+        updateFavoritesBadge();
+        renderFavoritesModal();
+        showToast('Lista de desejos limpa.', 'success');
     }
 
     function loadCart() {
@@ -5003,6 +5307,42 @@ if ('serviceWorker' in navigator) {
         var feedbackOverlay = document.getElementById('feedbackModalOverlay');
         if (feedbackOverlay) feedbackOverlay.addEventListener('click', function(e) { if (e.target === this) closeFeedbackModal(); });
 
+        // ⭐ FAVORITOS BUTTON (HEADER)
+        var favoritesBtn = document.getElementById('favoritesBtn');
+        if (favoritesBtn) favoritesBtn.addEventListener('click', openFavoritesModal);
+        var favoritesClose = document.getElementById('favoritesModalClose');
+        if (favoritesClose) favoritesClose.addEventListener('click', closeFavoritesModal);
+        var favoritesOverlay = document.getElementById('favoritesOverlay');
+        if (favoritesOverlay) favoritesOverlay.addEventListener('click', function(e) { if (e.target === this) closeFavoritesModal(); });
+        var favoritesClearBtn = document.getElementById('favoritesClearBtn');
+        if (favoritesClearBtn) favoritesClearBtn.addEventListener('click', clearFavorites);
+
+        // ⭐ FAVORITOS - clique nos itens da lista
+        var favoritesBody = document.getElementById('favoritesModalBody');
+        if (favoritesBody) {
+            favoritesBody.addEventListener('click', function(e) {
+                var removeBtn = e.target.closest ? e.target.closest('.favorites-item-remove') : null;
+                if (removeBtn) {
+                    var row = removeBtn.closest('.favorites-item');
+                    if (row) {
+                        var pid = row.dataset.productId;
+                        toggleFavorite(pid);
+                        renderFavoritesModal();
+                        showToast('Removido dos favoritos.', 'success');
+                    }
+                    return;
+                }
+                var item = e.target.closest ? e.target.closest('.favorites-item') : null;
+                if (item) {
+                    var prod = findProductById(item.dataset.productId);
+                    if (prod) {
+                        closeFavoritesModal();
+                        openProductModal(prod);
+                    }
+                }
+            });
+        }
+
         var tapCount = 0;
         var tapTimer = null;
         var footerEl = document.getElementById('storeFooter');
@@ -5242,6 +5582,26 @@ if ('serviceWorker' in navigator) {
             closeProductModal();
         });
 
+        // ⭐ BOTÃO FAVORITAR NO MODAL
+        document.getElementById('pmFavBtn').addEventListener('click', function() {
+            if (!currentProduct) return;
+            var added = toggleFavorite(currentProduct.id);
+            updateProductFavBtn();
+            if (added) {
+                showToast('❤️ Adicionado aos favoritos!', 'success');
+                var badge = document.getElementById('favoritesBadge');
+                if (badge) {
+                    badge.classList.add('pulse');
+                    setTimeout(function() { badge.classList.remove('pulse'); }, 1500);
+                }
+            } else {
+                showToast('Removido dos favoritos.', 'success');
+            }
+        });
+
+        // ⭐ BOTÃO COMPARTILHAR NO MODAL
+        document.getElementById('pmShareBtn').addEventListener('click', shareCurrentProduct);
+
         document.getElementById('pmReviewsToggle').addEventListener('click', function() {
             var body = document.getElementById('pmReviewsBody');
             var opened = body.classList.toggle('open');
@@ -5359,6 +5719,7 @@ if ('serviceWorker' in navigator) {
                 if (document.getElementById('cartOverlay').classList.contains('active')) { closeCartModal(); return; }
                 if (document.getElementById('notifModalOverlay').classList.contains('active')) { closeNotifModal(); return; }
                 if (document.getElementById('feedbackModalOverlay').classList.contains('active')) { closeFeedbackModal(); return; }
+                if (document.getElementById('favoritesOverlay').classList.contains('active')) { closeFavoritesModal(); return; }
                 if (document.getElementById('promoModalOverlay').classList.contains('active')) { closePromoModal(); return; }
                 if (document.getElementById('freightModalOverlay').classList.contains('active')) { closeFreightModal(); return; }
                 if (document.getElementById('rulesModalOverlay').classList.contains('active')) { closeRulesModal(); return; }
@@ -5485,6 +5846,19 @@ if ('serviceWorker' in navigator) {
         });
     }
 
+    // ⭐ VERIFICA URL EM BUSCA DE ?p=id PARA ABRIR O PRODUTO DIRETO
+    function checkUrlForProduct() {
+        try {
+            var params = new URLSearchParams(location.search);
+            var pid = params.get('p');
+            if (!pid) return;
+            var prod = findProductById(pid);
+            if (prod) {
+                setTimeout(function() { openProductModal(prod); }, 500);
+            }
+        } catch (e) {}
+    }
+
     function init() {
         initTheme();
         initAgeGate();
@@ -5492,12 +5866,15 @@ if ('serviceWorker' in navigator) {
         ensureData();
         saveConfigLocal();
         loadCart();
+        loadFavorites(); // ⭐
         applyConfigToUI();
         renderCategories();
         updatePromoBadge();
         updateCartBadge();
+        updateFavoritesBadge(); // ⭐
         syncConfigPanel();
         setupEventListeners();
+        checkUrlForProduct(); // ⭐
 
         setSyncStatus('connecting');
 
@@ -5562,6 +5939,7 @@ if ('serviceWorker' in navigator) {
     window.respectPharma = {
         getConfig: function() { return config; },
         getCart: function() { return cart; },
+        getFavorites: function() { return favorites; },
         getImageCache: function() { return imageCache; },
         getCurrentUser: function() { return currentAuthUser; },
         logout: doLogout,
@@ -5576,6 +5954,7 @@ if ('serviceWorker' in navigator) {
         openFreightModal: openFreightModal,
         openRulesModal: openRulesModal,
         openFeedbackModal: openFeedbackModal,
+        openFavoritesModal: openFavoritesModal,
         renderCategories: renderCategories,
         performSearch: performSearch,
         getPromoProducts: getPromoProducts,
@@ -5604,7 +5983,13 @@ if ('serviceWorker' in navigator) {
         clearCoupon: clearCoupon,
         getAppliedCoupon: function() { return appliedCoupon; },
         applySortToProducts: applySortToProducts,
-        confirmAge: confirmAge
+        confirmAge: confirmAge,
+        // ⭐ NOVAS FUNÇÕES PÚBLICAS
+        toggleFavorite: toggleFavorite,
+        isFavorite: isFavorite,
+        getFavoriteProducts: getFavoriteProducts,
+        clearFavorites: clearFavorites,
+        shareCurrentProduct: shareCurrentProduct
     };
 })();
 </script>
