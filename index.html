@@ -70,6 +70,12 @@
         .notification-icon{width:14px;height:14px;animation:bounce 2s infinite}
         @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
 
+        /* ⭐ BOTÃO DE FEEDBACKS */
+        .feedback-btn{display:flex;align-items:center;gap:6px;height:38px;padding:0 12px;border-radius:var(--radius-sm);background:rgba(251,191,36,.12);border:1px solid rgba(251,191,36,.45);color:#fbbf24;cursor:pointer;transition:all var(--transition);flex-shrink:0;-webkit-tap-highlight-color:transparent;font-family:var(--font);font-size:11.5px;font-weight:800;letter-spacing:-.01em;white-space:nowrap}
+        .feedback-btn:hover{background:rgba(251,191,36,.22);transform:scale(1.03);box-shadow:0 0 20px rgba(251,191,36,.25)}
+        .feedback-btn:active{transform:scale(.95)}
+        .feedback-btn svg{width:16px;height:16px;flex-shrink:0}
+
         .search-wrapper{position:relative}
         .search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:var(--text-muted);pointer-events:none;z-index:10}
         .search-input{width:100%;padding:12px 42px;border-radius:var(--radius-sm);border:1px solid var(--border-color);background:var(--bg-input);color:var(--text-primary);font-size:14px;font-family:var(--font);outline:none;transition:all var(--transition);letter-spacing:-.01em}
@@ -204,7 +210,6 @@
         .category-products-inner{padding:8px 12px 14px;display:flex;flex-direction:column;gap:6px}
         .category-products-empty{padding:14px;text-align:center;font-size:12px;color:var(--text-muted);font-style:italic}
 
-        /* 🔀 SORT BAR */
         .category-sort-bar{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 12px;border-bottom:1px solid var(--border-color);background:rgba(49,200,255,.04)}
         .category-sort-label{font-size:10.5px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;display:flex;align-items:center;gap:4px;white-space:nowrap}
         .category-sort-select{padding:6px 10px;border-radius:6px;border:1px solid var(--border-color);background:var(--bg-input);color:var(--text-primary);font-size:11.5px;font-family:var(--font);outline:none;cursor:pointer;font-weight:600;flex:1;max-width:220px}
@@ -287,7 +292,6 @@
         .add-category-btn{padding:8px 12px;border-radius:var(--radius-sm);border:1px dashed var(--border-color-strong);background:transparent;color:var(--accent);font-size:12px;font-weight:600;cursor:pointer;font-family:var(--font);transition:all var(--transition);display:flex;align-items:center;justify-content:center;gap:6px}
         .add-category-btn:hover{background:var(--accent-glow);border-color:var(--accent)}
 
-        /* 🎟️ COUPON EDITOR */
         .coupon-editor-item{display:flex;flex-wrap:wrap;gap:6px;padding:8px;border-radius:var(--radius-sm);background:rgba(251,191,36,.05);border:1px solid rgba(251,191,36,.25);align-items:center;transition:all var(--transition)}
         .coupon-editor-item:hover{border-color:rgba(251,191,36,.5)}
         .coupon-editor-item input[type="text"],.coupon-editor-item input[type="datetime-local"]{padding:7px 9px;border-radius:6px;border:1px solid var(--border-color);background:var(--bg-input);color:var(--text-primary);font-size:11px;font-family:var(--font);outline:none;transition:all var(--transition)}
@@ -449,6 +453,55 @@
         .promo-empty-desc{font-size:12.5px;color:var(--text-muted);line-height:1.55;max-width:320px;margin:0 auto}
         .promo-footer-note{margin-top:16px;padding:12px 14px;border-radius:var(--radius-sm);background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.25);font-size:11.5px;color:var(--text-secondary);line-height:1.55;display:flex;align-items:flex-start;gap:8px}
 
+        /* ⭐ FEEDBACK MODAL */
+        .feedback-modal-overlay{position:fixed;inset:0;z-index:266;background:rgba(0,0,0,.88);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:16px;overflow-y:auto;opacity:0;pointer-events:none;transition:opacity .25s}
+        .feedback-modal-overlay.active{opacity:1;pointer-events:auto}
+        .feedback-modal{width:100%;max-width:560px;background:linear-gradient(160deg,#0a1322 0%,#100c05 100%);border:1px solid rgba(251,191,36,.4);border-radius:var(--radius-lg);position:relative;overflow:hidden;transform:scale(.94) translateY(12px);transition:transform .3s cubic-bezier(.32,.72,0,1);box-shadow:0 28px 90px rgba(0,0,0,.9);max-height:calc(100vh - 32px);display:flex;flex-direction:column}
+        .feedback-modal-overlay.active .feedback-modal{transform:scale(1) translateY(0)}
+        .feedback-modal::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,#fbbf24,#f59e0b,#fbbf24);opacity:.9}
+        .feedback-modal-header{display:flex;align-items:center;gap:12px;padding:18px 20px 14px;border-bottom:1px solid rgba(251,191,36,.2);position:relative;z-index:2;flex-shrink:0}
+        .feedback-modal-header-icon{width:46px;height:46px;border-radius:var(--radius-sm);background:linear-gradient(135deg,rgba(251,191,36,.25),rgba(245,158,11,.15));border:1px solid rgba(251,191,36,.5);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;box-shadow:0 0 20px rgba(251,191,36,.25)}
+        .feedback-modal-header-text{flex:1;min-width:0}
+        .feedback-modal-title{font-size:17px;font-weight:900;color:#fbbf24;line-height:1.2;letter-spacing:-.02em}
+        .feedback-modal-subtitle{font-size:11px;color:var(--text-secondary);margin-top:3px;font-weight:500;letter-spacing:-.01em}
+        .feedback-modal-close{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.05);border:1px solid var(--border-color);color:var(--text-secondary);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all var(--transition);font-size:15px;line-height:1;flex-shrink:0}
+        .feedback-modal-close:hover{background:rgba(239,68,68,.25);color:#ef4444;border-color:rgba(239,68,68,.5);transform:rotate(90deg)}
+        .feedback-modal-body{flex:1;overflow-y:auto;padding:14px 16px 20px;display:flex;flex-direction:column;gap:12px;position:relative;z-index:2}
+
+        .feedback-card{padding:12px;border-radius:var(--radius-sm);background:rgba(251,191,36,.05);border:1px solid rgba(251,191,36,.25);display:flex;flex-direction:column;gap:10px;transition:all var(--transition)}
+        .feedback-card:hover{border-color:rgba(251,191,36,.5)}
+        .feedback-card-head{display:flex;align-items:center;gap:10px}
+        .feedback-card-thumb{width:56px;height:56px;border-radius:8px;object-fit:cover;flex-shrink:0;background:rgba(0,0,0,.4);border:1px solid rgba(251,191,36,.35)}
+        .feedback-card-info{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+        .feedback-card-brand{font-size:9.5px;font-weight:800;color:var(--accent);letter-spacing:.08em;text-transform:uppercase}
+        .feedback-card-name{font-size:13px;font-weight:800;color:var(--text-primary);line-height:1.25;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+        .feedback-card-stats{display:flex;align-items:center;gap:6px;margin-top:2px;flex-wrap:wrap}
+        .feedback-card-avg{font-size:14px;font-weight:900;color:#fbbf24}
+        .feedback-card-stars{font-size:13px;color:#fbbf24;letter-spacing:1px}
+        .feedback-card-stars .off{color:rgba(255,255,255,.2)}
+        html[data-theme="light"] .feedback-card-stars .off{color:rgba(15,23,42,.2)}
+        .feedback-card-count{font-size:10.5px;color:var(--text-muted)}
+        .feedback-card-price{display:flex;flex-direction:column;align-items:flex-end;gap:1px;flex-shrink:0}
+        .feedback-card-old{font-size:9.5px;color:var(--text-muted);text-decoration:line-through}
+        .feedback-card-new{font-size:15px;font-weight:900;color:#fbbf24;letter-spacing:-.02em;white-space:nowrap}
+        .feedback-card-reviews{display:flex;flex-direction:column;gap:6px;padding:8px 10px;border-radius:8px;background:rgba(0,0,0,.22);border:1px solid rgba(251,191,36,.15)}
+        html[data-theme="light"] .feedback-card-reviews{background:rgba(15,23,42,.03)}
+        .feedback-review{padding:6px 0;border-bottom:1px dashed rgba(251,191,36,.15)}
+        .feedback-review:last-child{border-bottom:none;padding-bottom:0}
+        .feedback-review:first-child{padding-top:0}
+        .feedback-review-head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:2px;flex-wrap:wrap}
+        .feedback-review-name{font-size:11.5px;font-weight:700;color:var(--text-primary)}
+        .feedback-review-stars{font-size:11px;color:#fbbf24;letter-spacing:1px}
+        .feedback-review-stars .off{color:rgba(255,255,255,.2)}
+        html[data-theme="light"] .feedback-review-stars .off{color:rgba(15,23,42,.2)}
+        .feedback-review-comment{font-size:11.5px;color:var(--text-secondary);line-height:1.5;word-break:break-word}
+        .feedback-more{font-size:10.5px;color:var(--text-muted);text-align:center;font-style:italic;padding-top:4px}
+        .feedback-card-actions{display:flex;gap:8px}
+        .feedback-buy-btn{flex:1;padding:10px;border-radius:var(--radius-sm);background:linear-gradient(135deg,#25d366,#1da851);color:#04120a;border:none;font-size:12px;font-weight:800;font-family:var(--font);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;transition:all var(--transition);letter-spacing:-.01em}
+        .feedback-buy-btn:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(37,211,102,.4)}
+        .feedback-buy-btn:active{transform:scale(.97)}
+        .feedback-loading{padding:40px 20px;text-align:center;font-size:12.5px;color:var(--text-muted)}
+
         .cart-overlay{position:fixed;inset:0;z-index:270;background:rgba(0,0,0,.85);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:16px;overflow-y:auto;opacity:0;pointer-events:none;transition:opacity .25s}
         .cart-overlay.active{opacity:1;pointer-events:auto}
         .cart-modal{width:100%;max-width:500px;background:linear-gradient(160deg,#0a1322 0%,#051018 100%);border:1px solid rgba(37,211,102,.35);border-radius:var(--radius-lg);position:relative;overflow:hidden;transform:scale(.94) translateY(12px);transition:transform .3s cubic-bezier(.32,.72,0,1);box-shadow:0 28px 90px rgba(0,0,0,.9);max-height:calc(100vh - 32px);display:flex;flex-direction:column}
@@ -525,7 +578,6 @@
         .checkout-submit-btn{margin-top:16px;width:100%;padding:15px;border-radius:var(--radius-sm);border:none;background:linear-gradient(135deg,#25d366,#1da851);color:#04120a;font-size:14px;font-weight:900;font-family:var(--font);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 8px 24px rgba(37,211,102,.4)}
         .checkout-submit-btn:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(37,211,102,.55)}
 
-        /* 🎟️ COUPON CHECKOUT SECTION */
         .coupon-section{margin-top:16px;padding:12px;border-radius:var(--radius-sm);background:rgba(251,191,36,.06);border:1px dashed rgba(251,191,36,.4)}
         .coupon-label{display:block;font-size:11px;font-weight:800;color:#fbbf24;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px}
         .coupon-input-row{display:flex;gap:8px}
@@ -541,9 +593,6 @@
 
         .hidden-input{display:none}
 
-        /* ===================================================
-           TEMA CLARO / ESCURO
-           =================================================== */
         .theme-toggle-btn{width:38px;height:38px;border-radius:var(--radius-sm);background:var(--accent-glow);border:1px solid var(--border-color-strong);color:var(--accent);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all var(--transition);flex-shrink:0;-webkit-tap-highlight-color:transparent;padding:0}
         .theme-toggle-btn:hover{background:rgba(49,200,255,.22);transform:scale(1.05)}
         .theme-toggle-btn:active{transform:scale(.95)}
@@ -571,6 +620,7 @@
         html[data-theme="light"] .cart-modal,
         html[data-theme="light"] .checkout-modal,
         html[data-theme="light"] .promo-modal,
+        html[data-theme="light"] .feedback-modal,
         html[data-theme="light"] .info-modal,
         html[data-theme="light"] .pdf-modal-card{
             background:#ffffff !important;
@@ -606,14 +656,13 @@
         html[data-theme="light"] .cart-modal-close,
         html[data-theme="light"] .checkout-modal-close,
         html[data-theme="light"] .promo-modal-close,
+        html[data-theme="light"] .feedback-modal-close,
         html[data-theme="light"] .product-modal-close{background:rgba(15,23,42,.06);color:#475569}
         html[data-theme="light"] .age-gate-modal{background:#ffffff;border-color:rgba(220,38,38,.5)}
         html[data-theme="light"] .age-gate-title{color:#dc2626}
         html[data-theme="light"] .category-sort-bar{background:rgba(49,200,255,.06)}
+        html[data-theme="light"] .feedback-card{background:rgba(251,191,36,.08)}
 
-        /* ===================================================
-           AVALIAÇÕES COM ESTRELAS
-           =================================================== */
         .product-reviews{border-top:1px solid var(--border-color);padding-top:12px;margin-top:2px}
         .reviews-summary{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
         .reviews-avg{font-size:22px;font-weight:900;color:#fbbf24;line-height:1}
@@ -657,9 +706,6 @@
         .review-submit-btn:hover{background:#5dd6ff}
         .review-submit-btn:disabled{opacity:.6;cursor:wait}
 
-        /* ===================================================
-           TEMPORIZADOR DE PROMOÇÃO
-           =================================================== */
         .promo-countdown{display:inline-flex;align-items:center;gap:4px;padding:2px 6px;border-radius:5px;background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.4);color:#f87171;font-size:9.5px;font-weight:800;letter-spacing:.02em;font-variant-numeric:tabular-nums;white-space:nowrap;line-height:1.3}
         .product-item .promo-countdown{position:absolute;bottom:2px;right:4px;z-index:3}
         .promo-countdown.expired{background:rgba(120,120,120,.15);border-color:rgba(120,120,120,.4);color:var(--text-muted)}
@@ -669,9 +715,6 @@
         .promo-card-countdown{display:inline-flex;align-items:center;gap:4px;margin-top:4px;padding:3px 8px;border-radius:6px;background:rgba(239,68,68,.9);color:#fff;font-size:10px;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:.02em;align-self:flex-start}
         .promo-card-countdown.expired{background:rgba(120,120,120,.85)}
 
-        /* ===================================================
-           VERIFICAÇÃO 18+
-           =================================================== */
         .age-gate-overlay{position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.96);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);display:none;align-items:center;justify-content:center;padding:20px;opacity:0;transition:opacity .35s}
         .age-gate-overlay.active{display:flex;opacity:1}
         .age-gate-modal{width:100%;max-width:400px;background:linear-gradient(160deg,#0a1322 0%,#100508 100%);border:2px solid rgba(239,68,68,.5);border-radius:var(--radius-lg);padding:32px 24px 24px;text-align:center;position:relative;overflow:hidden;box-shadow:0 30px 90px rgba(0,0,0,.95);animation:agePop .45s cubic-bezier(.32,.72,0,1)}
@@ -693,6 +736,10 @@
         .age-gate-blocked .age-gate-title{color:#fca5a5}
         .age-gate-blocked .age-gate-icon{animation:none}
 
+        @media (max-width:520px){
+            .feedback-btn{padding:0;width:38px;justify-content:center}
+            .feedback-btn span{display:none}
+        }
         @media (max-width:480px){
             .store-logo{height:32px;max-width:120px}
             .hero-logo{height:48px}
@@ -720,6 +767,9 @@
             .age-gate-icon{font-size:48px}
             .age-gate-title{font-size:18px}
             .age-gate-actions{flex-direction:column}
+            .feedback-card-thumb{width:48px;height:48px}
+            .feedback-card-head{gap:8px}
+            .feedback-card-price{display:none}
         }
     </style>
 </head>
@@ -745,6 +795,12 @@
                 <img src="https://i.postimg.cc/bJXnbzNC/muscle-labs-india-logo-transparente-cortada.png"
                 alt="Logo da Loja" class="store-logo" id="headerLogo">
                 <p class="store-name-header" id="headerStoreName">CENTRALPREMIUM</p>
+                <button class="feedback-btn" id="feedbackBtn" type="button" aria-label="Ver todos os feedbacks dos clientes">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"/>
+                    </svg>
+                    <span>Feedbacks</span>
+                </button>
                 <button class="theme-toggle-btn" id="themeToggleBtn" type="button" aria-label="Alternar tema">
                     <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
@@ -1173,6 +1229,21 @@
         </div>
     </div>
 
+    <!-- ⭐ MODAL DE FEEDBACKS -->
+    <div class="feedback-modal-overlay" id="feedbackModalOverlay">
+        <div class="feedback-modal" role="dialog" aria-modal="true">
+            <div class="feedback-modal-header">
+                <div class="feedback-modal-header-icon">⭐</div>
+                <div class="feedback-modal-header-text">
+                    <h3 class="feedback-modal-title">Feedbacks dos Clientes</h3>
+                    <p class="feedback-modal-subtitle" id="feedbackModalSubtitle">Avaliações reais de quem já comprou</p>
+                </div>
+                <button class="feedback-modal-close" id="feedbackModalClose" type="button" aria-label="Fechar">✕</button>
+            </div>
+            <div class="feedback-modal-body" id="feedbackModalBody"></div>
+        </div>
+    </div>
+
     <div class="info-modal-overlay" id="notifModalOverlay">
         <div class="info-modal" role="dialog" aria-modal="true">
             <div class="info-modal-header">
@@ -1499,10 +1570,6 @@ if ('serviceWorker' in navigator) {
 (function() {
     'use strict';
 
-    // ============================================================
-    // 🔐 AUTENTICAÇÃO VIA FIREBASE AUTH + WHATSAPP NORMALIZADO
-    // ============================================================
-
     var WHATSAPP_NUMBER = '5519997390834';
     var WHATSAPP_DEFAULT = 'https://wa.me/' + WHATSAPP_NUMBER;
 
@@ -1625,14 +1692,11 @@ if ('serviceWorker' in navigator) {
     var pdfAbortRequested = false;
     var pdfBuildInProgress = false;
 
-    // 🔥 AVALIAÇÕES: cache local por produto
     var reviewsCache = {};
     var currentReviewRating = 0;
 
-    // 🎟️ CUPOM aplicado no checkout
     var appliedCoupon = null;
 
-    // 🔀 ORDENAÇÃO por categoria
     var categorySortState = {};
 
     function esc(s) {
@@ -2344,9 +2408,6 @@ if ('serviceWorker' in navigator) {
     }
     function getPromoProducts() { return (config.products || []).filter(isOnPromo); }
 
-    // ============================================================
-    // 🔀 ORDENAÇÃO DE PRODUTOS
-    // ============================================================
     function applySortToProducts(products, mode) {
         var arr = (products || []).slice();
         switch (mode) {
@@ -2373,9 +2434,6 @@ if ('serviceWorker' in navigator) {
         return arr;
     }
 
-    // ============================================================
-    // ⏱️ TEMPORIZADOR DE PROMOÇÃO
-    // ============================================================
     function hasActivePromoTimer(p) {
         return !!(p && Number(p.promoEndsAt) > 0);
     }
@@ -2406,9 +2464,6 @@ if ('serviceWorker' in navigator) {
     }
     setInterval(updateAllCountdowns, 1000);
 
-    // ============================================================
-    // ⭐ AVALIAÇÕES
-    // ============================================================
     function reviewStarsHtml(rating, useOffClass) {
         var r = Math.round(Number(rating) || 0);
         var s = '';
@@ -2553,9 +2608,174 @@ if ('serviceWorker' in navigator) {
         });
     }
 
-    // ============================================================
-    // 🔞 VERIFICAÇÃO 18+
-    // ============================================================
+    // ⭐ MODAL DE FEEDBACKS (NOVO)
+    function openFeedbackModal() {
+        renderFeedbackModal();
+        document.getElementById('feedbackModalOverlay').classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+    function closeFeedbackModal() {
+        document.getElementById('feedbackModalOverlay').classList.remove('active');
+        if (!isAnyModalOpen()) document.body.style.overflow = '';
+    }
+    function renderFeedbackModal() {
+        var body = document.getElementById('feedbackModalBody');
+        var subtitle = document.getElementById('feedbackModalSubtitle');
+        body.innerHTML = '<div class="feedback-loading">⏳ Carregando feedbacks dos clientes…</div>';
+        subtitle.textContent = 'Avaliações reais de quem já comprou';
+
+        if (!fbReady || !fbDb) {
+            renderFeedbackFromData(collectLocalReviews());
+            return;
+        }
+
+        fbDb.collection(FB_REVIEWS_COLLECTION).get().then(function(snapshot) {
+            var allReviews = {};
+            snapshot.forEach(function(doc) {
+                var d = doc.data() || {};
+                if (Array.isArray(d.reviews) && d.reviews.length) {
+                    allReviews[doc.id] = d.reviews;
+                }
+            });
+            Object.keys(allReviews).forEach(function(pid) {
+                reviewsCache[pid] = allReviews[pid];
+            });
+            renderFeedbackFromData(allReviews);
+        }).catch(function(err) {
+            console.warn('Erro ao carregar feedbacks:', err);
+            renderFeedbackFromData(collectLocalReviews());
+        });
+    }
+    function collectLocalReviews() {
+        var out = {};
+        Object.keys(reviewsCache).forEach(function(pid) {
+            if (reviewsCache[pid] && reviewsCache[pid].length) out[pid] = reviewsCache[pid];
+        });
+        return out;
+    }
+    function renderFeedbackFromData(allReviews) {
+        var body = document.getElementById('feedbackModalBody');
+        var subtitle = document.getElementById('feedbackModalSubtitle');
+
+        var items = [];
+        Object.keys(allReviews).forEach(function(pid) {
+            var product = findProductById(pid);
+            if (!product) return;
+            var reviews = allReviews[pid] || [];
+            if (!reviews.length) return;
+            var stats = computeReviewsStats(reviews);
+            items.push({ product: product, reviews: reviews, stats: stats });
+        });
+
+        if (!items.length) {
+            subtitle.textContent = 'Nenhum feedback ainda';
+            body.innerHTML = '<div class="promo-empty"><div class="promo-empty-icon">⭐</div><h4 class="promo-empty-title">Sem feedbacks ainda</h4><p class="promo-empty-desc">Assim que os clientes avaliarem os produtos, os feedbacks aparecerão aqui.</p></div>';
+            return;
+        }
+
+        items.sort(function(a, b) {
+            if (b.stats.count !== a.stats.count) return b.stats.count - a.stats.count;
+            return b.stats.avg - a.stats.avg;
+        });
+
+        var totalReviews = items.reduce(function(acc, it) { return acc + it.stats.count; }, 0);
+        subtitle.textContent = totalReviews + ' avaliaç' + (totalReviews === 1 ? 'ão' : 'ões') +
+            ' em ' + items.length + ' produto' + (items.length === 1 ? '' : 's');
+
+        var frag = document.createDocumentFragment();
+        items.forEach(function(it) { frag.appendChild(buildFeedbackCard(it)); });
+        body.innerHTML = '';
+        body.appendChild(frag);
+    }
+    function buildFeedbackCard(item) {
+        var product = item.product;
+        var reviews = item.reviews;
+        var stats = item.stats;
+
+        var card = document.createElement('div');
+        card.className = 'feedback-card';
+
+        var head = document.createElement('div');
+        head.className = 'feedback-card-head';
+
+        var img = document.createElement('img');
+        img.className = 'feedback-card-thumb';
+        img.alt = product.name;
+        img.setAttribute('data-name', product.name);
+        var cached = getRefSync(product.image);
+        img.src = cached || svgPlaceholder(product.name);
+        if ((isCloudRef(product.image) || isIdbRef(product.image)) && !cached) {
+            loadRefIntoImg(product.image, img, product.name);
+        }
+
+        var info = document.createElement('div');
+        info.className = 'feedback-card-info';
+        info.innerHTML =
+            '<span class="feedback-card-brand">' + esc(product.brand) + '</span>' +
+            '<span class="feedback-card-name">' + esc(product.name) + '</span>' +
+            '<div class="feedback-card-stats">' +
+                '<span class="feedback-card-avg">' + stats.avg.toFixed(1) + '</span>' +
+                '<span class="feedback-card-stars">' + reviewStarsHtml(stats.avg, true) + '</span>' +
+                '<span class="feedback-card-count">(' + stats.count + ')</span>' +
+            '</div>';
+
+        var priceEl = document.createElement('div');
+        priceEl.className = 'feedback-card-price';
+        var onPromo = isOnPromo(product);
+        if (onPromo) {
+            priceEl.innerHTML = '<span class="feedback-card-old">' + formatBRL(product.price) + '</span>' +
+                '<span class="feedback-card-new">' + formatBRL(product.promoPrice) + '</span>';
+        } else {
+            priceEl.innerHTML = '<span class="feedback-card-new">' + formatBRL(product.price) + '</span>';
+        }
+
+        head.appendChild(img);
+        head.appendChild(info);
+        head.appendChild(priceEl);
+
+        var list = document.createElement('div');
+        list.className = 'feedback-card-reviews';
+        var sorted = reviews.slice().sort(function(a, b) {
+            return (Number(b.createdAt) || 0) - (Number(a.createdAt) || 0);
+        });
+        var MAX_SHOW = 3;
+        sorted.slice(0, MAX_SHOW).forEach(function(r) {
+            var rv = document.createElement('div');
+            rv.className = 'feedback-review';
+            rv.innerHTML =
+                '<div class="feedback-review-head">' +
+                    '<span class="feedback-review-name">' + esc(r.name || 'Cliente') + '</span>' +
+                    '<span class="feedback-review-stars">' + reviewStarsHtml(r.rating, true) + '</span>' +
+                '</div>' +
+                (r.comment ? '<div class="feedback-review-comment">' + esc(r.comment) + '</div>' : '');
+            list.appendChild(rv);
+        });
+        if (sorted.length > MAX_SHOW) {
+            var more = document.createElement('div');
+            more.className = 'feedback-more';
+            var rest = sorted.length - MAX_SHOW;
+            more.textContent = '+ ' + rest + ' avaliaç' + (rest === 1 ? 'ão' : 'ões') + '…';
+            list.appendChild(more);
+        }
+
+        var actions = document.createElement('div');
+        actions.className = 'feedback-card-actions';
+        var btn = document.createElement('button');
+        btn.className = 'feedback-buy-btn';
+        btn.type = 'button';
+        btn.innerHTML = '🛒 Ver produto e comprar';
+        btn.addEventListener('click', function() {
+            closeFeedbackModal();
+            openProductModal(product);
+        });
+        actions.appendChild(btn);
+
+        card.appendChild(head);
+        card.appendChild(list);
+        card.appendChild(actions);
+        return card;
+    }
+
     function initAgeGate() {
         var ok = false;
         try { ok = localStorage.getItem(AGE_KEY) === '1'; } catch (e) {}
@@ -2589,9 +2809,6 @@ if ('serviceWorker' in navigator) {
         if (note) note.textContent = 'Feche esta janela para sair.';
     }
 
-    // ============================================================
-    // 🎟️ CUPONS DE DESCONTO
-    // ============================================================
     function findCoupon(code) {
         if (!code || !Array.isArray(config.coupons)) return null;
         var c = String(code).trim().toUpperCase();
@@ -2999,6 +3216,7 @@ if ('serviceWorker' in navigator) {
         return document.getElementById('cartOverlay').classList.contains('active') ||
             document.getElementById('checkoutOverlay').classList.contains('active') ||
             document.getElementById('promoModalOverlay').classList.contains('active') ||
+            document.getElementById('feedbackModalOverlay').classList.contains('active') ||
             document.getElementById('freightModalOverlay').classList.contains('active') ||
             document.getElementById('rulesModalOverlay').classList.contains('active') ||
             document.getElementById('passwordOverlay').classList.contains('active') ||
@@ -3183,7 +3401,6 @@ if ('serviceWorker' in navigator) {
         if (!isAnyModalOpen()) document.body.style.overflow = '';
     }
 
-    // 🎟️ Recalcula e atualiza o resumo do checkout (subtotal + frete + cupom)
     function updateCheckoutTotals() {
         var el = document.getElementById('checkoutMiniSummary');
         if (!el) return;
@@ -3473,9 +3690,6 @@ if ('serviceWorker' in navigator) {
     function openRulesModal() { document.getElementById('rulesModalOverlay').classList.add('active'); document.body.style.overflow = 'hidden'; }
     function closeRulesModal() { document.getElementById('rulesModalOverlay').classList.remove('active'); if (!isAnyModalOpen()) document.body.style.overflow = ''; }
 
-    // ============================================================
-    // ☀️🌙 TEMA CLARO / ESCURO
-    // ============================================================
     function applyTheme(theme) {
         if (theme !== 'light' && theme !== 'dark') theme = 'dark';
         document.documentElement.setAttribute('data-theme', theme);
@@ -3508,9 +3722,6 @@ if ('serviceWorker' in navigator) {
         }
     }
 
-    // ============================================================
-    // 🔐 AUTENTICAÇÃO — FIREBASE AUTH
-    // ============================================================
     function openPasswordModal() {
         var overlay = document.getElementById('passwordOverlay');
         document.getElementById('authEmail').value = '';
@@ -3625,7 +3836,6 @@ if ('serviceWorker' in navigator) {
         container.appendChild(frag);
     }
 
-    // 🎟️ COUPON EDITOR
     function syncCouponEditorState() {
         couponEditorState = (config.coupons || []).map(function(c) {
             return {
@@ -4122,9 +4332,6 @@ if ('serviceWorker' in navigator) {
         });
     }
 
-    // ============================================================
-    // 📄 GERAÇÃO DO PDF
-    // ============================================================
     function loadImageAsDataURL(src, maxDim) {
         maxDim = maxDim || PDF_IMG_MAX_DIM;
         return new Promise(function(resolve, reject) {
@@ -4763,7 +4970,6 @@ if ('serviceWorker' in navigator) {
     }
 
     function setupEventListeners() {
-        // 🔞 AGE GATE
         var ageYes = document.getElementById('ageGateYes');
         var ageNo = document.getElementById('ageGateNo');
         if (ageYes) ageYes.addEventListener('click', confirmAge);
@@ -4788,6 +4994,14 @@ if ('serviceWorker' in navigator) {
 
         var updateBtn = document.getElementById('updateSystemBtn');
         if (updateBtn) updateBtn.addEventListener('click', applySystemUpdate);
+
+        // ⭐ FEEDBACK BUTTON
+        var feedbackBtn = document.getElementById('feedbackBtn');
+        if (feedbackBtn) feedbackBtn.addEventListener('click', openFeedbackModal);
+        var feedbackClose = document.getElementById('feedbackModalClose');
+        if (feedbackClose) feedbackClose.addEventListener('click', closeFeedbackModal);
+        var feedbackOverlay = document.getElementById('feedbackModalOverlay');
+        if (feedbackOverlay) feedbackOverlay.addEventListener('click', function(e) { if (e.target === this) closeFeedbackModal(); });
 
         var tapCount = 0;
         var tapTimer = null;
@@ -4885,7 +5099,6 @@ if ('serviceWorker' in navigator) {
             renderProductEditor();
         });
 
-        // 🎟️ COUPON EDITOR EVENTS
         var addCouponBtn = document.getElementById('addCouponBtn');
         if (addCouponBtn) {
             addCouponBtn.addEventListener('click', function() {
@@ -4943,7 +5156,6 @@ if ('serviceWorker' in navigator) {
             });
         }
 
-        // 🔀 SORT BAR EVENTS
         document.getElementById('categoriesList').addEventListener('change', function(e) {
             if (e.target.classList && e.target.classList.contains('category-sort-select')) {
                 var catId = e.target.getAttribute('data-cat-id');
@@ -5030,7 +5242,6 @@ if ('serviceWorker' in navigator) {
             closeProductModal();
         });
 
-        // ⭐ REVIEWS
         document.getElementById('pmReviewsToggle').addEventListener('click', function() {
             var body = document.getElementById('pmReviewsBody');
             var opened = body.classList.toggle('open');
@@ -5110,7 +5321,6 @@ if ('serviceWorker' in navigator) {
             updateCheckoutTotals();
         });
 
-        // 🎟️ COUPON INPUT EVENTS
         var couponApplyBtn = document.getElementById('coCouponApply');
         var couponInput = document.getElementById('coCouponInput');
         if (couponApplyBtn) couponApplyBtn.addEventListener('click', applyCouponFromInput);
@@ -5148,6 +5358,7 @@ if ('serviceWorker' in navigator) {
                 if (document.getElementById('checkoutOverlay').classList.contains('active')) { closeCheckoutModal(); return; }
                 if (document.getElementById('cartOverlay').classList.contains('active')) { closeCartModal(); return; }
                 if (document.getElementById('notifModalOverlay').classList.contains('active')) { closeNotifModal(); return; }
+                if (document.getElementById('feedbackModalOverlay').classList.contains('active')) { closeFeedbackModal(); return; }
                 if (document.getElementById('promoModalOverlay').classList.contains('active')) { closePromoModal(); return; }
                 if (document.getElementById('freightModalOverlay').classList.contains('active')) { closeFreightModal(); return; }
                 if (document.getElementById('rulesModalOverlay').classList.contains('active')) { closeRulesModal(); return; }
@@ -5364,6 +5575,7 @@ if ('serviceWorker' in navigator) {
         openCheckoutModal: openCheckoutModal,
         openFreightModal: openFreightModal,
         openRulesModal: openRulesModal,
+        openFeedbackModal: openFeedbackModal,
         renderCategories: renderCategories,
         performSearch: performSearch,
         getPromoProducts: getPromoProducts,
