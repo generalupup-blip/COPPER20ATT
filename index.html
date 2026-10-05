@@ -2983,8 +2983,7 @@ if ('serviceWorker' in navigator) {
         document.getElementById('pmReviewComment').value = '';
         currentReviewRating = 0;
         updateReviewStarsInput(0);
-        updateReviewsSummaryUI(product.id);
-        renderReviewsList(product.id);
+        loadAndRenderReviews(product.id);
 
         document.getElementById('productOverlay').classList.add('active');
         document.body.style.overflow = 'hidden';
